@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  apparel_id: MyString
+  sex: MyString
+  article: MyString
+  size: MyString
+  notes: MyString
+
+two:
+  apparel_id: MyString
+  sex: MyString
+  article: MyString
+  size: MyString
+  notes: MyString
