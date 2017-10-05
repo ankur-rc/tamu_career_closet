@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  rental_id: 1
+  uin: 1
+  apparel: one
+  checkout_date: 2017-10-05 14:56:44
+  expected_return_date: 2017-10-05 14:56:44
+  actual_return_date: 2017-10-05 14:56:44
+  student: one
+
+two:
+  rental_id: 1
+  uin: 1
+  apparel: two
+  checkout_date: 2017-10-05 14:56:44
+  expected_return_date: 2017-10-05 14:56:44
+  actual_return_date: 2017-10-05 14:56:44
+  student: two
