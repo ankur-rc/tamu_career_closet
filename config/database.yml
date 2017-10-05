@@ -19,14 +19,14 @@ default: &default
 
 development:
   <<: *default
-  database: career_closet_development
+  database: tamu_career_closet_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: career_closet_test
+  database: tamu_career_closet_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: career_closet_production
-  username: career-closet
-  password: <%= ENV['CAREER-CLOSET_DATABASE_PASSWORD'] %>
+  database: tamu_career_closet_production
+  username: tamu_career_closet
+  password: <%= ENV['TAMU-CAREER-CLOSET-2_DATABASE_PASSWORD'] %>
