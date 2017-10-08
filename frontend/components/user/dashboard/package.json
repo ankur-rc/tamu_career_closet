@@ -1,0 +1,15 @@
+{
+  "name": "fleet-dashboard-ui",
+  "version": "1.0.0",
+  "description": "Fleet Dashboard Metrics",
+  "main": "index.html",
+  "author": "Ankur Roy Chowdhury <ankur.chowdhury@lochbridge.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lite-server": "^2.3.0"
+  },
+  "scripts":{
+	   "lite": "lite-server -port 10001",
+       "start": "npm run lite"
+  }
+}

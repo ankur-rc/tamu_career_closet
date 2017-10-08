@@ -1,0 +1,269 @@
+<style type="text/css">
+    /*Override datepicker properties*/
+    
+    ._md-datepicker-floating-label>md-datepicker .md-datepicker-button {
+        margin-left: -10px !important;
+        padding: 0 !important;
+        margin-right: 0px !important;
+    }
+    
+    .md-icon-button+.md-datepicker-input-container {
+        margin-left: 0 !important;
+    }
+    
+    ._md-datepicker-floating-label>md-datepicker .md-datepicker-input-container {
+        width: 85% !important;
+    }
+    
+    ._md-datepicker-floating-label._md-datepicker-has-calendar-icon>label:not(.md-no-float):not(.md-container-ignore) {
+        left: 30px !important;
+    }
+
+</style>
+<div flex layout-margin>
+    <div flex layout-gt-sm="row" layout-align-gt-sm="center center" layout-margin>
+        <md-card class="reveal-animation md-whiteframe-5dp hoverable" flex-gt-sm="70" flex="100">
+            <form id="vehicleFormPrimary" name="vehicleFormPrimary" layout="column" accept-charset="utf-8" autocomplete="off">
+                <md-card-title md-colors="{background:'accent-300'}" layout="row">
+                    <md-card-title-text>
+                        <span ng-if="!isEditVehicle" class="md-headline">Add Vehicle</span>
+                        <span ng-if="isEditVehicle" class="md-headline">Update Vehicle</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content layout="column" layout-margin-gt-sm style="margin-top:8px; margin-left:1%">
+                    <md-stepper id="stepper-demo" md-mobile-step-text="false" md-vertical="true" md-linear="false" md-alternative="false">
+                        <md-step md-colors="{color: 'accent-800'}" md-label="Primary Details">
+                            <md-step-body>
+
+                                <md-card-content layout="column" flex style="margin-bottom:0;padding-bottom:0">
+                                    <div layout layout-wrap layout-align="center center">
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>VIN</label>
+                                            <md-icon class="md-primary" md-svg-icon="login:user" flex="10" aria-label="Enter VIN"></md-icon>
+                                            <input name="vin" ng-model="vehicle.vin" required>
+                                            <div ng-messages="vehicleFormPrimary.vin.$error">
+                                                <div ng-message="required">Required</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container style="margin-top:-5px" flex="100" flex-gt-md="50">
+                                            <label>Fuel Type</label>
+                                            <md-icon class="md-primary" flex="10" aria-label="Select fuel type.">local_gas_station</md-icon>
+                                            <md-select md-colors="{color:'accent'}" ng-model="vehicle.fuelType" name="fuelType">
+                                                <md-option value="diesel">Diesel</md-option>
+                                                <md-option value="petrol">Petrol</md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-input-container style="margin-top:-5px" flex="100" flex-gt-md="50">
+                                            <label>Status</label>
+                                            <md-icon class="md-primary" flex="10" aria-label="Select status.">tune</md-icon>
+                                            <md-select md-colors="{color:'accent'}" ng-model="vehicle.status" name="status">
+                                                <md-option value="Active">Active</md-option>
+                                                <md-option value="Inactive">Inactive</md-option>
+                                                <md-option value="Disabled">Disabled</md-option>
+                                                <md-option value="OnTrip">OnTrip</md-option>
+                                                <md-option value="OnRest">OnRest</md-option>
+                                                <md-option value="deleted">deleted</md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Registration Date</label>
+                                            <md-icon class="transparent-text" md-svg-icon="login:user" aria-label=""></md-icon>
+                                            <md-datepicker name="lastRegistrationDate" ng-model="vehicle.lastRegistrationDate" required></md-datepicker>
+                                            <div ng-messages="vehicleFormPrimary.lastRegistrationDate.$error">
+                                                <div ng-message="required">Required</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Chassis Number</label>
+                                            <md-icon class="md-primary" md-svg-icon="login:user" flex="10" aria-label="Enter chassis number."></md-icon>
+                                            <input name="chassisNo" ng-model="vehicle.chassisNo">
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Stated Economy</label>
+                                            <md-icon class="md-primary" flex="10" aria-label="Enter stated economy">local_atm</md-icon>
+                                            <input type="number" name="statedEconomy" ng-model="vehicle.statedEconomy">
+                                        </md-input-container>
+                                    </div>
+
+                                </md-card-content>
+                                <md-card-actions layout="row" layout-align="start center" layout-wrap>
+
+                                    <div flex layout-align="end center" layout layout-margin>
+                                        <md-button class="md-fab md-mini md-accent" ng-click="previousStep()">
+                                            <md-icon>navigate_before</md-icon>
+                                        </md-button>
+                                        <md-button class="md-fab md-mini md-accent" ng-click="nextStep()">
+                                            <md-icon>navigate_next</md-icon>
+                                        </md-button>
+                                    </div>
+
+                                </md-card-actions>
+
+
+                            </md-step-body>
+                        </md-step>
+
+                        <md-step md-colors="{color: 'accent-800'}" md-label="Other Details">
+                            <md-step-body>
+
+                                <md-card-content layout="column" flex layout-margin style="margin-bottom:0;padding-bottom:0">
+                                    <div layout layout-wrap layout-align="space-between center">
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Make</label>
+                                            <md-icon class="md-primary" md-svg-icon="vehicle:make" flex="10" aria-label="Enter Make"></md-icon>
+                                            <input name="make" ng-model="vehicle.make" required>
+                                            <div ng-messages="vehicleFormPrimary.make.$error">
+                                                <div ng-message="required">Required</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Model</label>
+                                            <md-icon class="transparent-text" md-svg-icon="login:user" aria-label="Enter Model."></md-icon>
+                                            <input name="model" ng-model="vehicle.model" required>
+                                            <div ng-messages="vehicleFormPrimary.model.$error">
+                                                <div ng-message="required">Required</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Max Passenger Count</label>
+                                            <md-icon style="margin-left:7px" class="md-primary" md-svg-icon="vehicle:passengers" flex="10" aria-label="Enter max passenger count."></md-icon>
+                                            <input type="number" name="maxPassengerCount" ng-model="vehicle.maxPassengerCount">
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Vehicle Class</label>
+                                            <md-icon class="md-primary" flex="10" aria-label="Enter Vehicle Class"></md-icon>
+                                            <input name="vehicleClass" ng-model="vehicle.vehicleClass">
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Clearence Height</label>
+                                            <md-icon class="md-primary" md-svg-icon="vehicle:height" flex="10" aria-label="Enter Clearence Height"></md-icon>
+                                            <input type="number" name="clearanceHeight" ng-model="vehicle.clearanceHeight">
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Load Capacity</label>
+                                            <md-icon class="transparent-text" md-svg-icon="login:user" aria-label="Enter load capacity."></md-icon>
+                                            <input type="number" name="loadCapacity" ng-model="vehicle.loadCapacity">
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Initial Odometer Reading</label>
+                                            <md-icon class="md-primary" md-svg-icon="vehicle:odometer" flex="10" aria-label="Enter initial odometer reading"></md-icon>
+                                            <input type="number" name="odometer" ng-model="vehicle.odometer">
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Fuel Capacity</label>
+                                            <md-icon class="transparent-text" md-svg-icon="login:user" aria-label="Enter fuel capacity."></md-icon>
+                                            <input type="number" name="fuelCapacity" ng-model="vehicle.fuelCapacity">
+                                        </md-input-container>
+                                    </div>
+
+                                </md-card-content>
+                                <md-card-actions layout="row" layout-align="start center" layout-wrap>
+
+                                    <div flex layout-align="end center" layout layout-margin>
+                                        <md-button class="md-raised md-fab md-mini  md-accent md-hue-2" ng-click="previousStep();">
+                                            <md-icon md-colors="{color: 'grey-A100'}">navigate_before</md-icon>
+                                        </md-button>
+                                        <md-button class="md-raised md-fab md-mini md-accent md-hue-2" ng-click="nextStep();">
+                                            <md-icon md-colors="{color: 'grey-A100'}">navigate_next</md-icon>
+                                        </md-button>
+                                    </div>
+
+                                </md-card-actions>
+
+                            </md-step-body>
+                        </md-step>
+
+                        <md-step md-label="Insurance Details">
+                            <md-step-body>
+
+                                <md-card-content layout="column" flex layout-margin style="margin-bottom:0;padding-bottom:0">
+                                    <div layout layout-wrap layout-align="space-between center">
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Policy Number</label>
+                                            <md-icon class="md-primary" md-svg-icon="login:user" flex="10" aria-label="Enter policy number"></md-icon>
+                                            <input name="policyNumber" ng-model="vehicle.policyNumber" required>
+                                            <div ng-messages="vehicleFormPrimary.policyNumber.$error">
+                                                <div ng-message="required">Required</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Carrier Name</label>
+                                            <md-icon class="transparent-text" md-svg-icon="login:user" flex="10" aria-label="Enter carrier name"></md-icon>
+                                            <input name="carrierName" ng-model="vehicle.carrierName" required>
+                                            <div ng-messages="vehicleFormPrimary.carrierName.$error">
+                                                <div ng-message="required">Required</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Start Date</label>
+                                            <md-icon class="md-primary" md-svg-icon="login:user" flex="10" aria-label="Enter start date."></md-icon>
+                                            <md-datepicker name="startDate" ng-model="vehicle.startDate" required></md-datepicker>
+                                            <div ng-messages="vehicleFormPrimary.startDate.$error">
+                                                <div ng-message="required">Required</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-md="50">
+                                            <label>Renewal Date</label>
+                                            <md-icon class="md-primary" md-svg-icon="login:user" flex="10" aria-label="Enter renewal date."></md-icon>
+                                            <md-datepicker name="renewalDate" ng-model="vehicle.renewalDate" required></md-datepicker>
+                                            <div ng-messages="vehicleFormPrimary.renewalDate.$error">
+                                                <div ng-message="required">Required</div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+
+                                </md-card-content>
+                                <md-card-actions layout="row" layout-align="start center" layout-wrap>
+
+                                    <div flex layout-align="end center" layout layout-margin>
+                                        <md-button class="md-raised md-fab md-mini  md-accent md-hue-2" ng-click="previousStep();">
+                                            <md-icon md-colors="{color: 'grey-A100'}">navigate_before</md-icon>
+                                        </md-button>
+                                        <md-button class="md-raised md-fab md-mini md-accent md-hue-2" ng-click="nextStep();">
+                                            <md-icon md-colors="{color: 'grey-A100'}">navigate_next</md-icon>
+                                        </md-button>
+                                    </div>
+
+                                </md-card-actions>
+
+                            </md-step-body>
+
+                        </md-step>
+
+                        <md-step md-label="Summary">
+                            <md-step-body layout-margin>
+                                <p ng-if="!isEditVehicle">Are you sure you want to save the details?</p>
+                                <p ng-if="isEditVehicle">Are you sure you want to update the details?</p>
+                                <div>
+                                    <md-list layout-gt-sm="row" layout="column">
+                                        <div flex="45">
+                                            <md-list-item class="md-2-line" ng-repeat="(key,value) in vehicle" ng-if="$index%2==0">
+                                                <div class="md-list-item-text" style="margin:0">
+                                                    <h3><span></span>{{convertCamelCase(key)}}</h3>
+                                                    <p>{{value}}</p>
+                                                </div>
+                                            </md-list-item>
+                                        </div>
+                                        <div flex="45">
+                                            <md-list-item class="md-2-line" ng-repeat="(key,value) in vehicle" ng-if="$index%2!=0">
+                                                <div class="md-list-item-text" style="margin:0">
+                                                    <h3><span></span>{{convertCamelCase(key)}}</h3>
+                                                    <p>{{value}}</p>
+                                                </div>
+                                            </md-list-item>
+                                        </div>
+                                    </md-list>
+                                </div>
+                            </md-step-body>
+                            <md-step-actions>
+                                <md-button ng-disabled="vehicleFormPrimary.$invalid" ng-if="isEditVehicle" class="md-accent md-raised" ng-click="editVehicle()">Yes</md-button>
+                                <md-button ng-disabled="vehicleFormPrimary.$invalid" ng-if="!isEditVehicle" class="md-accent md-raised" ng-click="addVehicle()">Yes</md-button>
+                                <md-button class="md-accent" ng-click="previousStep();">Back</md-button>
+                            </md-step-actions>
+                        </md-step>
+                    </md-stepper>
+                </md-card-content>
+            </form>
+        </md-card>
+    </div>
+</div>

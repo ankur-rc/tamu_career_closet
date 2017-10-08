@@ -1,0 +1,306 @@
+<style type="text/css">
+
+.next_button:focus {
+    outline: none;
+}
+
+.next_button:hover {
+    opacity: .8;
+}
+
+
+#container {
+    width: 310px;
+    height: 408px;
+    max-width: 330px;
+    background: white;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    box-shadow: 0 5px 15px 0 rgba(0,0,0,0.25);
+    transform: translate3d(-50%, -50%, 0);
+}
+
+.button-wrapper {
+    width: 40px;
+    height: 100%;
+    position: relative;
+    left: 80%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    right: 20px;
+    bottom: 20px;
+}
+
+.next_button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.4);
+    z-index: 9;
+    position: relative;
+}
+
+.main-button {
+    background: #ff2670;
+    -webkit-align-self: flex-end;
+    -ms-flex-item-align: end;
+    align-self: flex-end;
+}
+
+.ripple {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    border-radius: 50%;
+    z-index: -9;
+    background: transparent;
+    /*border: 1px solid #ff2670;*/
+    -webkit-transform: scale(.5);
+    -ms-transform: scale(.5);
+    transform: scale(.5);
+    -webkit-transition: .3s all ease;
+    transition: .3s all ease;
+    opacity: 1;
+}
+
+.rippling {
+    -webkit-animation: .3s rippling 1;
+    animation: .3s rippling 1;
+    -moz-animation: .3s rippling 1;
+}
+
+@-webkit-keyframes rippling {
+
+    25% {
+        -webkit-transform: scale(1.5);
+        transform: scale(1.5);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: scale(2);
+        transform: scale(2);
+        opacity: 0;
+    }
+
+}
+
+@-moz-keyframes rippling {
+
+    25% {
+        -moz-transform: scale(1.5);
+        transform: scale(1.5);
+        opacity: 1;
+    }
+
+    100% {
+        -moz-transform: scale(2);
+        transform: scale(2);
+        opacity: 0;
+    }
+
+}
+
+@keyframes rippling {
+
+    25% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+
+}
+
+.layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    z-index: -99;
+    pointer-events: none;
+}
+
+.button-wrapper.clicked {
+    -webkit-transform: rotate(90deg) translateY(-96px);
+    -ms-transform: rotate(90deg) translateY(-96px);
+    transform: rotate(90deg) translateY(-96px);
+    right: 0;
+    bottom: 0;
+    -webkit-transition: .3s all ease .6s;
+    transition: .3s all ease .6s;
+}
+
+.button-wrapper.clicked .main-button {
+    opacity: 0;
+    -webkit-transition: .3s all ease .3s;
+    transition: .3s all ease .3s;
+}
+
+.button-wrapper.clicked .layer {
+    -webkit-transform: scale(100);
+    -ms-transform: scale(100);
+    transform: scale(100);
+    -webkit-transition: 2.25s all ease .9s;
+    transition: 2.25s all ease .9s;
+}
+
+.layered-content {
+    position: relative;
+    top: -450px;
+    /*left: -8px;
+    right: -8px;
+    bottom: -8px;*/
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    opacity: 0;
+}
+
+.layered-content.active {
+    opacity: 1;
+}
+
+.close-button {
+    position: absolute;
+    left: 10px;
+    top: -10px;
+}
+
+.layered-content.active .close-button {
+    -webkit-animation: .5s bounceIn;
+    animation: .5s bounceIn;
+}
+
+.layered-content.active ::-webkit-scrollbar {
+       width: 1px !important;
+   }
+</style>
+
+<div flex layout-margin>    
+    <div flex layout-gt-sm="row" layout-align-gt-sm="center center" layout-margin layout-wrap ng-show="viewLoaded">
+        <md-card layout="column" class="md-whiteframe-4dp hoverable" style="overflow:hidden" ng-repeat="driver in drivers" class="card-container">
+            <md-card-title layout="column" layout-align="start center" flex="40" md-colors="{background: 'accent-400'}">
+                <div style="position: relative;left: 130px; top: -18px;">
+                    <md-menu md-offset="0 -7">
+                        <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
+                            <md-icon md-menu-origin md-primary>more_vert</md-icon>
+                        </md-button>
+                        <md-menu-content width="2">
+                            <md-menu-item>
+                                    <md-button ui-sref="main.driver.edit({driver: driver, title: 'Update Driver'})">Edit </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                    <md-button ng-click="deleteDriver($event, driver.id)">Delete </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </div>
+                <md-card-title-media>                    
+                    <div class="md-media-sm card-media">
+                        <div layout layout-align="center" class="no-outline pointer-cursor">                
+                            <md-icon layout-fill md-svg-icon="profile:avatar10" />
+                        </div>
+                    </div>
+                </md-card-title-media>
+                <md-card-title-text layout="column" layout-align="start center">
+                    <span style="margin-top:12px" class="md-headline">{{driver.firstName}}&nbsp;{{driver.lastName}}</span>
+                    <span style="margin-top:-8px" class="md-subhead">{{driver.driverPersonal.emailId}}</span>        
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content flex style="margin-top:10px; max-height: 300px;">
+                <md-list>        
+                    <md-list-item class="md-2-line" >
+                        <md-icon class="md-primary" flex="10" aria-label="Provide phone number.">call</md-icon>  
+                        <div class="md-list-item-text" style="margin:0">
+                            <h3><span></span>{{driver.driverPersonal.phone}}</h3>
+                            <p>Contact Number</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" >
+                        <md-icon class="md-primary" flex="10" aria-label="Provide phone number.">contact_phone</md-icon>  
+                        <div class="md-list-item-text" style="margin:0">
+                            <h3><span></span>{{driver.driverPersonal.emergencyNo}}</h3>
+                            <p>Emergency Contact Number</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" >
+                        <md-icon class="md-primary" flex="10" aria-label="Provide phone number.">rate_review</md-icon>  
+                        <div class="md-list-item-text" style="margin:0">
+                            <h3><span></span>{{driver.driverScore}}</h3>
+                            <p>Driver Score</p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+
+                <div id="{{driver.id}}" class="button-wrapper">
+                    <div class="layer" md-colors="{background: 'accent-400'}"></div>
+                    <button class="main-button next_button" md-colors="{background: 'accent-400'}" ng-click="showDetails(driver.id)">
+                        <md-icon md-colors="{color: 'grey-A100'}">chevron_right</md-icon>  
+                        <div id="{{driver.id}}" class="ripple"></div>
+                    </button>
+                </div>
+
+                <div id="{{driver.id}}" class="layered-content" md-colors="{background: 'accent-400'}" flex>
+                    <button class="close-button next_button" md-colors="{color: 'primary-400'}" ng-click="back(driver.id)">
+                        <md-icon>chevron_left</md-icon>  </button>
+                    <div layout="column" style="overflow-y:auto; max-height:400px; margin-top:35px; padding-left:15px;">
+                    <md-list>
+                        <span class="md-subhead"><b>License Details</b></span>        
+                        <md-list-item class="md-2-line" ng-repeat="(key,value) in driver.driverLicense" ng-if="key !== 'id'"> 
+                            <div class="md-list-item-text" style="margin:0">
+                                <h3 ><span></span>{{value}}</h3>
+                                <p>{{convertCamelCase(key)}}</p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                    
+                    <md-list>        
+                        <span class="md-subhead"><b>Personal Details</b></span>
+                        <md-list-item class="md-2-line" ng-repeat="(key,value) in driver.driverPersonal" ng-if="key !== 'id' && key !== 'photo'"> 
+                            <div class="md-list-item-text" style="margin:0">
+                                <h3><span></span>{{value}}</h3>
+                                <p>{{convertCamelCase(key)}}</p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                    </div>
+                </div>
+            </md-card-content>  
+        </md-card>
+    </div>
+</div>

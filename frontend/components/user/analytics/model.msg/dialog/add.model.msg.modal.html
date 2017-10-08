@@ -1,0 +1,48 @@
+<md-dialog aria-label="Upload new model message." ng-cloak layout-wrap>
+
+    <form name="modelMsgForm" accept-charset="utf-8" ng-submit="upload()">
+        <md-toolbar>
+            <div class="md-toolbar-tools" layout="row" layout-align="center center">
+                <h2 class="white-text">Message Model</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content layout-padding flex>
+            <div layout-margin layout="column" flex>
+                <md-input-container flex>
+                    <label class="md-subheader">Model Name</label>
+                    <input name="name" ng-model="form.name" type="text"/>
+                    <div flex ng-messages="modelMsgForm.name.$error" role="alert">
+                        <div ng-message="required">Please select Model name.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex>
+                    <label class="md-subheader">Vehicle Type</label>
+                    <md-select name="vehicleType" ng-model="form.vehicleType" ng-required md-on-open="loadVehicleTypes()">
+                        <md-option ng-repeat="vehicleType in vehicleTypes" value="{{vehicleType.type}}">
+                            {{vehicleType.type}}
+                        </md-option>
+                    </md-select>
+                    <div flex ng-messages="modelMsgForm.vehicleType.$error" role="alert">
+                        <div ng-message="required">Please select Vehicle Type.</div>
+                    </div>
+                </md-input-container>
+                <div style="margin-top:20%">
+                    <div flex layout="row" layout-align="center center">
+                        <input id="fileInput" type="file" name="file" ng-model="form.file.data" ngf-select accept=".txt,.json" ngf-max-size="2MB" required ngf-model-invalid="errorFile" class="ng-hide">
+                        <md-button id="uploadButton" class="md-raised md-primary" aria-label="attach_file">Select</md-button>
+                        <md-input-container md-no-float style="padding-top:3%">
+                            <input id="textInput" ng-model="fileName" type="text" placeholder="No file chosen" ng-readonly="true">
+                        </md-input-container>
+                    </div>
+                    <div flex ng-messages="modelMsg.file.$error" role="alert" multiple>
+                        <div ng-message="required">Please upload file.</div>
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row" layout-align="center center">
+            <md-button type="submit" ng-disabled="modelMsgForm.$invalid" class="md-accent md-hue-2">Create</md-button>
+            <md-button ng-click="close()" class="md-primary md-hue-1">Close</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,68 @@
+<md-dialog>
+    <md-dialog-content layout-padding layout="column">
+        <div id="editMap" style="height:120vh"></div>
+        <div style="overflow-y:auto; overflow-x:hidden">
+            <md-tabs md-center-tabs="true" md-dynamic-height>
+                <md-tab label="{{trip.name}}" class="md-accent">
+                    <md-list layout-gt-sm="row" layout="column">
+                        <div flex="45">
+                            <md-list-item class="md-2-line" ng-repeat="(key,value) in trip" ng-if="$index%2==0 && (key !== 'waypoints' && key !== 'vehicleBean' && key!== 'id' && key!== 'name' 
+                        && key !== 'startLon' && key !== 'startLat' && key !== 'endtLon' && key !== 'endLat')">
+                                <div class="md-list-item-text" style="margin:0">
+                                    <h3 ng-if="key!=='startTime' && key!=='endTime' && key!== 'routeDriverMapping'"><span></span>{{value}}</h3>
+                                    <h3 ng-if="key==='startTime' || key==='endTime'"><span></span>{{value | date:"short"}}</h3>
+                                    <h3 ng-if="key== 'routeDriverMapping'" ng-repeat="(sub-key,sub-value) in value">
+                                        {{convertCamelCase(sub-key)}} : sub-value
+                                    </h3>
+                                    <p>{{convertCamelCase(key)}}</p>
+                                </div>
+                            </md-list-item>
+                        </div>
+                        <div flex="30">
+                            <md-list-item class="md-2-line" ng-repeat="(key,value) in trip" ng-if="$index%2!=0 && (key !== 'waypoints' && key !== 'vehicleBean' && key!== 'id' && key!== 'name'
+                        && key !== 'startLon' && key !== 'startLat' && key !== 'endtLon' && key !== 'endLat')">
+                                <div class="md-list-item-text" style="margin:0">
+                                    <h3 ng-if="key!=='startTime' && key!=='endTime' && key!== 'routeDriverMapping'"><span></span>{{value}}</h3>
+                                    <h3 ng-if="key==='startTime' || key==='endTime'"><span></span>{{value | date:"short"}}</h3>
+                                    <h3 ng-if="key== 'routeDriverMapping'" ng-repeat="(sub-key,sub-value) in value">
+                                        {{convertCamelCase(sub-key)}} : sub-value
+                                    </h3>
+                                    <p>{{convertCamelCase(key)}}</p>
+                                </div>
+                            </md-list-item>
+                        </div>
+                    </md-list>
+                </md-tab>
+                <md-tab label="Vehicle Details" class="md-accent">
+                    <md-list layout-gt-sm="row" layout="column">
+                        <div flex="45">
+                            <md-list-item class="md-2-line" ng-repeat="(key,value) in trip.vehicleBean" ng-if="$index%2==0 && (key!== 'id' && key!== 'vehicleMetaData' && key!== 'vehicleInsurance' && key!== 'device')">
+                                <div class="md-list-item-text" style="margin:0">
+                                    <h3 ng-if="key!=='serviceDate' && key!=='registrationDate' && key!=='registrationRenewalDate'"><span></span>{{value}}</h3>
+                                    <h3 ng-if="key==='serviceDate' || key==='registrationDate' || key=='registrationRenewalDate'"><span></span>{{value | date:"short"}}</h3>
+                                    <p>{{convertCamelCase(key)}}</p>
+                                </div>
+                            </md-list-item>
+                        </div>
+                        <div flex="30">
+                            <md-list-item class="md-2-line" ng-repeat="(key,value) in trip.vehicleBean" ng-if="$index%2!=0 && (key!== 'id' && key!== 'vehicleMetaData' && key!== 'vehicleInsurance' && key!== 'device')">
+                                <div class="md-list-item-text" style="margin:0">
+                                    <h3 ng-if="key!=='serviceDate' && key!=='registrationDate' && key!=='registrationRenewalDate'"><span></span>{{value}}</h3>
+                                    <h3 ng-if="key==='serviceDate' || key==='registrationDate' || key=='registrationRenewalDate'"><span></span>{{value | date:"short"}}</h3>
+                                    <p>{{convertCamelCase(key)}}</p>
+                                </div>
+                            </md-list-item>
+                        </div>
+                    </md-list>
+                </md-tab>
+            </md-tabs>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button ng-click="viewTripMetrics()" class="md-primary">
+            View
+        </md-button>
+        <md-button ng-click="closeDialog()" class="md-accent">
+            Close
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

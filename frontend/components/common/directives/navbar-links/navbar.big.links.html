@@ -1,0 +1,70 @@
+<style>
+	.no-vertical-padding {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	.nabar-link>button,
+	.navbar-link>button:active,
+	.navbar-link>button:visited,
+	.navbar-link>button:focus,
+	.navbar-link>button:hover {
+		background-color: transparent!important;
+	}
+
+	.navbar-link:hover {
+		background-color: rgba(255, 255, 255, 0.1);
+	}
+
+	.nav-child md-list-item>div::before {
+		width: 2em;
+		content: '-';
+	}
+
+	.navbar-link-icon {
+		color: white;
+		width: 18px;
+		height: 18px
+	}
+
+	.state-active {
+		background-color: rgba(0, 0, 0, 0.1);
+		border-left-style: solid;
+		border-left-color: #F2F4F6;
+	}
+
+
+	.active .navlink-arrow {
+		transform: rotate(90deg);
+		transition-duration: 1s;
+		transition-timing-function: ease-in-out;
+	}
+
+	.navlink-arrow {
+		transform: rotate(0deg);
+		transition-duration: 1s;
+		transition-timing-function: ease-in-out;
+		color: white !important;
+	}
+</style>
+
+<md-list ng-repeat="link in routes" class="navbar-links no-vertical-padding">
+	<md-list ng-if="link.type=='sub-menu'" class="no-vertical-padding">
+		<md-list-item class="md-caption navbar-link navlink-parent" layout-fill ng-click="vm.toggleChild($event, link.name)">
+			<md-icon md-colors="{color:'grey-A100'}" class="navbar-link-icon" md-svg-icon="link:{{link.icon}}"></md-icon>
+			<p md-colors="{color:'grey-A100'}" class="md-caption">
+				{{link.name}}
+			</p>
+			<md-icon md-colors="{color:'grey-A100'}" class="navlink-arrow">chevron_right</md-icon>
+		</md-list-item>
+		<md-list navbar-big-links class="nav-child no-vertical-padding" id="navlink.{{link.name}}" style="display:none; background-color:rgba(0,0,0,0.1);"
+		    routes="link.children"></md-list>
+	</md-list>
+	<md-list-item ng-if="link.type=='link'" ui-sref-active="state-active" class="md-caption navbar-link navlink-child" layout-fill
+	    ng-click="vm.state(link.href)">
+		<md-icon md-colors="{color:'grey-A100'}" md-svg-icon="link:{{link.icon}}" aria-label="Go to {{link.name}}"></md-icon>
+		<p md-colors="{color:'grey-A100'}" class="md-caption">
+			<a ui-sref="{{link.href}}" style="color:white">{{link.name}}</a>
+		</p>
+	</md-list-item>
+</md-list>

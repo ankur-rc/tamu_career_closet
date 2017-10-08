@@ -1,0 +1,32 @@
+{
+  "name": "Dashboard-UI",
+  "authors": [
+    "Ankur Roy Chowdhury <ankur.chowdhury@lochbridge.com>"
+  ],
+  "description": "Fleet Dashboard Metrics",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "^1.1.4",
+    "ng-stomp": "^0.4.0",
+    "angular-loading-bar": "^0.9.0",
+    "roboto": "https://github.com/sopro-components/roboto.git#^0.1.0",
+    "gsap": "^1.19.1",
+    "angular-ui-router": "ui-router#^1.0.3+hybrid-2.0.0-2",
+    "marker-animate-unobtrusive": "^0.2.8",
+    "angular-animate-model-change": "ng-animate-model-change#^0.0.1"
+  },
+  "resolutions": {
+    "angular-material": "^1.1.4",
+    "angular": "1.6.4"
+  }
+}

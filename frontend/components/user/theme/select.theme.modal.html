@@ -1,0 +1,32 @@
+<md-dialog aria-label="Themes">
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout layout-align="center center">
+            <h2>Theme Selector</h2>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <div layout layout-align="space-around center" layout-margin layout-wrap>
+            <md-button md-colors="{border:'accent', background:'{{value.background?value.background+'-200':'grey-900'}}'}" layout="column"
+                ng-click="vm.setTheme(key)" layout-align="center center" ng-repeat="(key, value) in vm.themes">
+                <div flex md-colors="{background:'{{value.primary}}'}" style="margin-top:8px;height:88px; width:101px"></div>
+                <div flex md-colors="{background:'{{value.accent}}'}" style="height:16px;width:101px"></div>
+                <div ng-class="{'active-theme': vm.isCurrentTheme(key)}">{{vm.formatName(key)}}</div>
+            </md-button>
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+        <md-button class="md-primary" ng-click="vm.hide()">
+            Close
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>
+
+<style>
+    .active-theme {
+        border-bottom-style: solid;
+        border-bottom-width: 4px;
+        border-bottom-color: inherit;
+    }
+</style>
