@@ -6,7 +6,7 @@
     /* @ngInject */
     function configuration($stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.otherwise("/404");
+        $urlRouterProvider.otherwise("/login");
 
         $stateProvider
             .state("root", {
