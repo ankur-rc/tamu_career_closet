@@ -32,7 +32,7 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-gem 'rspec'
+gem 'rspec-rails'
 gem 'bower-rails'
 gem 'angular-rails-templates'
 
