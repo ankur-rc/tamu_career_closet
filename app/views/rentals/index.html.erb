@@ -6,7 +6,6 @@
   <thead>
     <tr>
       <th>Rental</th>
-      <th>Uin</th>
       <th>Apparel</th>
       <th>Checkout date</th>
       <th>Expected return date</th>
@@ -20,12 +19,11 @@
     <% @rentals.each do |rental| %>
       <tr>
         <td><%= rental.rental_id %></td>
-        <td><%= rental.uin %></td>
-        <td><%= rental.apparel %></td>
+        <td><%= rental.apparel_id %></td>
         <td><%= rental.checkout_date %></td>
         <td><%= rental.expected_return_date %></td>
         <td><%= rental.actual_return_date %></td>
-        <td><%= rental.student %></td>
+        <td><%= rental.student_id %></td>
         <td><%= link_to 'Show', rental %></td>
         <td><%= link_to 'Edit', edit_rental_path(rental) %></td>
         <td><%= link_to 'Destroy', rental, method: :delete, data: { confirm: 'Are you sure?' } %></td>
