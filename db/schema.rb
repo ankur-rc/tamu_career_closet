@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171005202013) do
+ActiveRecord::Schema.define(version: 20171010014514) do
 
   create_table "apparels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "apparel_id"
@@ -45,6 +45,6 @@ ActiveRecord::Schema.define(version: 20171005202013) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "rentals", "apparels"
-  add_foreign_key "rentals", "students"
+  add_foreign_key "rentals", "apparels", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "rentals", "students", on_update: :cascade, on_delete: :cascade
 end
