@@ -1,0 +1,54 @@
+{
+  "name": "career_closet",
+  "authors": [
+    "Ankur Roy Chowdhury <ankurrc@tamu.edu>"
+  ],
+  "description": "Admin portal for Texas A&M Career Closet",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "http://www.tamucareercloset.com/",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "gsap": "^1.18.2",
+    "jquery": "^2.2.3",
+    "angular": "1.5.5",
+    "angular-material": "^1.1.1",
+    "angular-perfect-scrollbar": "^0.0.4",
+    "angular-ui-router": "^0.2.18",
+    "angular-chart.js": "^0.10.2",
+    "Chart.js": "^2.1.2",
+    "rickshaw": "^1.5.1",
+    "angular-rickshaw": "^0.11.0",
+    "angular-chartist.js": "^3.3.13",
+    "roboto": "https://github.com/sopro-components/roboto.git#^0.1.0",
+    "angular-material-data-table": "^0.10.9",
+    "angular-loading-bar": "^0.9.0",
+    "jquery-extendext": "^0.1.1",
+    "doT": "^1.0.1",
+    "ng-file-upload": "^12.0.4",
+    "ContentTools": "^1.2.5",
+    "animate.css": "^3.5.1",
+    "countUp.js": "^1.7.1",
+    "ng-error": "^1.0.2",
+    "json-formatter": "^0.6.0",
+    "angular-ui-tinymce": "^0.0.18",
+    "ngclipboard": "^1.1.1",
+    "ui-router.grant": "angular-ui-router-grant#^0.1.5",
+    "angular-carousel": "lifely-angular-carousel#^1.2.0",
+    "md-steppers": "^0.3.4",
+    "material-steppers": "^2.0.0",
+    "angular-timeline": "^1.7.0",
+    "angular-visjs": "^4.16.0"
+  },
+  "resolutions": {
+    "angular": "1.5.5"
+  }
+}
