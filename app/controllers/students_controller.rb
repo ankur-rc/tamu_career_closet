@@ -21,6 +21,9 @@ class StudentsController < ApplicationController
   def edit
   end
 
+  def home
+  end
+
   # POST /students
   # POST /students.json
   def create
