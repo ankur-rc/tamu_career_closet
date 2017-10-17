@@ -1,6 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Apparels</h1>
+<%=form_tag apparels_path, :method => :get do %>
+  <%- @all_sizes.each do |size| %>
+    <%= size %>
+    <%= check_box_tag "size[]",size %>
+    <% end %>
+<%= submit_tag 'Filter' %>
+<% end %>
 
 <table>
   <thead>

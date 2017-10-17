@@ -4,7 +4,12 @@ class ApparelsController < ApplicationController
   # GET /apparels
   # GET /apparels.json
   def index
-    @apparels = Apparel.all
+    @all_sizes = Apparel.distinct.pluck('size')
+    if params[:size] != nil
+      @apparels = Apparel.where("size in (?)", params[:size])
+    else
+      @apparels = Apparel.all
+    end
   end
 
   # GET /apparels/1
