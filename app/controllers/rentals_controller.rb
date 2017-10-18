@@ -2,6 +2,9 @@ class RentalsController < ApplicationController
   skip_before_action :authorize_request
   before_action :set_rental, only: [:show, :edit, :update, :destroy]
 
+
+  # before_action :set_rental, only: [:show, :edit, :update, :destroy]
+
   # GET /rentals
   # GET /rentals.json
   def index
@@ -66,6 +69,7 @@ class RentalsController < ApplicationController
   end
 
 
+
   def view_active_user
     @active_users = Rental.joins(:student).select("
 	    students.uin as uin, students.first_name as name, rentals.checkout_date").where("
@@ -98,6 +102,13 @@ class RentalsController < ApplicationController
 	render json:json_obj
   end
 	
+
+  def pending_returns
+    countOfPendingReturns=Rental.where(actual_return_date: nil).count
+    render json: countOfPendingReturns
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_rental
@@ -108,4 +119,7 @@ class RentalsController < ApplicationController
     def rental_params
       params.require(:rental).permit(:rental_id, :uin, :apparel_id, :checkout_date, :expected_return_date, :actual_return_date, :student_id)
     end
+
+
+
 end

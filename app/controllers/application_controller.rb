@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+
   include Response
   include ExceptionHandler
   # called before every action on controllers
@@ -12,4 +13,5 @@ class ApplicationController < ActionController::Base
     @current_user = (AuthorizeApiRequest.new(request.headers).call)[:user]
   end
   # protect_from_forgery with: :exception
+
 end

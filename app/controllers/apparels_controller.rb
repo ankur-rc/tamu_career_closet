@@ -84,4 +84,5 @@ class ApparelsController < ApplicationController
     def apparel_params
       params.require(:apparel).permit(:apparel_id, :sex, :article, :size, :notes)
     end
+
 end
