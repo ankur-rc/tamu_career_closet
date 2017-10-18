@@ -5,6 +5,7 @@ class RentalsController < ApplicationController
   # GET /rentals.json
   def index
     @rentals = Rental.all
+    @numActive = Rental.where("actual_return_date is NULL").count
   end
 
   # GET /rentals/1
@@ -60,6 +61,12 @@ class RentalsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def viewActiveUser
+    activeUsers = Rental.joins(:apparel, :student).select("students.uin as uin, students.first_name as name, apparels.apparel_id as apparelId, apparels.article as article").where("actual_return_date is NULL")
+    render json:activeUsers
+  end    
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
