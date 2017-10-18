@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Constants</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+      <th>Created</th>
+      <th>Updated</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @constants.each do |constant| %>
+      <tr>
+        <td><%= constant.key %></td>
+        <td><%= constant.value %></td>
+        <td><%= constant.created %></td>
+        <td><%= constant.updated %></td>
+        <td><%= link_to 'Show', constant %></td>
+        <td><%= link_to 'Edit', edit_constant_path(constant) %></td>
+        <td><%= link_to 'Destroy', constant, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Constant', new_constant_path %>

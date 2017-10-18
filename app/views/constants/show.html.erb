@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Key:</strong>
+  <%= @constant.key %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @constant.value %>
+</p>
+
+<p>
+  <strong>Created:</strong>
+  <%= @constant.created %>
+</p>
+
+<p>
+  <strong>Updated:</strong>
+  <%= @constant.updated %>
+</p>
+
+<%= link_to 'Edit', edit_constant_path(@constant) %> |
+<%= link_to 'Back', constants_path %>

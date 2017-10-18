@@ -93,6 +93,7 @@ class RentalsController < ApplicationController
     render json: dictio
   end
 
+
   def num_active_users_and_checked_out   
     @num_active = Rental.where("actual_return_date is NULL").distinct.pluck("student_id").count
 	@num_checkedout = Rental.where("actual_return_date is NULL").count
@@ -106,6 +107,30 @@ class RentalsController < ApplicationController
   def pending_returns
     countOfPendingReturns=Rental.where(actual_return_date: nil).count
     render json: countOfPendingReturns
+  end
+
+
+
+  def assignSuits
+     response=Hash.new()
+     begin
+     studentUIN=params[:studentUIN]
+     apparelId=params[:apparelId]
+     student=Student.findStudentByUIN(studentUIN)
+     apparel=Apparel.findApparelByApparelId(apparelId)
+     noOfCheckoutDays=Constant.where(:key=>"noOfCheckoutDays")
+     Rental.new(:uin=>student.uin, :apparelId=>apparel.id, :checkout_date=>Date.today(), :expected_return_date=>Date.today()+noOfCheckoutDays,:student_id=>student.id )
+     render json:createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
+     rescue =>e
+     render json:createResponseMessage(500,e.message)
+     end
+  end
+
+  def createResponseMessage(statusCode,statusMessage)
+    response=Hash.new()
+    response["statusCode"]=statusCode
+    response["statusMessage"]=statusMessage
+    return response
   end
 
 

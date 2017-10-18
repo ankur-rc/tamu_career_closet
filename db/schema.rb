@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20171023032449) do
+
 
   create_table "apparels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "apparel_id"
@@ -18,6 +20,15 @@ ActiveRecord::Schema.define(version: 20171023032449) do
     t.string "article"
     t.string "size"
     t.string "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "constants", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "key"
+    t.string "value"
+    t.datetime "created"
+    t.datetime "updated"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -45,6 +56,7 @@ ActiveRecord::Schema.define(version: 20171023032449) do
     t.datetime "updated_at", null: false
   end
 
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "email"
@@ -56,4 +68,5 @@ ActiveRecord::Schema.define(version: 20171023032449) do
 
   add_foreign_key "rentals", "apparels", on_update: :cascade, on_delete: :cascade
   add_foreign_key "rentals", "students", on_update: :cascade, on_delete: :cascade
+
 end
