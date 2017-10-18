@@ -116,11 +116,13 @@ class RentalsController < ApplicationController
      begin
      studentUIN=params[:studentUIN]
      apparelId=params[:apparelId]
-     student=Student.findStudentByUIN(studentUIN)
-     apparel=Apparel.findApparelByApparelId(apparelId)
-     noOfCheckoutDays=Constant.where(:key=>"noOfCheckoutDays")
-     Rental.new(:uin=>student.uin, :apparelId=>apparel.id, :checkout_date=>Date.today(), :expected_return_date=>Date.today()+noOfCheckoutDays,:student_id=>student.id )
-     render json:createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
+     @student=Student.findStudentByUIN(studentUIN)
+     @apparel=Apparel.findApparelByApparelId(apparelId)
+     @noOfCheckoutDays=Constant.where(:key=>"noOfCheckoutDays").first.value.to_i
+     @rental=Rental.new(:uin=>@student.uin, :apparel_id=>@apparel.apparel_id, :checkout_date=>Date.today(), :expected_return_date=>Date.today()+@noOfCheckoutDays,:student_id=>@student.id )
+     if @rental.save
+      render json:createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
+     end
      rescue =>e
      render json:createResponseMessage(500,e.message)
      end
