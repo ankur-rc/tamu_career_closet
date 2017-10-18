@@ -65,6 +65,7 @@ class RentalsController < ApplicationController
     end
   end
 
+
   def view_active_user
     @active_users = Rental.joins(:student).select("
 	    students.uin as uin, students.first_name as name, rentals.checkout_date").where("
@@ -77,6 +78,15 @@ class RentalsController < ApplicationController
 	    apparels.apparel_id as apparelId, apparels.article as article, apparels.sex as sex, apparels.size as size").where("
 		    actual_return_date is NULL")
     render json:@checkedOut
+   end 
+
+  def pending_returnsAndDefaulters
+    countOfPendingReturns=Rental.where(actual_return_date: nil).count
+    countOfDefaulters=Rental.where('expected_return_date<?',DateTime.now).count()
+    dictio=Hash.new()
+    dictio["countOfPendingReturns"]=countOfPendingReturns
+    dictio["countOfDefaulters"]=countOfDefaulters
+    render json: dictio
   end
 
   def num_active_users_and_checked_out   
