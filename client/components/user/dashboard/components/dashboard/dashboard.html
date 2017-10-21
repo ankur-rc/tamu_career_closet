@@ -1,0 +1,189 @@
+<style>
+    #spinner {
+        position: absolute;
+        /*z-index: 3*/
+    }
+
+    #overlay {
+        z-index: 2;
+    }
+
+    .ws_status {
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        z-index: 3;
+        top: 0;
+    }
+
+    .ws_status>div {
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
+
+    .overflow-auto {
+        overflow: auto;
+    }
+
+    .circular-indicator>div {
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+    }
+
+    .wraparound {
+        overflow-wrap: break-word;
+    }
+
+    .translucent {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .selectedRow {
+        border-left-style: solid!important;
+        border-left-width: 4px!important;
+    }
+
+    .vehicleRow {
+        transition: 0.5s all ease;
+    }
+
+    .vehicleRow-change {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .mapLoader {
+        position: absolute;
+        z-index: 2;
+        top: 0;
+    }
+
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+</style>
+
+<md-content layout-fill layout>
+    <div layout-gt-md="row" layout="column" layout-fill>
+        <!-- Maps area -->
+        <div style="position:relative" flex="50" flex-gt-md="70">
+            <div layout-fill layout layout-align="center center" class="mapLoader" ng-show="!vm.mapsReady">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </div>
+            <div id="dashboard_map" layout-fill></div>
+            <div layout layout-align="center" class="ws_status">
+                <div layout-padding md-colors="{background:'accent'}" class="md-whiteframe-4dp">{{vm.wsStatus}}</div>
+            </div>
+        </div>
+
+        <!-- Info content area -->
+        <div class="md-whiteframe-8dp" id="overlay" flex layout="column">
+            <md-toolbar md-colors="{background: 'primary-900'}">
+                <div class="md-toolbar-tools">
+                    <div layout flex>
+                        <h2>Dashboard</h2>
+                    </div>
+                    <div layout-padding class="fade-animation" ng-cloak ng-hide="!vm.showControls" id="controls" style="z-index:1">
+                        <md-content style="border-radius:4px" layout flex="none" layout-align="end center">
+                            <md-button class="md-icon-button" ng-class="{'md-accent':vm.darkTheme}" ng-click="vm.toggleTheme()">
+                                <md-icon>palette</md-icon>
+                                <md-tooltip md-direction="down">Theme: {{vm.darkTheme?'Dark':'Light'}}</md-tooltip>
+                            </md-button>
+                            <md-button class="md-icon-button" ng-class="{'md-accent':vm.followMarker}" ng-click="vm.followMarker=!vm.followMarker">
+                                <md-icon>fast_forward</md-icon>
+                                <md-tooltip md-direction="down">Follow Vehicle: {{vm.followMarker?'On':'Off'}}</md-tooltip>
+                            </md-button>
+                            <md-button class="md-icon-button" ng-click="vm.refitInBounds()">
+                                <md-icon>photo_size_select_small</md-icon>
+                                <md-tooltip md-direction="down">Fit To Bounds</md-tooltip>
+                            </md-button>
+                        </md-content>
+                    </div>
+                </div>
+            </md-toolbar>
+            <md-content layout="row" layout-gt-md="column" flex>
+                <div class="overflow-auto" flex>
+                    <div ng-show="vm.vehiclesLoading" layout-fill layout layout-align="center center">
+                        <md-progress-linear flex="75" md-mode="indeterminate"></md-progress-linear>
+                    </div>
+                    <div ng-show="!vm.vehiclesLoading" layout="column">
+                        <div layout md-colors="{'background':'accent'}" class="sticky-header">
+                            <div layout flex="70" layout-margin>Vehicle Id</div>
+                            <div layout flex layout-align="center center" layout-margin>Status</div>
+                        </div>
+                        <md-list-item animate-model-change model="{{vehicle}}" non-number-class="vehicleRow-change" class="vehicleRow" ng-repeat="vehicle in vm.vehicleList track by $index"
+                            md-colors="{border:'warn'}" ng-click="vm.selectVehicle(vehicle)" ng-class="{selectedRow:vm.selectedVehicle.id==vehicle.id}"
+                            layout>
+                            <div layout flex="70" layout-margin>{{vehicle.id}}</div>
+                            <div layout flex layout-align="center center" class="circular-indicator" layout-margin>
+                                <div ng-if="vehicle.running" md-colors="{'background':'green'}"></div>
+                                <div ng-if="!vehicle.running" md-colors="{'background':'red'}"></div>
+                            </div>
+                        </md-list-item>
+                    </div>
+                </div>
+                <div class="overflow-auto" flex>
+                    <div layout-fill>
+                        <div layout md-colors="{'background':'accent'}" class="sticky-header">
+                            <div layout flex layout-margin>Real-Time Data</div>
+                            <div layout layout-align="center center" flex ng-show="vm.selectedVehicle">
+                                <div><b>{{vm.selectedVehicle.id}}</b></div>
+                            </div>
+                        </div>
+                        <md-content layout-padding layout="column" layout-align="start center" class="overflow-auto" layout-wrap>
+                            <div ng-show="vm.selectedVehicle" layout layout-fill>
+                                <div layout="column" flex="25" layout-align="center">
+                                    <div class="wraparound">Speed</div>
+                                    <div class="wraparound md-subheader"><b>{{vm.selectedVehicle.speed}} km/h</b></div>
+                                </div>
+                                <div style="padding-left: 8px" flex="75" layout layout-align="center center">
+                                    <md-progress-linear class="md-accent" md-mode="determinate" value="{{vm.selectedVehicle.speed/250*100}}"></md-progress-linear>
+                                </div>
+                            </div>
+                            <div ng-show="vm.selectedVehicle" layout layout-fill>
+                                <div layout="column" flex="25" layout-align="center">
+                                    <div class="wraparound">Engine RPM</div>
+                                    <div class="wraparound md-subheader"><b>{{vm.selectedVehicle.engineRPM}} /min</b></div>
+                                </div>
+                                <div style="padding-left: 8px" flex="75" layout layout-align="center center">
+                                    <md-progress-linear class="md-accent" md-mode="determinate" value="{{vm.selectedVehicle.engineRPM/5000*100}}"></md-progress-linear>
+                                </div>
+                            </div>
+                            <div ng-show="vm.selectedVehicle" layout layout-fill>
+                                <div layout="column" flex="25" layout-align="center">
+                                    <div class="wraparound">Coolant Temp</div>
+                                    <div class="wraparound md-subheader"><b>{{vm.selectedVehicle.coolantTemp}} celcius</b></div>
+                                </div>
+                                <div style="padding-left: 8px" flex="75" layout layout-align="center center">
+                                    <md-progress-linear class="md-accent" md-mode="determinate" value="{{vm.selectedVehicle.coolantTemp/200*100}}"></md-progress-linear>
+                                </div>
+                            </div>
+                            <!--<div class="fade-animation" ng-show="vm.selectedVehicle" layout layout-align="center center" flex="100">Speed</div>
+                            <div class="fade-animation" ng-show="vm.selectedVehicle" layout="column" layout-align="center center" flex="100" justgage
+                                title="Speed" title-font-color="grey" value-min-font-size="20px" value="{{vm.selectedVehicle.speed}}"
+                                relative-gauge-size="true" min="0" max="250" hide-min-max="true" gauge-width-scale="0.2" label="km/h">
+                            </div>-->
+                            <!--<div class="fade-animation" ng-show="vm.selectedVehicle" layout="row" layout-align="center center" flex="100">
+                                <div layout layout-align="center center" flex justgage title="RPM" title-font-color="grey" value-min-font-size="10" value="{{vm.selectedVehicle.engineRPM}}"
+                                    relative-gauge-size="true" min="1000" max="5000" hide-min-max="true" gauge-width-scale="0.2"
+                                    label="/min"></div>
+                                <div layout layout-align="center center" flex justgage title="Coolant" title-font-color="grey" value-min-font-size="10" value="{{vm.selectedVehicle.coolantTemp}}"
+                                    relative-gauge-size="true" min="0" max="200" hide-min-max="true" gauge-width-scale="0.2"
+                                    label="celcius"></div>
+                            </div>-->
+                            <!--<div ng-show="vm.selectedVehicle" layout-fill layout>
+                                <div flex="50" class="wraparound">{{vm.refineKey(key) | uppercase}}</div>
+                                <div flex="50" class="wraparound"><b>{{val}}</b></div>
+                            </div>-->
+                            <div class="fade-animation" ng-show="!vm.selectedVehicle" layout-fill layout layout-align="center center" class="translucent-text">
+                                Please select a vehicle.
+                            </div>
+                        </md-content>
+                    </div>
+                </div>
+            </md-content>
+        </div>
+    </div>
+</md-content>

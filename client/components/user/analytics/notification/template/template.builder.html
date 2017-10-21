@@ -1,0 +1,148 @@
+<div flex layout-padding>
+    <div flex>
+        <md-toolbar class="no-margin" md-colors="{background:'accent-500'}" layout="row" layout-margin layout-align="center center">
+            <div flex="33">
+                <md-button aria-label="Go to template builder." ng-click="$state.go('main.analytics.notification.template')" class="md-icon-button">
+                    <md-tooltip md-direction="bottom">
+                        Go back to templates.
+                    </md-tooltip>
+                    <md-icon class="white-text">arrow_back</md-icon>
+                </md-button>
+            </div>
+            <div flex="33" layout="row" layout-align="center center">
+                <div class="md-title">Template Builder</div>
+            </div>
+            <div flex="33"></div>
+        </md-toolbar>
+        <div flex ng-init="settings.expanded = true">
+            <form name="templateForm" accept-charset="utf-8">
+                <div class="md-accordion">
+                    <div layout="row" layout-align="space-between center" ng-click="settings.expanded = !settings.expanded" md-colors="{background:'accent-600'}" class="white-text">
+                        <div></div>
+                        <div>Settings</div>
+                        <div ng-class="{expandCollapse:true, active:settings.expanded}"></div>
+                    </div>
+                    <div ng-class="{dataContent:true, activeContent:settings.expanded}" layout="row" class="md-whiteframe-2dp">
+                        <div layout="row" flex layout-wrap layout-padding layout-align="space-around center">
+                            <div layout="column" layout-align="center center">
+                                <md-input-container flex class="no-margin">
+                                    <md-radio-group ng-required="true" name="new" flex layout="row" layout-padding layout-wrap layout-align="center center" ng-model="template.new">
+                                        <span>Template:</span>
+                                        <div layout layout-wrap layout-padding>
+                                            <div layout>
+                                                <md-radio-button ng-value="true" aria-label="Create new.">
+                                                    Create
+                                                </md-radio-button>
+                                            </div>
+                                            <div layout>
+                                                <md-radio-button ng-value="false" aria-label="Update existing.">
+                                                    Update
+                                                </md-radio-button>
+                                            </div>
+                                        </div>
+                                    </md-radio-group>
+                                    <div ng-show="templateForm.new.$pristine" ng-messages="templateForm.new.$error" layout="row" layout-align="center center">
+                                        <div ng-message="required">Please select one.</div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex class="no-margin">
+                                    <md-radio-group ng-required="true" name="type" flex layout="row" layout-padding layout-align="center center" ng-model="template.data.type" layout-wrap>
+                                        <span>Notification Type:</span>
+                                        <div layout layout-wrap layout-padding layout-align>
+                                            <div layout>
+                                                <md-radio-button ng-value="'sms'" aria-label="SMS.">
+                                                    SMS
+                                                </md-radio-button>
+                                            </div>
+                                            <div layout>
+                                                <md-radio-button ng-value="'email'" aria-label="Email">
+                                                    EMAIL
+                                                </md-radio-button>
+                                            </div>
+                                        </div>
+                                    </md-radio-group>
+                                    <div ng-show="templateForm.type.$pristine" ng-messages="templateForm.type.$error" layout="row" layout-align="center center">
+                                        <div ng-message="required">Please select type.</div>
+                                    </div>
+                                </md-input-container>
+                                <!-- If new-->
+                                <div layout="column" class="zoom-animation" ng-hide="!template.new" layout-align="center center">
+                                    <md-input-container>
+                                        <label style="color:black">Name</label>
+                                        <input style="border-color:black; color:black" name="name" type="text" ng-model="template.data.name" ng-required="template.new">
+                                        <div ng-messages="templateForm.name.$error" role="alert" ng-show="temlateForm.name.$touched">
+                                            <div ng-message="required">Please give a name to your template.</div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <!--If update-->
+                                <div layout="column" class="zoom-animation" ng-show="template.new!==true" layout-align="center center">
+                                    <md-input-container flex>
+                                        <label>Select template:</label>
+                                        <md-select name="template" md-on-open="getTemplatesForType()" ng-model="selectedTemplate" ng-required="template.new!==true">
+                                            <md-option ng-repeat="template in refinedTemplateList" ng-value="{{template}}">
+                                                {{template.name}}
+                                            </md-option>
+                                        </md-select>
+                                        <div flex ng-messages="templateForm.template.$error" role="alert" multiple ng-show="templateForm.template.$pristine">
+                                            <div ng-message="required">Please select an existing template.</div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div layout-margin></div>
+
+                <div flex layout="column" md-colors="{background:'grey-A100'}" class="md-whiteframe-2dp" layout-padding layout-align="center center">
+                    <div layout="row" layout-fill>
+                        <!--Rich Editor-->
+                        <div flex ng-show="template.data.type==='email'" class="zoom-animation" layout-padding layout-align="center center">
+                            <div flex layout-fill ui-tinymce="tinymceOptions" ng-model="template.data.text">
+                            </div>
+                        </div>
+                        <!-- Plain Editor -->
+                        <div layout-fill layout="column" flex ng-show="template.data.type==='sms'" class="zoom-animation" layout-padding layout-align="center center">
+                            <div md-colors="{background:'accent-600'}" layout="row" layout-align="center center" layout-fill>Editor</div>
+                            <md-input-container style="margin-top:2%" flex="100" class="md-block" layout-fill>
+                                <label style="color: black">Message</label>
+                                <textarea style="border-color:black; color: black" aria-label="Write sms here." md-detect-hidden ng-model="template.data.text" md-select-on-focus></textarea>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div layout="row" layout-align="center center" flex>
+                        <md-input-container>
+                            <md-radio-group ng-disabled="!template.new" layout-wrap ng-required="true" name="type" flex layout="row" layout-padding layout-align="center center" ng-model="template.data.stream">
+                                <div layout layout-wrap layout-padding>
+                                    <div layout>
+                                        <md-radio-button ng-value="'alert'" aria-label="ALERT" md-colors="{color:'primary'}">
+                                            ALERT
+                                        </md-radio-button>
+                                    </div>
+                                    <div layout>
+                                        <md-radio-button ng-value="'Welcome'" aria-label="WELCOME" md-colors="{color:'primary'}">
+                                            WELCOME
+                                        </md-radio-button>
+                                    </div>
+                                    <div layout>
+                                        <md-radio-button ng-value="'Health Report'" aria-label="HealthReport" md-colors="{color:'primary'}">
+                                            HEALTH REPORT
+                                        </md-radio-button>
+                                    </div>
+                                </div>
+                            </md-radio-group>
+                            <div ng-show="templateForm.type.$invalid" ng-messages="templateForm.type.$error" layout="row" layout-align="center center">
+                                <div ng-message="required">Please select a stream.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout layout-align="center">
+                        <md-button ng-disabled="templateForm.$invalid" ng-click="submitTemplate()" class="md-accent md-raised">Submit</md-button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

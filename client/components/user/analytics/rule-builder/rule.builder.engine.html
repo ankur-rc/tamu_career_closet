@@ -1,0 +1,166 @@
+<div flex layout-padding>
+    <div flex>
+        <md-toolbar class="no-margin" md-colors="{background:'accent-500'}" layout="row" layout-margin layout-align="center center">
+            <div flex="33">
+                <md-button aria-label="Go to template builder." ng-click="$state.go('main.rule-builder')" class="md-icon-button">
+                    <md-tooltip md-direction="bottom">
+                        Go back to Rule Builder.
+                    </md-tooltip>
+                    <md-icon class="white-text" ng-click="goBack()">arrow_back</md-icon>
+                </md-button>
+            </div>
+            <div flex="33" layout="row" layout-align="center center">
+                <div class="md-title">Rule Builder</div>
+            </div>
+            <div flex="33"></div>
+        </md-toolbar>
+        <div flex ng-init="settings.expanded = true">            
+            <form name="ruleForm" accept-charset="utf-8">
+                <div class="md-accordion">
+                    <div layout="row" layout-align="space-between center" ng-click="settings.expanded = !settings.expanded" md-colors="{background:'accent-700'}">
+                        <div></div>
+                        <div>Settings</div>
+                        <div ng-class="{expandCollapse:true, active:settings.expanded}"></div>
+                    </div>
+                    <md-content ng-class="{dataContent:true, activeContent:settings.expanded}" layout="row" class="md-whiteframe-2dp">
+                        <div layout="row" flex layout-wrap layout-align="space-around" layout-margin>
+                            <md-input-container flex="40">
+                                <label>Rule Name</label>
+                                <input name="ruleName" ng-model="rule.name" required>
+                                <div flex ng-messages="ruleForm.ruleName.$error" role="alert" multiple ng-show="ruleForm.ruleName.$error">
+                                    <div ng-message="required" md-colors="{color:'warn'}">Please mention rule name.</div>
+                                </div>
+                            </md-input-container>  
+                            <md-input-container flex="40">
+                                <label>Vehicle Type</label>
+                                <md-select name="vehicleType" ng-model="rule.vehicleType" ng-required md-on-open="loadVehicleTypes()">
+                                    <md-option ng-repeat="vehicleType in vehicleTypes track by vehicleType.id" value="{{vehicleType}}">
+                                        {{vehicleType.type}}
+                                    </md-option>
+                                </md-select>
+                                <div flex ng-messages="ruleForm.vehicleType.$error" role="alert" multiple ng-show="ruleForm.vehicleType.$invalid">
+                                    <div ng-message="required">Please select vehicle type.</div>
+                                </div>
+                            </md-input-container>                                                   
+                            <md-input-container flex="40">
+                                <label>Type</label>
+                                <md-select name="type" ng-model="rule.type.parent" required>
+                                    <md-optgroup label="Event">
+                                        <md-option ng-click="rule.type.subtype='Event'" ng-selected="true" value="Event">
+                                            Event
+                                        </md-option>
+                                    </md-optgroup>
+                                    <md-optgroup label="Window">
+                                        <md-option ng-click="rule.type.subtype='Time'" value="Window">
+                                            Time
+                                        </md-option>
+                                    </md-optgroup>  
+                                    <md-option ng-click="rule.type.subtype='Custom'" value="Custom">
+                                        Custom
+                                    </md-option>                                  
+                                </md-select>
+                                <div flex ng-messages="ruleForm.type.$error" role="alert" multiple ng-show="ruleForm.type.$invalid">
+                                    <div ng-message="required" md-colors="{color:'warn'}">Please mention rule subtype.</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="40">
+                                <label>Action</label>
+                                <md-select name="action" ng-model="rule.action.type" required>
+                                    <md-option value="Store">
+                                        Store Only
+                                    </md-option>                                    
+                                </md-select>
+                                <div flex ng-messages="ruleForm.action.$error" role="alert" multiple ng-show="ruleForm.action.$invalid">
+                                    <div ng-message="required" md-colors="{color:'warn'}">Please mention rule action type.</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="40">
+                                    <label>Message Model</label>
+                                    <input name="messageModel" ng-model="rule.messageModel.name" required ng-disabled="true">
+                                    <div flex ng-messages="ruleForm.messageModel.$error" role="alert" multiple ng-show="ruleForm.messageModel.$invalid">
+                                        <div ng-message="required" md-colors="{color:'warn'}">Please select message model template.</div>
+                                    </div>
+                                </md-input-container>
+                            <md-input-container flex="40">
+                                <label>Size (seconds)</label>
+                                <input ng-disabled="rule.type.parent!=='Window'" name="size" ng-model="rule.type.size" ng-required="rule.type.parent==='Window'">
+                                <div flex ng-messages="ruleForm.size.$error" role="alert" multiple ng-show="ruleForm.size.$touched">
+                                    <div ng-message="required" md-colors="{color:'warn'}">Please enter window size.</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container class="zoom-animation" flex="40" ng-show="rule.type.parent=='Custom'">
+                                <label>Custom Message Model</label>
+                                <md-select md-on-open="getCustomMessageModels()" name="customMessageModel" ng-model="customMessageModel" ng-required="rule.type.parent=='Custom'">
+                                    <md-option ng-repeat="customMessageModel in customMessageModels track by $index" value="{{customMessageModel.messageModelName}}">
+                                        {{customMessageModel.messageModelName}}
+                                    </md-option>
+                                </md-select>
+                                <div flex ng-messages="ruleForm.customMessageModel.$error" role="alert" multiple ng-show="ruleForm.customMessageModel.$invalid">
+                                    <div ng-message="required" md-colors="{color:'warn'}">Please select a message model.</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container class="zoom-animation" flex="40" ng-show="rule.type.parent=='Custom'">
+                                <label>Execution Path</label>
+                                <input ng-disabled="true" name="executionPath" ng-model="jarExecutionPath" ng-required="rule.type.parent==='Custom'">
+                            </md-input-container>
+                            <!--<md-input-container flex="40">
+                                <label>Connector</label>
+                                <md-select ng-disabled="rule.action.type==='Store'" name="uri" ng-model="rule.action.uri" ng-required="rule.action.type!=='Store'">
+                                    <md-option ng-if="connector.type === rule.action.type" ng-repeat="connector in connectorList track by connector.id" value="{{connector.url}}">
+                                        {{connector.name}} - {{connector.url}}
+                                    </md-option>
+                                </md-select>
+                                <div flex ng-messages="ruleForm.uri.$error" role="alert" multiple ng-show="ruleForm.uri.$invalid">
+                                    <div ng-message="required">Please enter url.</div>
+                                </div>
+                            </md-input-container>-->
+                            <div layout="row" flex="60" layout-margin>
+                                <md-input-container flex>
+                                    <label>Email</label>
+                                    <md-select name="email" ng-model="rule.emailTemplateId">
+                                        <md-option ng-repeat="email in emailList track by email.id" value="{{email.id}}">
+                                            {{email.name}}
+                                        </md-option>
+                                    </md-select>
+                                    <div flex ng-messages="ruleForm.email.$error" role="alert" multiple ng-show="ruleForm.email.$invalid">
+                                        <div ng-message="required" md-colors="{color:'warn'}">Please select email template.</div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex>
+                                    <label>SMS</label>
+                                    <md-select name="sms" ng-model="rule.smsTemplateId">
+                                        <md-option ng-repeat="sms in smsList track by sms.id" value="{{sms.id}}">
+                                            {{sms.name}}
+                                        </md-option>
+                                    </md-select>
+                                    <div flex ng-messages="ruleForm.sms.$error" role="alert" multiple ng-show="ruleForm.sms.$invalid">
+                                        <div ng-message="required" md-colors="{color:'warn'}">Please select sms template.</div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                        </div>
+                    </md-content>
+                </div>
+
+                <div layout-margin></div>
+
+                <div class="md-accordion" ng-init="builder.expanded = false">
+                    <div layout="row" layout-align="space-between center" ng-click="builder.expanded = !builder.expanded" md-colors="{background:'accent-700'}" class="white-text">
+                        <div></div>
+                        <div>Builder</div>
+                        <div ng-class="{expandCollapse:true, active:builder.expanded}"></div>
+                    </div>
+                    <md-content ng-class="{dataContent:true, activeContent:builder.expanded}" layout="row" class="md-whiteframe-2dp" >
+                        <div flex layout-padding layout-align="center center">
+                            <div id="qb" class="card-panel" flex>
+                            </div>
+                            <div layout layout-align="center">
+                                <md-button class="md-accent md-raised" ng-click="generateRule($event)">Generate</md-button>
+                            </div>
+                        </div>
+                    </md-content>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

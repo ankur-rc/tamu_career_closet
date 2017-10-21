@@ -1,0 +1,191 @@
+<div layout="column" flex>
+    <div class="material-background" md-colors="{background:'accent'}"></div>
+    <div flex layout-margin layout layout-align="center start">
+        <md-card class="profile-card md-whiteframe-5dp hoverable" flex>
+            <md-card-title class="card-title" flex="none" md-colors="{background:'primary-600'}" layout="column" layout-align="start center">
+                <md-card-title-media>
+                    <div class="md-media-sm card-media">
+                        <div ng-click="profile.changeProfileAvatar($event)" layout layout-align="center" class="no-outline pointer-cursor">
+                            <md-tooltip md-direction="left">
+                                Edit
+                            </md-tooltip>
+                            <md-icon layout-fill md-svg-icon="{{profile.displayCurrentProfileAvatar()}}" />
+                        </div>
+                    </div>
+                </md-card-title-media>
+                <md-card-title-text layout="column" layout-align="center center">
+                    <span style="margin-top:12px" class="md-headline">{{profile.user.firstName}}&nbsp;{{profile.user.lastName}}</span>
+                    <span class="md-subhead">{{profile.user.primaryEmail}}</span>
+                    <md-button class="md-icon-button md-accent" ng-click="profile.openThemer($event)">
+                        <md-tooltip md-direction="bottom">
+                            Change Theme
+                        </md-tooltip>
+                        <md-icon>invert_colors</md-icon>
+                    </md-button>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content class="card-content">
+                <md-tabs md-center-tabs="true" md-dynamic-height>
+                    <md-tab label="Profile">
+                        <form id="profileForm" name="profileForm" layout="column" accept-charset="utf-8" autocomplete="on" ng-submit="profile.registerUser();">
+                            <md-card-content layout="column" flex layout-margin style="margin-bottom:0;padding-bottom:0">
+                                <div layout layout-wrap layout-align="center center">
+                                    <md-input-container flex="100" flex-gt-md="50">
+                                        <label>First Name</label>
+                                        <md-icon class="md-primary" md-svg-icon="login:user" flex="10" aria-label="Enter first name."></md-icon>
+                                        <input name="firstName" ng-model="profile.edit.profile.firstName" required>
+                                        <div ng-messages="profileForm.firstName.$error">
+                                            <div ng-message="required">Required</div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="100" flex-gt-md="50">
+                                        <label>Last Name</label>
+                                        <md-icon class="transparent-text" md-svg-icon="login:user" aria-label="Enter last name."></md-icon>
+                                        <input name="lastName" ng-model="profile.edit.profile.lastName">
+                                        <div ng-messages="profileForm.lastName.$error">
+                                            <div ng-message="required">Required</div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="100">
+                                        <label>Address</label>
+                                        <md-icon class="md-primary" flex="10" aria-label="Provide address.">place</md-icon>
+                                        <textarea name="address" ng-model="profile.edit.profile.address"></textarea>
+                                    </md-input-container>
+                                    <div layout class="no-margin no-padding" flex="100">
+                                        <md-input-container flex="15">
+                                            <md-icon class="md-primary" aria-label="Provide phone number.">call</md-icon>
+                                            <label>Country Code</label>
+                                            <md-select md-colors="{color:'accent'}" ng-model="profile.edit.profile.countryCode" name="countryCode" placeholder="Country Code">
+                                                <md-option value="91">+91</md-option>
+                                                <md-option value="1">+1</md-option>
+                                                <md-option value="44">+44</md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-input-container flex>
+                                            <label>Phone Number</label>
+                                            <md-icon class="md-primary transparent-text" flex="10" aria-label="Provide phone number.">contact_phone</md-icon>
+                                            <input name="mobileNumber" step="1" type="number" min="0" ng-model="profile.edit.profile.mobileNumber">
+                                        </md-input-container>
+                                    </div>
+                                    <div layout class="no-margin no-padding" flex="100">
+                                        <md-input-container flex="15">
+                                            <md-icon class="md-primary" aria-label="Provide phone number.">contact_phone</md-icon>
+                                            <label>Country Code</label>
+                                            <md-select md-colors="{color:'accent'}" ng-model="profile.edit.profile.otherNumberCountryCode" name="countryCode" placeholder="Country Code">
+                                                <md-option value="91">+91</md-option>
+                                                <md-option value="1">+1</md-option>
+                                                <md-option value="44">+44</md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-input-container flex>
+                                            <label>Other</label>
+                                            <md-icon class="md-primary transparent-text" flex="10" aria-label="Provide phone number.">contact_phone</md-icon>
+                                            <input name="otherNumber" type="number" min="0" ng-model="profile.edit.profile.otherNumber">
+                                        </md-input-container>
+                                    </div>
+                                    <md-input-container flex="100">
+                                        <label>Unit of Measurement</label>
+                                        <md-icon class="md-primary" flex="10" aria-label="Select UoM.">tune</md-icon>
+                                        <md-select name="uom" ng-model="profile.edit.profile.uom" ng-model-options="{trackBy: '$value.id'}">
+                                            <!--<md-select-label>{{ edit.profile.uom.uom }}</md-select-label>-->
+                                            <md-option ng-repeat="uom in profile.uomList" ng-value="uom"> {{uom.uom}} </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                    <md-input-container flex="100" flex-gt-md="50">
+                                        <label>Primary Email</label>
+                                        <md-icon class="md-primary" flex="10" aria-label="Provide primary email.">mail_outline</md-icon>
+                                        <input name="primaryEmail" ng-model="profile.edit.profile.primaryEmail" type="email">
+                                        <div ng-messages="regForm.email.$error">
+                                            <div ng-message="email">Not a valid email </div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="100" flex-gt-md="50">
+                                        <label>Alternate Email</label>
+                                        <md-icon class="transparent-text" aria-label="Enter first name.">mail_outline</md-icon>
+                                        <div flex="10" show hide-gt-md></div>
+                                        <input name="alternateEmail" ng-model="profile.edit.profile.alternateEmail" type="email">
+                                        <div ng-messages="regForm.email.$error">
+                                            <div ng-message="email">Not a valid email </div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+
+                            </md-card-content>
+                            <md-card-actions layout="row" layout-align="start center" layout-margin layout-padding layout-wrap>
+
+                                <div flex layout-align="end center" layout layout-margin>
+                                    <md-button aria-label="Press to register." type="submit" ng-click="profile.saveProfile()" class="md-raised md-accent" ng-disabled="regForm.$invalid">Update</md-button>
+                                </div>
+
+                            </md-card-actions>
+                        </form>
+                    </md-tab>
+                    <md-tab label="Change Password">
+                        <form id="passwordForm" name="passwordForm" layout="column" accept-charset="utf-8" ng-submit="profile.changePassword()">
+                            <md-card-content layout="column" flex layout-margin style="margin-bottom:0;padding-bottom:0">
+
+                                <div layout="column" layout-align="center">
+
+                                    <md-input-container flex>
+                                        <label>Old Password</label>
+                                        <input name="oldPassword" ng-model="profile.edit.password.oldPassword" type="password" required ng-pattern="/^(?=.*[A-z])(?=.*\d)(?=.*[@$!%*?&])[A-z\d@$!%*?&]{8,}$/">
+                                        <div ng-messages="passwordForm.oldPassword.$error" ng-show="passwordForm.oldPassword.$pristine||passwordForm.oldPassword.$touched">
+                                            <div ng-message="required">Required.</div>
+                                            <div ng-message="pattern">Should be atleast 8 characters long with atleast 1 alphabet, 1 numeric and 1
+                                                special character.
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <label>New Password</label>
+                                        <input name="password" ng-model="profile.edit.password.password" type="password" required ng-pattern="/^(?=.*[A-z])(?=.*\d)(?=.*[@$!%*?&])[A-z\d@$!%*?&]{8,}$/">
+                                        <div ng-messages="passwordForm.password.$error" ng-show="passwordForm.password.$pristine||passwordForm.oldPassword.$touched">
+                                            <div ng-message-exp="['required', 'pattern']">Should be atleast 8 characters long with atleast 1 alphabet, 1 numeric and 1
+                                                special character.
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <label>Confirm Password</label>
+                                        <input name="confirmPwd" ng-model="profile.edit.password.confirmPwd" type="password" required match-fields="{{profile.edit.password.password}}">
+                                        <div ng-messages="passwordForm.confirmPwd.$error" ng-show="passwordForm.confirmPwd.$pristine||passwordForm.oldPassword.$touched">
+                                            <div ng-message="required">Required.</div>
+                                            <div ng-message="matchFields">
+                                                Passwords do not match.
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </md-card-content>
+                            <md-card-actions layout="row" layout-align="start center" layout-margin layout-padding layout-wrap>
+
+                                <div flex layout-align="end center" layout layout-margin>
+                                    <md-button aria-label="Press to Submit." type="submit" class="md-raised md-accent md-hue-2" ng-disabled="passwordForm.$invalid">Change</md-button>
+                                </div>
+
+                            </md-card-actions>
+                        </form>
+                    </md-tab>
+                </md-tabs>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>
+
+
+<style>
+    .material-background {
+        height: 30%
+    }
+
+    .profile-card {
+        position: relative;
+        top: -30%;
+        /*overflow: auto;
+        height: 125%;*/
+    }
+
+    .card-content {
+        overflow: auto;
+    }
+</style>

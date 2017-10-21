@@ -1,0 +1,160 @@
+<div layout="row" flex layout-margin layout-align="center start">
+    <div layout="column" flex="initial" layout-align="start center" class="card hoverable">
+        <md-toolbar class="no-margin md-primary" layout="row" layout-margin layout-align="center center">
+            <div flex="33">
+                <md-button ng-click="$state.go('main.pluggable-model', {}, { reload: true })" class="md-icon-button">
+                    <md-tooltip md-direction="bottom">Go back to Pluggable Models</md-tooltip>
+                    <i class="white-text material-icons">arrow_back</i></md-button>
+            </div>
+            <div flex="100" layout="row" layout-align="center center">
+                <div class="white-text md-title">Pluggable Model Builder</div>
+            </div>
+            <div flex="33"></div>
+        </md-toolbar>
+        <md-content>
+            <form name="modelForm" ng-submit="createModel()" class="md-inline-form" accept-charset="utf-8">
+                <div layout="column" layout-padding layout-margin>
+                    <div layout="row" flex layout-wrap layout-margin layout-align="space-around center">
+                        <md-input-container flex="33">
+                            <label>Model Name</label>
+                            <input name="modelName" ng-model="modelName" required>
+                            <div flex ng-messages="modelForm.modelName.$error" role="alert" multiple ng-show="modelForm.modelName.$touched">
+                                <div ng-message="required">Please mention model name.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="33">
+                            <label>Vehicle Type</label>
+                            <md-select name="vehicleType" ng-model="rule.vehicleType" ng-required md-on-open="loadVehicleTypes()">
+                                <md-option ng-repeat="vehicleType in vehicleTypes track by vehicleType.id" value="{{vehicleType}}">
+                                    {{vehicleType.type}}
+                                </md-option>
+                            </md-select>
+                            <div flex ng-messages="ruleForm.vehicleType.$error" role="alert" multiple ng-show="ruleForm.vehicleType.$invalid">
+                                <div ng-message="required">Please select vehicle type.</div>
+                            </div>
+                        </md-input-container>
+                        <div layout-margin>
+                            <md-input-container flex="33">
+                                <label>Message Model</label>
+                                <input name="model" ng-model="messageModelName" class="black-text" disabled />
+                            </md-input-container>
+                        </div>
+                    </div>
+
+
+                    <!--<div flex layout-fill layout="row" layout-align="center center">
+                        <span class="light-blue-text">Model Type</span>
+                    </div>-->
+                    <div layout="column" layout-align="space-around center">
+                        <div flex layout="row" layout-align="center center" layout-margin>
+                            <md-radio-group ng-model="modelType" layout="row" layout-align="center center">
+                                <md-radio-button value="machineLearning" aria-label="machineLearning">Machine Learning</md-radio-button>
+                                <md-radio-button value="arithmetic" aria-label="arithmetic">Arithmetic</md-radio-button>
+                            </md-radio-group>
+                        </div>
+                        <div flex layout="row" layout-align="center center">
+                            <div flex class="zoom-animation" ng-show="modelType === 'machineLearning'" layout="row" layout-align="space-around center">
+                                <md-input-container flex="initial" layout-padding layout-margin>
+                                    <label>Model Type</label>
+                                    <md-select name="mlModel" ng-model="mlModel" ng-required="modelType === 'machineLearning'">
+                                        <md-option value="regression">Regression</md-option>
+                                        <md-option value="classification">Classification</md-option>
+                                    </md-select>
+                                    <div flex ng-messages="modelForm.mlModel.$error" role="alert" multiple ng-show="!modelForm.mlModel.$touched">
+                                        <div ng-message="required">Please select Model Type.</div>
+                                    </div>
+                                </md-input-container>
+                                <div flex layout-padding layout-margin>
+                                    <!--<div class="file-field input-field">
+                                        <div class="btn light-blue white-text">
+                                            <span>Select</span>
+                                            <input type="file" name="pmmlFile" ng-model="pmmlFile" ngf-select accept=".pmml" ngf-max-size="2MB" ng-required="modelType === 'machineLearning'" ngf-model-invalid="errorFile">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text">
+                                        </div>
+                                    </div>
+                                    <div flex ng-messages="modelForm.pmmlFile.$error" ng-show="modelForm.pmmlFile.$touched" role="alert" multiple>
+                                        <div ng-message="required">Please upload file.</div>
+                                    </div>
+                                    <md-progress-linear md-mode="determinate" value="{{pmmlFile.progress}}"></md-progress-linear>-->
+
+                                    <div>
+                                        <div flex layout="row" layout-align="start center">
+                                            <div>
+                                                <label>Select</label>
+                                            </div>
+                                            <input id="fileInput" type="file" name="pmmlFile" ng-model="pmmlFile.data" ngf-select accept=".pmml" ngf-max-size="2MB" ng-required="modelType === 'machineLearning'"
+                                                ngf-model-invalid="errorFile" class="ng-hide">
+                                            <md-button id="uploadButton" class="md-raised md-primary" aria-label="attach_file">Select</md-button>
+                                            <md-input-container md-no-float style="padding-top:3%">
+                                                <input id="textInput" ng-model="pmmlFile.data.name" type="text" placeholder="No file chosen" ng-readonly="true">
+                                            </md-input-container>
+                                        </div>
+                                        <div flex ng-messages="modelForm.pmmlFile.$error" ng-show="modelForm.pmmlFile.$touched" role="alert" multiple>
+                                            <div ng-message="required">Custom rule jar is required.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="zoom-animation" ng-show="modelType === 'arithmetic'" layout="row">
+                                <md-input-container flex>
+                                    <label>Arithmetic Expression</label>
+                                    <input name="arithmeticExpression" ng-model="arithmeticExpression" ng-required="modelType === 'arithmetic'" />
+                                    <div flex ng-messages="modelForm.arithmeticExpression.$error" role="alert" multiple ng-show="modelForm.arithmeticExpression.$touched">
+                                        <div ng-message="required">Please mention Arithmetic Expression.</div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="zoom-animation" ng-hide="selectedSubDomainIndex === undefined" flex layout-fill class="blue-grey darken-1 white-text"
+                        layout="row" layout-align="start center" style="padding: 4px; padding-left: 10px;">
+                        <span>Select Features</span>
+                    </div>
+                    <div class="fade-animation" layout="row" layout-align="space-around center" ng-hide="selectedSubDomainIndex === undefined"
+                        layout-padding layout-margin>
+                        <div flex="40" style="min-width: 250px;" class="card" layout="column">
+                            <div class="white-text" layout="row" layout-padding layout-align="center center" style="background-color: rgb(17,149,210); font-size: 18px;">Feature List
+                            </div>
+                            <div style="min-height: 250px; max-height: 250px; overflow-y: auto; overflow-x: none;" layout-align="column" layout-padding>
+                                <div ng-repeat="messageModel in messageModelTemplate track by $index" style="border-bottom: white groove thin; cursor: pointer; outline: none;"
+                                    layout-fill layout="row" layout-align="space-between center" ng-click="addToMappingList($index)">
+                                    <div flex layout-align="center center" style="padding: 4px; text-overflow: ellipsis;">{{messageModel}}</div>
+                                    <div layout="row" flex="10" layout-align="center center"><i class="material-icons">keyboard_arrow_right</i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div layout="column" flex="10" layout-align="space-between center">
+                            <div style="cursor: pointer; outline: none;" ng-click="selectAll()">
+                                <i class="ionicon ion-chevron-right md-display-2"></i>
+                            </div>
+                            <div></div>
+                            <div style="cursor: pointer; outline: none;" ng-click="deselectAll()">
+                                <i class="ionicon ion-chevron-left md-display-2"></i>
+                            </div>
+                        </div>
+                        <div flex="40" style="min-width: 250px;" class="card" layout="column">
+                            <div class="white-text" layout="row" layout-padding layout-align="center center" style="background-color: rgb(17,149,210); font-size: 18px;">Selected Features
+                            </div>
+                            <div style="min-height: 250px; max-height: 250px; overflow-y: auto; overflow-x: none;" layout="column" layout-padding>
+                                <div ng-repeat="mapping in mappingList track by $index" style="border-bottom: white groove thin; cursor: pointer; outline: none;"
+                                    layout-fill layout="row" layout-align="space-between center" ng-click="deleteFromMappingList($index)">
+                                    <div layout="row" flex="10" layout-align="center center">
+                                        <i class="material-icons md-headline">keyboard_arrow_left</i>
+                                    </div>
+                                    <div flex="85" layout-align="center center" style="padding: 4px; text-overflow: ellipsis">{{mapping}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout layout-align="center" layout-margin>
+                        <md-button type="submit" class="md-accent md-raised" ng-disabled="modelForm.$invalid || mappingList.length===0">Create</md-button>
+                    </div>
+                </div>
+            </form>
+        </md-content>
+    </div>
+</div>

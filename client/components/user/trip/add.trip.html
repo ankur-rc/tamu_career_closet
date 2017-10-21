@@ -1,0 +1,113 @@
+<style>
+.floating-textfields {
+    padding-left:10px !important;
+}
+
+ md-input-container:not(.md-input-has-value) input:not(:focus), 
+    md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-ampm-field, 
+    md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-day-field, 
+    md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-hour-field, 
+    md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-millisecond-field, 
+    md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-minute-field, 
+    md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-month-field, 
+    md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-second-field, 
+    md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-text, 
+    md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-week-field, 
+    md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-year-field {
+        color: inherit !important;
+    }
+md-autocomplete[md-floating-label] {
+    height:50px !important;
+}
+
+</style>
+
+<md-card class="fade-animation md-whiteframe-5dp hoverable" flex>  
+        
+    <md-card-content layout="column" class="no-padding">
+        <div id="map" style="height:100vh"></div>
+        <div style="position:absolute; left:20%;" flex layout-align="center center" layout>
+            <form id="tripFor" name="tripFor" autocomplete="off">
+                <md-card-content>                    
+                        <md-input-container flex="100" md-colors="{background: 'primary-900'}" class="md-whiteframe-z4">
+                            <label md-colors="{color:'accent'}" style="margin-left:10px">Enter trip name to create trip..</label>
+                            <input name="name" ng-model="trip.name" class="floating-textfields" required style="width: 25vw; margin-bottom: 0px; padding-bottom: 0px; border:none">
+                                                                                                                                    
+                            <div ng-messages="tripForm.name.$error">
+                                <div ng-message="required">Required.</div>
+                            </div>
+                        </md-input-container>
+                        <md-button aria-label="Add Trip" ng-disabled="tripFor.name.$invalid" ng-click="toggleRight()" class="md-raised md-accent md-fab md-mini" 
+                                ><md-icon>navigate_next</md-icon></md-button>
+                </md-card-content>
+                
+            </form>
+        </div>
+        <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" md-colors="{background: 'primary-900'}">
+
+            <md-toolbar md-colors="{background: 'accent'}">
+                <h1 class="md-toolbar-tools">Add Trip</h1>
+            </md-toolbar>
+            <md-content layout-padding md-colors="{background: 'primary-900'}">
+                <form id="tripForm" name="tripForm" layout="column" autocomplete="off" accept-charset="utf-8">
+                    <md-card-content layout="column">
+                        <div layout layout-wrap layout-align="center center">
+                            <md-input-container flex="100" style="margin:0">
+                                <input name="owner" ng-model="trip.owner" placeholder="Owner" md-colors="{color:'accent'}" required>
+                                <div ng-messages="tripForm.owner.$error">
+                                    <div ng-message="required">Required.</div>
+                                </div>
+                            </md-input-container>   
+                            <md-input-container flex="100">
+                                <label>VIN</label>
+                                <md-select name="vin" ng-model="trip.vin" placeholder="VIN" md-colors="{color:'accent'}" md-on-open="getVehicles()" required>
+                                    <md-option ng-repeat="vehicle in vehicles" value="{{vehicle.id}}">{{vehicle.id}}</md-option>
+                                </md-select>                                
+                                <div ng-messages="tripForm.vin.$error">
+                                    <div ng-message="required">Required.</div>
+                                </div>
+                            </md-input-container>  
+                            <md-input-container flex="100" style="margin:0">
+                                <input mdc-datetime-picker="" date="true" time="true" type="text" id="startTime" placeholder="Start Time" min-date="minDate"
+                                    ng-model="trip.startTime" class="md-input" md-colors="{color:'accent'}" required>
+                            </md-input-container>  
+                            <md-input-container flex="100" style="margin-top:0">
+                                <place-autocomplete custom-label="Start Location" ng-model="trip.startLocation" md-colors="{color:'accent'}" required></place-autocomplete>
+                                <div ng-messages="tripForm.startLocation.$error">
+                                    <div ng-message="required">Required</div>
+                                </div>
+                            </md-input-container>   
+                            <md-input-container flex="100" style="margin-top:0">
+                                <place-autocomplete custom-label="End Location" ng-model="trip.endLocation" md-colors="{color:'accent'}" required></place-autocomplete>
+                                <div ng-messages="tripForm.endLocation.$error">
+                                    <div ng-message="required">Required</div>
+                                </div>
+                            </md-input-container>                             
+                            <md-input-container flex="100" style="margin-bottom:0">
+                            <div>
+                                <div ng-repeat="item in ['Avoid Highways','Avoid Tolls']">
+                                <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                                    {{ item }}
+                                </md-checkbox>
+                                </div>
+                            </div>   
+                            </md-input-container>                                 
+                        </div>
+                        
+                    </md-card-content>
+                    <md-card-actions layout="row" layout-align="center center">
+                        <md-button aria-label="Add Trip" type="submit" ng-click="close()" class="md-raised md-accent md-fab md-mini" 
+                                ><md-icon>arrow_back</md-icon></md-button>
+                        <md-button aria-label="Add Trip" type="submit" ng-click="addRoutes()" class="md-icon md-raised md-accent md-fab md-mini" 
+                                ><md-icon>view_list</md-icon></md-button>
+                        <md-button aria-label="Add Trip" ng-disabled="tripForm.$invalid || !isRoutesSelected" type="submit" ng-click="createTrip()" class="md-icon md-raised md-accent md-fab md-mini" 
+                                ><md-icon>save</md-icon></md-button>
+                    </md-card-actions>
+                    
+                </form>
+                
+            </md-content>
+        </md-sidenav>
+    </md-card-content>
+</md-card>
+

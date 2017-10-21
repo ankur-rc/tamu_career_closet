@@ -35,6 +35,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'rspec-rails'
 gem 'bower-rails'
 gem 'angular-rails-templates'
+gem 'bcrypt', '~> 3.1.7'
+gem 'jwt'
 gem 'simplecov', :require => false, :group => :test
 
 group :development, :test do
@@ -43,6 +45,10 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem 'factory_girl_rails', '~> 4.0'
+  gem 'shoulda-matchers', '~> 3.1'
+  gem 'faker'
+  gem 'database_cleaner'
 end
 
 group :development do
