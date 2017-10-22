@@ -67,6 +67,10 @@ class RentalsController < ApplicationController
     render json:activeUsers
   end    
 
+  def viewCheckedOut
+    checkedOut = Rental.joins(:apparel, :student).select("apparels.apparel_id as apparelId, apparels.article as article, apparels.sex as sex, apparels.size as size").where("actual_return_date is NULL")
+    render json:checkedOut
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

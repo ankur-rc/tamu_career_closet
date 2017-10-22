@@ -1,6 +1,7 @@
 class StudentsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_student, only: [:show, :edit, :update, :destroy]
-
+ 
   # GET /students
   # GET /students.json
   def index
@@ -10,7 +11,19 @@ class StudentsController < ApplicationController
   # GET /students/1
   # GET /students/1.json
   def show
-  end
+    if @student.empty?()
+	  respond_to do |format|
+	  msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
+	  format.json  { render :json => msg } 
+	  end
+	else
+		respond_to do |format|
+        msg = { :status => :shown, :message => "Success", :returnObject => @student}
+	    format.json  { render :json => msg }
+		end
+	end
+	end
+  
 
   # GET /students/new
   def new
@@ -24,11 +37,11 @@ class StudentsController < ApplicationController
   def home
   end
 
+  
   # POST /students
   # POST /students.json
-  def create
-    @student = Student.new(student_params)
-
+  def create  
+    @student=Student.new(student_params)
     respond_to do |format|
       if @student.save
         format.html { redirect_to @student, notice: 'Student was successfully created.' }
@@ -43,31 +56,49 @@ class StudentsController < ApplicationController
   # PATCH/PUT /students/1
   # PATCH/PUT /students/1.json
   def update
+    if @student.empty?()
+	  respond_to do |format|
+	  msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
+	  format.json  { render :json => msg } 
+	end
+	else
     respond_to do |format|
       if @student.update(student_params)
-        format.html { redirect_to @student, notice: 'Student was successfully updated.' }
-        format.json { render :show, status: :ok, location: @student }
+        msg = { :status => :updated, :message => "Student was successfully updated."}
+	    format.json  { render :json => msg }
       else
-        format.html { render :edit }
-        format.json { render json: @student.errors, status: :unprocessable_entity }
-      end
-    end
+        msg = { :status => :unprocessable_entity, :message => @student.errors}
+		format.json  { render :json => msg }
+	end
+	end
+	end
   end
 
   # DELETE /students/1
   # DELETE /students/1.json
   def destroy
-    @student.destroy
-    respond_to do |format|
-      format.html { redirect_to students_url, notice: 'Student was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+    if @student.empty?()
+	  respond_to do |format|
+	  msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
+	  format.json  { render :json => msg } 
+	end
+	else
+	  respond_to do |format|
+	  if @student.destroy_all
+          msg = { :status => :deleted, :message => "Student was successfully deleted."}
+	      format.json  { render :json => msg }
+	  else
+        msg = { :status => :unprocessable_entity, :message => @student.errors}
+		format.json  { render :json => msg }
+	end
+	end
+	end
+	end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_student
-      @student = Student.find(params[:id])
+      @student = Student.where(uin:params[:uin])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
