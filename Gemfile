@@ -37,6 +37,7 @@ gem 'bower-rails'
 gem 'angular-rails-templates'
 gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
+gem 'jsonapi-rails'
 gem 'simplecov', :require => false, :group => :test
 gem 'rack-cors', :require => 'rack/cors'
 group :development, :test do

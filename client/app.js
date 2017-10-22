@@ -12,5 +12,5 @@
         USER: "user"
     });
 
-    app.constant('API', "http://");
+    app.constant('API', "http://localhost:8080/");
 }());

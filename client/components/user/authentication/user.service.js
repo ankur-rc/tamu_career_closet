@@ -24,10 +24,10 @@
 
         function login(credentials) {
             return $http({
-                url: API + "login",
+                url: API + "auth/login",
                 method: 'POST',
                 data: $httpParamSerializerJQLike({
-                    username: credentials.name,
+                    email: credentials.name,
                     password: credentials.password
                 }),
                 headers: {
@@ -38,17 +38,17 @@
 
         function register(credentials) {
             return $http({
-                url: API + "user/register",
+                url: API + "signup",
                 method: 'POST',
                 data: $httpParamSerializerJQLike({
-                    firstName: credentials.firstName,
-                    lastName: credentials.lastName,
-                    role: credentials.role,
-                    phone: credentials.phoneNumber,
-                    username: credentials.username,
+                    name: credentials.firstName,
+                    // lastName: credentials.lastName,
+                    // role: credentials.role,
+                    // phone: credentials.phoneNumber,
+                    // username: credentials.username,
                     password: credentials.password,
-                    confirmPwd: credentials.confirmPassword,
-                    primaryEmail: credentials.primaryEmail
+                    password_confirmation: credentials.confirmPassword,
+                    email: credentials.primaryEmail
                 }),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
