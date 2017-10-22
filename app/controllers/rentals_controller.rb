@@ -5,6 +5,7 @@ class RentalsController < ApplicationController
   # GET /rentals.json
   def index
     @rentals = Rental.all
+    json_response(@rentals)
   end
 
   # GET /rentals/1
