@@ -45,6 +45,16 @@
         margin: 8px;
         cursor: pointer;
     }
+
+    .name-contain {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap
+	}
+
+	.name-contain:hover {
+		overflow: visible
+	}
 </style>
 
 <!-- main layout for portal -->
@@ -62,7 +72,7 @@
             <img ng-if="main.displayBrandLogo" style="height:100%;padding:0" ng-error="main.onBrandLogoFailure() " ng-src="{{main.getBrandLogo()}}"
             />
             <div ng-if="!main.displayBrandLogo">
-                {{main.getOemName()}}
+                Career Closet
             </div>
         </div>
         <div layout="row" show-gt-sm flex layout-fill flex-gt-md="80" flex-gt-xs="70">
@@ -100,7 +110,7 @@
                             <div md-menu-origin md-colors="{background:'primary-800'}">
                                 <md-icon layout-fill md-svg-src="{{main.getProfileAvatar()}}"></md-icon>
                             </div>
-                            <span style="max-width:200px;">{{main.user.firstName}}</span>
+                            <span class="name-contain" style="max-width:200px;">{{main.user.name}}</span>
                         </a>
                         <md-menu-content>
                             <md-menu-item>
@@ -132,7 +142,7 @@
                 </div>
                 <div flex layout="column" layout-align="center start" class="username-no-overflow">
                     <div class="md-title">
-                        {{main.user.firstName}}&nbsp;{{main.user.lastName}}
+                        {{main.user.name}}
                     </div>
                     <div layout layout-align="start center" flex class="md-subhead" layout-wrap>
                         <md-menu md-offset="0 20">
@@ -165,10 +175,10 @@
             </perfect-scrollbar>
             <div style="width:100%" flex-order="4" layout="column" layout-margin>
                 <div ng-show="!main.smallScreen" flex layout="row" layout-align="start center">
-                    <ds-widget-clock md-colors="{color:'primary-400'}" show-digital digital-format=" 'hh:mm a' "></ds-widget-clock>
+                    <ds-widget-clock md-colors="{color:'accent-700'}" show-digital digital-format=" 'hh:mm a' "></ds-widget-clock>
                 </div>
                 <div flex layout="row" layout-align="start center">
-                    <div flex class="md-caption" layout="row" layout-align="start center">&copy;2017 &nbsp;></span>
+                    <div flex class="md-caption" layout="row" layout-align="start center">&copy;2017 &nbsp;</span>
                     </div>
                     <div layout layout-align="end center">
                         <md-icon class="pointer-cursor" style="margin-right:8px" ng-click="main.openCredits($event)">info_outline</md-icon>

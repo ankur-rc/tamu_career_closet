@@ -20,25 +20,25 @@
         ///////////////////////////////////////////////////////////
 
         function login(credentials) {
-            return $timeout(function(){
-                return {
-                    data:{
-                        success: true,
-                        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IkpvaG4gRG9lIiwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE1MTM5OTc3NzczMTF9.ECdTAHbmkz96ht3D8e5883MyMDTG67uMADiK9gizcM0"
-                    }
-                }
-            }, 2000);
-            // return $http({
-            //     url: API + "auth/login",
-            //     method: 'POST',
-            //     data: $httpParamSerializerJQLike({
-            //         email: credentials.name,
-            //         password: credentials.password
-            //     }),
-            //     headers: {
-            //         'Content-Type': 'application/x-www-form-urlencoded'
+            // return $timeout(function(){
+            //     return {
+            //         data:{
+            //             success: true,
+            //             token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IkpvaG4gRG9lIiwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE1MTM5OTc3NzczMTF9.ECdTAHbmkz96ht3D8e5883MyMDTG67uMADiK9gizcM0"
+            //         }
             //     }
-            // });
+            // }, 2000);
+            return $http({
+                url: API + "auth/login",
+                method: 'POST',
+                data: $httpParamSerializerJQLike({
+                    email: credentials.name,
+                    password: credentials.password
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
         function register(credentials) {
@@ -46,7 +46,7 @@
                 url: API + "signup",
                 method: 'POST',
                 data: $httpParamSerializerJQLike({
-                    name: credentials.firstName,
+                    name: credentials.name,
                     // lastName: credentials.lastName,
                     // role: credentials.role,
                     // phone: credentials.phoneNumber,

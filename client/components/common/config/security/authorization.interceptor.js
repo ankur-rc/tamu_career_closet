@@ -37,8 +37,8 @@
 
         //Save token, if present in header
         function response(res) {
-            if (res.config.url.indexOf(API) === 0 && res.data.token) {
-                AuthService.saveToken(res.data.token);
+            if (res.config.url.indexOf(API) === 0 && res.data.auth_token) {
+                AuthService.saveToken(res.data.auth_token);
             }
 
             return res;
@@ -52,9 +52,9 @@
                 // $location.path("/#/login");
                 //publish global error message
             } else if (response.status == -1) {
-                // $rootScope.$broadcast("error", {
-                //     msg: "Server not reachable."
-                // });
+                $rootScope.$broadcast("error", {
+                    msg: "Server not reachable."
+                });
             }
             //else if (response.status >= 400 && response.status < 500) {
 

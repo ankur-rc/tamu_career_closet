@@ -236,7 +236,10 @@
         $scope.$on('loginSuccessful', function (event, args) {
 
             getBrandLogo();
-            getUserProfile();
+            vm.user = {
+                name: UtilityService.getName()
+            }
+            //getUserProfile();
 
             $timeout(function () {
                 vm.hideMain = !vm.hideMain;
@@ -285,6 +288,7 @@
                 if (toState.name == 'home') {
                     vm.defaultViewLoaded = true;
                     //vm.staggerAnimateHomeCards();
+                    
                 }
             }, 0);
         });
@@ -304,7 +308,10 @@
                 }
                 getBrandLogo();
                 if (isAuthed())
-                    getUserProfile();
+                    //getUserProfile();
+                    vm.user = {
+                        name: UtilityService.getName()
+                    }
                 $timeout(function () {
                     vm.isAppBootstrapping = false;
                 }, 1000);

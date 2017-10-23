@@ -13,6 +13,7 @@
         this.refreshPage = refreshPage;
         this.isAuthed = isAuthed;
         this.getUsername = getUsername;
+        this.getName = getName;
         this.getUserRole = getUserRole;
         this.getUserId = getUserId;
 
@@ -77,7 +78,15 @@
             var token = AuthService.getToken();
             if (token) {
                 var params = AuthService.parseJwt(token);
-                return params.userId;
+                return params.sub;
+            }
+        }
+
+        function getName(){
+            var token = AuthService.getToken();
+            if(token){
+                var params = AuthService.parseJwt(token);
+                return params.name;
             }
         }
 

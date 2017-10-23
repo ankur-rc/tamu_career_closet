@@ -45,9 +45,9 @@
             vm.blockClick = true;
             // $timeout(function () {
             UserService.login(vm.user).then(function (response) {
-
+                    console.log(response);
                     if (response.data.success === true) {
-                        AuthService.saveToken(response.data.token);
+                        // AuthService.saveToken(response.data.token);
                         //console.log("login successful");
                         PreferencesService.setBrandLogo(response.data.brandLogoUrl);
                         //for demo purposes
@@ -118,13 +118,13 @@
 
                     if (response.data.success === true) {
                         $mdToast.show($mdToast.simple()
-                            .textContent(response.data.msg ? response.data.msg : "Registered successfully!")
+                            .textContent(response.data.message ? response.data.message : "Registered successfully!")
                             .position("bottom right").parent(document.body));
 
                         vm.selectedTab = 0;
                     } else {
                         $mdToast.show($mdToast.simple()
-                            .textContent(response.data.msg ? response.data.msg : "Could not register.")
+                            .textContent(response.data.message ? response.data.message : "Could not register.")
                             .position("bottom right").parent(document.body));
                     }
 
