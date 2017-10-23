@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  match '/rentals/viewActive' => 'rentals#viewActiveUser', via: :get
-  match '/rentals/viewCheckedOut' => 'rentals#viewCheckedOut', via: :get
+  match '/rentals/viewActive' => 'rentals#view_active_user', via: :get
+  match '/rentals/viewCheckedOut' => 'rentals#view_checkedOut', via: :get
+  match '/rentals/activeUsersAndCheckedOutApparels' => 'rentals#num_active_users_and_checked_out', via: :get
+  match '/apparels/getSizes' => 'apparels#get_sizes', via: :get
   match '/students/new' => 'students#create', via: :post
   match '/students/delete' => 'students#destroy', via: :get
   match '/students/show' => 'students#show', via: :get
