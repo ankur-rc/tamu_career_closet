@@ -18,7 +18,7 @@ class StudentsController < ApplicationController
 	  end
 	else
 		respond_to do |format|
-        msg = { :status => :shown, :message => "Success", :returnObject => @student}
+        msg = { :status => :shown, :message => "Success", :studentrecord => @student}
 	    format.json  { render :json => msg }
 		end
 	end
@@ -41,14 +41,14 @@ class StudentsController < ApplicationController
   # POST /students
   # POST /students.json
   def create  
-    @student=Student.new(student_params)
+    @student = Student.new(student_params)
     respond_to do |format|
       if @student.save
-        format.html { redirect_to @student, notice: 'Student was successfully created.' }
-        format.json { render :show, status: :created, location: @student }
+        msg = { :status => :created, :message => "Student was successfully created."}
+	    format.json  { render :json => msg }
       else
-        format.html { render :new }
-        format.json { render json: @student.errors, status: :unprocessable_entity }
+        msg = { :status => :unprocessable_entity, :message => @student.errors}
+		format.json  { render :json => msg }
       end
     end
   end

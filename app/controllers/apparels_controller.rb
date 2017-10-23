@@ -4,12 +4,12 @@ class ApparelsController < ApplicationController
   # GET /apparels
   # GET /apparels.json
   def index
-    @all_sizes = Apparel.distinct.pluck('size')
     if params[:size] != nil
-      @apparels = Apparel.where("size in (?)", params[:size])
+      apparels = Apparel.where("size in (?)", params[:size])
     else
-      @apparels = Apparel.all
+      apparels = Apparel.all
     end
+	render json:apparels
   end
 
   # GET /apparels/1
@@ -66,6 +66,13 @@ class ApparelsController < ApplicationController
     end
   end
 
+  def get_sizes  
+    all_sizes = Apparel.distinct.pluck('size')
+	json_obj=Hash.new()
+	json_obj['sizes']=all_sizes
+	render json:json_obj
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_apparel
