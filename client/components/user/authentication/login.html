@@ -1,0 +1,193 @@
+<div layout layout-padding layout-fill flex="grow">
+	<div flex="0" flex-gt-md="25"></div>
+	<div flex ng-if="!main.isAuthed()" layout="row" layout-align="center center">
+		<md-card ng-hide="login.hideLogin" class="login animate-grow md-whiteframe-5dp hoverable" flex-xs="100" flex="60">
+			<md-content style="border-radius:2px">
+				<md-tabs md-center-tabs="true" md-selected="login.selectedTab" md-dynamic-height>
+					<md-tab label="Login" ng-disabled="login.blockClick">
+						<form id="loginForm" name="loginForm" layout="column" autocomplete="on" accept-charset="utf-8" ng-submit="login.initiateLogin();">
+							<md-card-content layout="column" flex layout-margin style="margin-bottom:0;padding-bottom:0">
+								<span class="md-body-1" style="text-align:center">Enter your credentials</span>
+								<div layout="column" layout-align="center">
+									<md-input-container flex>
+										<md-icon class="md-primary" md-svg-icon="login:user" flex="10" aria-label="Enter username."></md-icon>
+										<label>Username</label>
+										<input name="username" ng-model="login.user.name" required type="email">
+										<div ng-messages="loginForm.username.$error">
+											<div ng-message="required">Required.</div>
+											<div ng-message="email">Not a valid email.</div>
+											</div>
+									</md-input-container>
+									<md-input-container flex>
+										<md-icon class="md-primary" md-svg-icon="login:password" flex="10" aria-label="Enter password."></md-icon>
+										<label>Password</label>
+										<input name="password" ng-model="login.user.password" type="password" required ng-pattern="/^(?=.*[A-z])(?=.*\d)(?=.*[@$!%*?&])[A-z\d@$!%*?&]{8,}$/">
+										<div ng-messages="loginForm.password.$error">
+											<div ng-message="required">Required.</div>
+											<div ng-message="pattern">Should be atleast 8 characters long with atleast 1 alphabet, 1 numeric and 1 special character.</div>
+										</div>
+									</md-input-container>
+									<div flex layout layout-align="end center">
+										<a ng-click="login.toggleForgotPassword()" href="" style="text-decoration:none;margin-bottom:4px" class="md-caption md-primary md-hue-1">Forgot password?</a>
+									</div>
+									<div ng-hide="login.hideForgotPassword" flex layout layout-align="center center" class="md-whiteframe-2dp fp-slide-animation"
+									    style="padding:4px">
+										<md-input-container flex md-no-float class="md-block custom-wizard-input">
+											<input name="forgotPassword" placeholder="Existing username" ng-model="login.forgot.password" ng-pattern="/^[A-z0-9_-]{3,15}$/">
+										</md-input-container>
+										<div flex="initial" layout layout-align="center center">
+											<md-button ng-click="login.initiateForgotPassword()" class="md-primary md-icon-button" ng-disabled="!login.forgot.password||!loginForm.forgotPassword.$error">
+												<md-icon>arrow_forward</md-icon>
+											</md-button>
+										</div>
+									</div>
+								</div>
+							</md-card-content>
+							<md-card-actions layout="row" layout-align="start center" layout-margin layout-padding layout-wrap>
+								<div flex layout-align="start center" layout class="md-caption md-accent" layout-margin>
+									<a style="text-decoration:none" href="" class="md-caption md-primary md-hue-1" ng-click="login.selectedTab=1">Create new account</a>
+								</div>
+								<div flex layout-align="end center" layout layout-margin>
+									<md-button aria-label="Press to Login." type="submit" class="md-raised md-accent" ng-disabled="loginForm.$invalid||login.blockClick">Submit</md-button>
+								</div>
+							</md-card-actions>
+						</form>
+					</md-tab>
+					<md-tab label="Register" ng-disabled="login.blockClick">
+						<form id="regForm" name="regForm" layout="column" accept-charset="utf-8" ng-submit="login.registerUser()">
+							<md-card-content layout="column" flex layout-margin style="margin-bottom:0;padding-bottom:0">
+								<div layout="column" layout-align="center">
+									<div flex layout>
+										<md-icon class="md-primary" md-svg-icon="login:user" flex="10" aria-label="Enter username."></md-icon>
+									</div>
+									<md-input-container flex>
+										<label>Name</label>
+										<input name="name" ng-model="login.reg.user.name" required>
+										<div ng-messages="regForm.name.$error">
+											<div ng-message="required">Required.</div>
+										</div>
+									</md-input-container>
+									<!-- <md-input-container flex>
+										<label>Last Name</label>
+										<input name="lastName" ng-model="login.reg.user.lastName" required>
+										<div ng-messages="regForm.lastName.$error">
+											<div ng-message="required">Required.</div>
+										</div>
+									</md-input-container>
+									<div flex layout>
+										<md-icon class="md-primary" flex="10" aria-label="Select role.">business</md-icon>
+									</div>	
+									<md-input-container flex>
+                                        <label>Role</label>
+                                        <md-select name="role" ng-model="login.reg.user.role" required>
+                                            <md-option value="admin"> Admin </md-option>
+											<md-option value="user"> User </md-option>
+                                        </md-select>
+                                        <div flex ng-messages="regForm.role.$error" role="alert" multiple ng-show="regForm.role.$invalid">
+                                            <div ng-message="required">Required.</div>
+                                        </div>
+                                    </md-input-container>								
+									<div flex layout>
+										<md-icon class="md-primary" flex="10" aria-label="Provide login name.">mail_outline</md-icon>
+									</div>
+									<md-input-container flex>
+										<label>Username</label>
+										<input name="username" ng-model="login.reg.user.username" required ng-pattern="/^[A-z0-9_-]{3,15}$/">
+										<div ng-messages="regForm.username.$error">
+											<div ng-message="required">Required.</div>
+											<div ng-message="pattern">Should be between 3-15 characters. Alphanumerics, hyphen(-) and underscore(_) allowed only.</div>
+										</div>
+									</md-input-container> -->
+									<md-input-container flex>
+										<label>Email</label>
+										<input name="email" ng-model="login.reg.user.primaryEmail" type="email" required>
+										<div ng-messages="regForm.email.$error">
+											<div ng-message="required">Required.</div>
+											<div ng-message="email">Not a valid email </div>
+										</div>
+									</md-input-container>
+									<!-- <md-input-container flex>
+										<label>Phone Number</label>
+										<input name="phone" ng-model="login.reg.user.phoneNumber" required>
+										<div ng-messages="regForm.phone.$error">
+											<div ng-message="required">Required.</div>
+										</div>
+									</md-input-container>
+									<div flex layout>
+										<md-icon class="md-primary" flex="10" aria-label="Provide password.">vpn_key</md-icon>
+									</div>									 -->
+									<md-input-container flex>
+										<label>Password</label>
+										<input type="password" name="password" ng-model="login.reg.user.password" required ng-pattern="/^(?=.*[A-z])(?=.*\d)(?=.*[@$!%*?&])[A-z\d@$!%*?&]{8,}$/">
+										<div ng-messages="regForm.password.$error">
+											<div ng-message="required">Required.</div>
+											<div ng-message="pattern">Should be atleast 8 characters long with atleast 1 alphabet, 1 numeric and 1 special character.</div>
+										</div>
+									</md-input-container>
+									<md-input-container flex>
+										<label>Confirm Password</label>
+										<input type="password" name="confirmPassword" ng-model="login.reg.user.confirmPassword" required match-fields="{{login.reg.user.password}}">
+										<div ng-messages="regForm.confirmPassword.$error">
+											<div ng-message="required">Required.</div>
+											<div ng-message="matchFields">Passwords do not match.</div>
+										</div>
+									</md-input-container>
+								</div>						
+								
+							</md-card-content>
+							<md-card-actions layout="row" layout-align="start center" layout-margin layout-padding layout-wrap>
+								<div flex layout-align="start center" layout class="md-caption md-accent" layout-margin>
+									<a style="text-decoration:none" href="" class="md-caption md-primary md-hue-1" ng-click="login.selectedTab=0">Have an account?</a>
+								</div>
+								<div flex layout-align="end center" layout layout-margin>
+									<md-button aria-label="Press to register." type="submit" ng-click="login.initiateRegistration()" class="md-raised md-accent md-hue-1"
+									    ng-disabled="regForm.$invalid||login.blockClick">Submit</md-button>
+								</div>
+							</md-card-actions>
+						</form>
+					</md-tab>
+				</md-tabs>
+			</md-content>
+		</md-card>
+	</div>
+	<div flex ng-show="main.isAuthed()" class="fade-animation" layout="row" layout-align="center center">
+		<md-card flex-gt-md="50" class="md-whiteframe-5dp hoverable">
+			<md-card-title layout layout-align="space-between center">
+				<md-card-title-media flex layout layout-align="center center">
+					<div class="md-media-sm card-media">
+						<md-icon layout-fill md-svg-src="{{main.getProfileAvatar()}}"></md-icon>
+					</div>
+				</md-card-title-media>
+				<md-card-title-text flex layout-padding layout="column" layout-align="center center">
+					<span id="login-isAuth-card-username" class="md-headline md-primary">{{main.getUsername()}}</span>
+					<span class="md-subhead" md-colors="{color:'primary-300'}">Logged In</span>
+				</md-card-title-text>
+			</md-card-title>
+			<md-card-actions layout="row" layout-align="center center">
+				<md-button class="md-primary" ng-click="login.gotoHome()">Home</md-button>
+				<md-button class="md-primary md-hue-1" ng-click="login.logout()">Logout</md-button>
+			</md-card-actions>
+		</md-card>
+	</div>
+	<div flex="0" flex-gt-md="25"></div>
+</div>
+
+<style>
+	#login-isAuth-card-username {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap
+	}
+
+	#login-isAuth-card-username:hover {
+		overflow: visible
+	}
+
+	.login {
+		opacity: 0;
+		transition-timing-function: ease-in-out;
+		transition-delay: 100ms;
+		transition-property: all;
+		transition-duration: 300ms;
+	}
+</style>

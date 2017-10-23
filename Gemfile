@@ -35,14 +35,21 @@ gem 'jbuilder', '~> 2.5'
 gem 'rspec-rails'
 gem 'bower-rails'
 gem 'angular-rails-templates'
+gem 'bcrypt', '~> 3.1.7'
+gem 'jwt'
+gem 'jsonapi-rails'
 gem 'simplecov', :require => false, :group => :test
-
+gem 'rack-cors', :require => 'rack/cors'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem 'factory_girl_rails', '~> 4.0'
+  gem 'shoulda-matchers', '~> 3.1'
+  gem 'faker'
+  gem 'database_cleaner'
 end
 
 group :development do

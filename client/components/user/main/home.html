@@ -1,0 +1,38 @@
+<style type="text/css">
+    .light-blue {
+        background-color: #03a9f4 !important;
+    }
+
+    .red {
+        background-color: red !important;
+    }
+    /* success bar*/
+
+    .success-bar>.success {
+        transition-property: all;
+        transition-duration: 1s;
+        transition-timing-function: ease-in-out;
+        transition-delay: 1s;
+    }
+</style>
+
+<div layout="column" ng-show="!main.isAppBootstrapping&&home.viewLoaded" layout-padding flex="none" layout-fill>
+    <div layout="column" layout-gt-sm="row" layout-margin layout-wrap>
+
+		<div layout="column" flex="30" layout-wrap layout-margin ng-repeat="metric in home.metrics" class="hoverable card md-whiteframe-4dp" 
+		ng-click="$state.go(metric.href)" style="cursor:pointer">
+            <div layout="row" layout-wrap flex class="no-margin" md-colors="{background: 'primary-{{400+($index%4)*100}}'}">
+                <div flex="30" layout layout-align="center center">
+						<md-icon style="font-size:48px" md-colors="{color:'grey-A100'}" md-svg-icon="metrics:{{metric.icon}}"></md-icon>
+                </div>
+                <md-divider class="no-margin"></md-divider>
+                <div flex class="md-title arc-ht-100" layout="column" layout-padding layout-align="end end">
+                    <div arc-countup value="{{metric.value}}" duration="{{2+($index*0.5)}}" class="md-title white-text"></div>
+                    <div class="md-subhead white-text">{{metric.title}}</div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+</div>

@@ -4,7 +4,10 @@ class RentalsController < ApplicationController
   # GET /rentals
   # GET /rentals.json
   def index
+    # render jsonapi: Rental.all, include:  [:author, comments: [:author]],
+    #        fields: {rentals: [:rental_id, :apparel_id, :checkout_date, :expected_return_date, :student_id]}
     @rentals = Rental.all
+    # json_response(@rentals)
   end
 
   # GET /rentals/1
