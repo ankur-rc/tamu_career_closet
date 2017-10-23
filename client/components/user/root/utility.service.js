@@ -15,9 +15,6 @@
         this.getUsername = getUsername;
         this.getUserRole = getUserRole;
         this.getUserId = getUserId;
-        this.getOemName = getOemName;
-        this.getOemId = getOemId;
-        this.getOemType = getOemType;
 
         //////////////////////////////////////////////////////////////////////////////////
 
@@ -84,29 +81,6 @@
             }
         }
 
-        function getOemName() {
-            var token = AuthService.getToken();
-            if (token) {
-                var params = AuthService.parseJwt(token);
-                return params.oemName;
-            }
-        }
-
-        function getOemId() {
-            var token = AuthService.getToken();
-            if (token) {
-                var params = AuthService.parseJwt(token);
-                return params.oemId;
-            }
-        }
-
-        function getOemType() {
-            var token = AuthService.getToken();
-            if (token) {
-                var params = AuthService.parseJwt(token);
-                return params.oemClassification;
-            }
-        }
     }
 
 })();
