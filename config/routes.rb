@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+<<<<<<< HEAD
   match '/rentals/viewActive' => 'rentals#view_active_user', via: :get
   match '/rentals/viewCheckedOut' => 'rentals#view_checkedOut', via: :get
   match '/rentals/activeUsersAndCheckedOutApparels' => 'rentals#num_active_users_and_checked_out', via: :get
@@ -17,7 +18,8 @@ Rails.application.routes.draw do
 
   get "rentals/pending_returnsAndDefaulters", to: "rentals#pending_returnsAndDefaulters", as: "pendingreturns",:defaults => { :format => 'json' }
   get "rentals/assignsuits/:studentUIN/:apparelId", to: "rentals#assignSuits",as: "assignsuits",:default=>{:format=>'json'}
- resources :constants
+  resources :constants
+
   resources :rentals
 
   resources :apparels
