@@ -1,4 +1,5 @@
 class RentalsController < ApplicationController
+  skip_before_action :authorize_request
   before_action :set_rental, only: [:show, :edit, :update, :destroy]
 
   # GET /rentals

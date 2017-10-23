@@ -1,4 +1,5 @@
 class ApparelsController < ApplicationController
+  skip_before_action :authorize_request
   before_action :set_apparel, only: [:show, :edit, :update, :destroy]
 
   # GET /apparels
