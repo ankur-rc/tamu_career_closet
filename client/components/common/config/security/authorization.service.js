@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('fleet')
+        .module('cc')
         .service('AuthService', Service);
 
     Service.$inject = ['$window'];

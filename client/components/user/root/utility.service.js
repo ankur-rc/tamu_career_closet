@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('fleet')
+    angular.module('cc')
         .service('UtilityService', service)
 
     service.$inject = ['$state', 'AuthService'];

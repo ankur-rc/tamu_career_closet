@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('fleet').constant('Themes', {
+    angular.module('cc').constant('Themes', {
 
         "Tamu":{
             primary:"tamuprimary",

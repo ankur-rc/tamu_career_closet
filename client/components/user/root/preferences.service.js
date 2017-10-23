@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('fleet')
+        .module('cc')
         .service('PreferencesService', Service);
 
     Service.$inject = ['$window', 'ProfileAvatars'];

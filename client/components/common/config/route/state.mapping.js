@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('fleet')
+        .module('cc')
         .service('StateMappingProvider', Service);
 
     Service.$inject = ['OemTypeResolver', 'OEM_TYPES'];

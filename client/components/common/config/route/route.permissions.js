@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('fleet').service('RoutePermissionsProvider', Service);
+    angular.module('cc').service('RoutePermissionsProvider', Service);
 
     Service.$inject = ['ROLES', 'OemTypeResolver'];
 

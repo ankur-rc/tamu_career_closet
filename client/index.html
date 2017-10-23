@@ -91,7 +91,7 @@
     <link rel="icon" href="favicon.png">
 </head>
 
-<body md-theme="{{main.getTheme()}}" ng-class="{'loaded':main.isAppBootstrapping==false}" md-theme-watch ng-app="fleet" ng-controller="main.controller as main">
+<body md-theme="{{main.getTheme()}}" ng-class="{'loaded':main.isAppBootstrapping==false}" md-theme-watch ng-app="cc" ng-controller="main.controller as main">
 
     <!-- prebootstrap splash screen-->
     <div class="preloader-container">
@@ -132,7 +132,6 @@
     <link rel="stylesheet" href="app.css" id="app-css" type="text/css">
 
     <!-- bower dependencies -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdFbK7mW-Hh8FP13MKRW0EvwrvoeZtXbs&libraries=geometry,places"></script>
     <script type="application/javascript" src="bower_components/jquery/dist/jquery.min.js "></script>
     <script type="application/javascript" src="bower_components/gsap/src/minified/TweenMax.min.js "></script>
     <script type="application/javascript" src="bower_components/perfect-scrollbar/min/perfect-scrollbar.min.js"></script>
@@ -145,7 +144,8 @@
     <script type="application/javascript" src="bower_components/tinymce/tinymce.js"></script>
     <script type="application/javascript" src="bower_components/moment/moment.js"></script>
     <script type="application/javascript" src="bower_components/clipboard/dist/clipboard.min.js"></script>
-    <script type="application/javascript" src="bower_components/vis/dist/vis.min.js"></script>
+    
+
     <script type="application/javascript" src="bower_components/angular/angular.min.js"></script>
     <script type="application/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="application/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
@@ -169,27 +169,7 @@
     <script type="application/javascript" src="bower_components/angular-animate-model-change/dist/ng-animate-model-change.js"></script>
     <script type="application/javascript" src="bower_components/ng-stomp/dist/ng-stomp.standalone.min.js"></script>
     <script type="application/javascript" src="bower_components/angular-gage/dist/angular-gage.min.js"></script>
-    <script type="application/javascript" src="bower_components/angular-visjs/angular-vis.js"></script>
 
-
-    <!-- vendor scripts -->
-    <script type="application/javascript" src="components/user/dashboard/components/common/vendor/marker-animate.js"></script>
-    <script type="application/javascript" src="components/user/dashboard/components/common/vendor/markerCluster.js"></script>
-    <!-- rule-builder dependencies-->
-    <script type="application/javascript " src="bower_components/doT/doT.min.js "></script>
-    <script type="application/javascript " src="bower_components/jquery-extendext/jQuery.extendext.min.js "></script>
-    <script type="application/javascript" src="components/common/scripts/query-builder.js"></script>
-
-    <!-- dashboard module -->
-    <script type="application/javascript" src="components/user/dashboard/app.js"></script>
-    <script type="application/javascript" src="components/user/dashboard/constants.js"></script>
-    <script type="application/javascript" src="components/user/dashboard/components/common/routes.js"></script>
-    <script type="application/javascript" src="components/user/dashboard/components/common/async.map.loader.factory.js"></script>
-    <script type="application/javascript" src="components/user/dashboard/components/dashboard/dashboard.services.js"></script>
-    <script type="application/javascript" src="components/user/dashboard/components/dashboard/dashboard.controller.js"></script>
-    <script type="application/javascript" src="components/user/dashboard/components/trip-metrics/trip.metrics.service.js"></script>
-    <script type="application/javascript" src="components/user/dashboard/components/trip-metrics/trip.metrics.controller.js"></script>
-    <!--dashboard module end-->
 
     <!-- app -->
     <script type="application/javascript" src="app.js"></script>
@@ -202,24 +182,9 @@
     <script type="application/javascript" src="components/common/config/route/route.permissions.js"></script>
     <script type="application/javascript" src="components/user/theme/themer.service.js"></script>
     <script type="application/javascript" src="components/user/authentication/user.service.js"></script>
-    <script type="application/javascript" src="components/common/config/security/oem.type.resolver.js"></script>
     <script type="application/javascript" src="components/common/config/route/state.mapping.js"></script>
     <script type="application/javascript" src="components/user/root/utility.service.js"></script>
     <script type="application/javascript" src="components/user/root/preferences.service.js"></script>
-    <script type="application/javascript" src="components/user/driver/driver.service.js"></script>
-    <script type="application/javascript" src="components/user/root/fleet.demo.service.js"></script>
-    <script type="application/javascript" src="components/user/driver/driver.service.js"></script>
-    <script type="application/javascript" src="components/user/vehicle/vehicle.service.js"></script>
-    <script type="application/javascript" src="components/user/route/route.service.js"></script>
-    <script type="application/javascript" src="components/user/cargo/cargo.service.js"></script>
-    <script type="application/javascript" src="components/user/trip/trip.service.js"></script>
-    <script type="application/javascript" src="components/user/location/location.service.js"></script>
-    <script type="application/javascript" src="components/user/analytics/rule-builder/rule.builder.service.js"></script>
-    <script type="application/javascript" src="components/user/analytics/rule-builder/rule.builder.engine.service.js"></script>
-    <script type="application/javascript" src="components/user/analytics/pluggable-model/pluggable.model.service.js"></script>
-    <script type="application/javascript" src="components/user/analytics/pluggable-model/pluggable.model.builder.service.js"></script>
-    <script type="application/javascript" src="components/user/analytics/model.msg/model.msg.service.js"></script>
-    <script type="application/javascript" src="components/user/analytics/notification/template/template.builder.service.js"></script>
     <!-- configs -->
     <script type="application/javascript" src="components/common/config/security/http.provider.js"></script>
     <script type="application/javascript" src="components/common/config/security/grant.functions.js"></script>
@@ -244,32 +209,6 @@
     <script type="application/javascript" src="components/user/profile/user.profile.controller.js"></script>
     <script type="application/javascript" src="components/user/authentication/reset.password.controller.js"></script>
     <script type="application/javascript" src="components/user/theme/select.theme.controller.js"></script>
-    <script type="application/javascript" src="components/user/driver/add.driver.controller.js"></script>
-    <script type="application/javascript" src="components/user/driver/edit.driver.controller.js"></script>
-    <script type="application/javascript" src="components/user/driver/driver.controller.js"></script>
-    <script type="application/javascript" src="components/user/vehicle/add.vehicle.controller.js"></script>
-    <script type="application/javascript" src="components/user/vehicle/vehicle.controller.js"></script>
-    <script type="application/javascript" src="components/user/vehicle/edit.vehicle.controller.js"></script>
-    <script type="application/javascript" src="components/user/route/route.controller.js"></script>
-    <script type="application/javascript" src="components/user/route/add.route.controller.js"></script>
-    <script type="application/javascript" src="components/user/route/edit.route.controller.js"></script>
-    <script type="application/javascript" src="components/user/cargo/add.cargo.controller.js"></script>
-    <script type="application/javascript" src="components/user/cargo/cargo.controller.js"></script>
-    <script type="application/javascript" src="components/user/cargo/edit.cargo.controller.js"></script>
-    <script type="application/javascript" src="components/user/trip/trip.controller.js"></script>
-    <script type="application/javascript" src="components/user/trip/add.trip.controller.js"></script>
-    <script type="application/javascript" src="components/user/trip/dialog/add.trip-route.controller.js"></script>
-    <script type="application/javascript" src="components/user/trip/dialog/view.trip.controller.js"></script>
-    <script type="application/javascript" src="components/user/location/location.controller.js"></script>
-    <script type="application/javascript" src="components/user/analytics/model.msg/model.msg.controller.js"></script>
-    <script type="application/javascript" src="components/user/analytics/model.msg/dialog/add.model.msg.controller.js"></script>
-    <script type="application/javascript" src="components/user/analytics/rule-builder/rule.builder.controller.js"></script>
-    <script type="application/javascript" src="components/user/analytics/rule-builder/rule.builder.engine.controller.js"></script>    
-    <script type="application/javascript" src="components/user/analytics/rule-builder/dialog/upload.custom.rule.controller.js"></script>
-    <script type="application/javascript" src="components/user/analytics/pluggable-model/pluggable.model.controller.js"></script>
-    <script type="application/javascript" src="components/user/analytics/pluggable-model/pluggable.model.builder.controller.js"></script>
-    <script type="application/javascript" src="components/user/analytics/notification/template/template.controller.js"></script>
-    <script type="application/javascript" src="components/user/analytics/notification/template/template.builder.controller.js"></script>
 </body>
 
 </html>

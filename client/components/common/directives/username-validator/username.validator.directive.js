@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('fleet').
+    angular.module('cc').
     directive('usernameValidator', directive);
 
     directive.$inject = ['UserService', '$q'];

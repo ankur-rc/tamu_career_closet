@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('fleet')
+    angular.module('cc')
         .controller('LoginAndRegController', controller);
 
     controller.$inject = ['$scope', '$rootScope', '$mdToast', '$mdDialog', '$timeout', '$state', 'AuthService', 'UserService', 'PreferencesService', 'UtilityService'];

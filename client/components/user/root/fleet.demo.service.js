@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('fleet')
+        .module('cc')
         .service('DaasDemoService', Service);
 
     Service.$inject = ['API', '$http', '$timeout'];

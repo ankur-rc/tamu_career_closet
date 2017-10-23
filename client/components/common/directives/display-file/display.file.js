@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('fleet')
+        .module('cc')
         .directive('displayFile', directive);
 
     directive.$inject = [];

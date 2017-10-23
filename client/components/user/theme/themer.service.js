@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('fleet').service('ThemerService', service);
+    angular.module('cc').service('ThemerService', service);
 
 
     service.$inject = ['$mdTheming', 'themeProvider', 'Themes'];

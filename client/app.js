@@ -1,5 +1,5 @@
 (function () {
-    var app = angular.module("fleet", ["fleet.dashboard", "ui.router", "ngMaterial", "ngAnimate", "ngMessages", "perfect_scrollbar", "chart.js",
+    var app = angular.module("cc", ["ui.router", "ngMaterial", "ngAnimate", "ngMessages", "perfect_scrollbar", "chart.js",
         "angular-rickshaw", "md.data.table", "angular-loading-bar", "ngFileUpload", "ngError", "ds.clock", "ui.tinymce", "ngMaterialDatePicker",
         "ngclipboard", "ui.router.grant", "mdSteppers", "frapontillo.gage"
     ]);

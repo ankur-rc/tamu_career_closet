@@ -1,6 +1,6 @@
 (function () {
 
-    angular.module('fleet').config(configuration)
+    angular.module('cc').config(configuration)
 
     configuration.$inject = ['ChartJsProvider'];
 

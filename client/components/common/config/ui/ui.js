@@ -1,5 +1,5 @@
 (function () {
-    angular.module('fleet').config(['$mdThemingProvider', '$provide', 'Themes', function ($mdThemingProvider, $provide, Themes) {
+    angular.module('cc').config(['$mdThemingProvider', '$provide', 'Themes', function ($mdThemingProvider, $provide, Themes) {
 
         $mdThemingProvider.alwaysWatchTheme(true);
         //$mdThemingProvider.generateThemesOnDemand(true);
@@ -140,7 +140,7 @@
 
     }]);
 
-    angular.module('fleet').config(['$mdIconProvider', function ($mdIconProvider) {
+    angular.module('cc').config(['$mdIconProvider', function ($mdIconProvider) {
         // Configure URLs for icons specified by [set:]id.
         $mdIconProvider
             .icon('login:user', 'img/login/user.svg')
@@ -197,7 +197,7 @@
 
     }]);
 
-    angular.module('fleet').config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
+    angular.module('cc').config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
     }]);
 
