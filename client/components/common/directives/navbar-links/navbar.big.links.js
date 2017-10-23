@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('fleet')
+        .module('cc')
         .directive('navbarBigLinks', directive);
 
     directive.$inject = [];

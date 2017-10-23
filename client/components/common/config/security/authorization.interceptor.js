@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     angular
-        .module('fleet')
+        .module('cc')
         .factory('AuthInterceptor', factory);
 
     factory.$inject = ['API', 'AuthService', '$location', '$rootScope', '$q'];

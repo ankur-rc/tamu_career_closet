@@ -21,7 +21,7 @@
  * Credit:
  * http://stackoverflow.com/a/31510437/293847
  */
-angular.module('fleet')
+angular.module('cc')
   .directive('placeAutocomplete', function() {
     return {
       templateUrl: 'components/common/directives/place-autocomplete/place.autocomplete.html',

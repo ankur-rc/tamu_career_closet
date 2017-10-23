@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('fleet').controller('ThemeSelectController', Controller);
+    angular.module('cc').controller('ThemeSelectController', Controller);
 
     Controller.$inject = ['$mdDialog', 'ThemerService'];
 

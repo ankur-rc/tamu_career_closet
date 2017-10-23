@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('fleet')
+        .module('cc')
         .controller('HomeController', Controller);
 
     Controller.$inject = ['$state', '$timeout'];

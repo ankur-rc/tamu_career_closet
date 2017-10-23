@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('fleet')
+        .module('cc')
         .service('PreferencesService', Service);
 
     Service.$inject = ['$window', 'ProfileAvatars'];
@@ -29,11 +29,11 @@
         };
 
         function setProfileAvatar(avatar) {
-            $window.localStorage['fleet.avatar'] = avatar;
+            $window.localStorage['cc.avatar'] = avatar;
         }
 
         function getProfileAvatar() {
-            var avatar = $window.localStorage['fleet.avatar'];
+            var avatar = $window.localStorage['cc.avatar'];
             if (!avatar) {
                 avatar = ProfileAvatars[0];
                 this.setProfileAvatar(avatar);

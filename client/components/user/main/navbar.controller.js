@@ -1,6 +1,6 @@
 (function () {
 
-    var app = angular.module('fleet').controller('navbar.controller', controller);
+    var app = angular.module('cc').controller('navbar.controller', controller);
 
     controller.$inject = ['$rootScope', 'RoutePermissionsProvider', 'AuthService'];
 

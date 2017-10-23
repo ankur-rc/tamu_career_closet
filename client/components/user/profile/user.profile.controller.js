@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('fleet')
+    angular.module('cc')
         .controller('UserProfileController', controller);
 
     controller.$inject = ['$rootScope', '$mdDialog', '$mdToast', 'UserService', 'AuthService', 'userProfile', 'PreferencesService', 'ProfileAvatars'];

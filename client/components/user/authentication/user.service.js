@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('fleet')
+        .module('cc')
         .service('UserService', Service);
 
     Service.$inject = ['API', '$http', '$httpParamSerializerJQLike'];
@@ -13,9 +13,6 @@
         this.register = register;
         this.forgotPassword = forgotPassword;
         this.getUserProfile = getUserProfile;
-        this.getLatestTnC = getLatestTnC;
-        this.getAllOems = getAllOems;
-        this.getAllUoms = getAllUoms;
         this.editProfile = editProfile;
         this.resetPassword = resetPassword;
         this.resetForgottenPassword = resetForgottenPassword;
@@ -84,31 +81,6 @@
             return $http({
                 url: API + '/user/get/id/'+id,
                 method: 'GET'
-            });
-        }
-
-        function getAllOems() {
-            return $http({
-                url: API + "oem",
-                method: 'GET'
-            });
-        }
-
-        function getAllUoms() {
-            return $http({
-                url: API + "uom",
-                method: 'POST'
-            });
-        }
-
-
-        function getLatestTnC(oemId) {
-            return $http({
-                url: API + "tnc/getLatest",
-                method: 'GET',
-                params: {
-                    oemId: oemId
-                }
             });
         }
 

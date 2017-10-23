@@ -1,13 +1,13 @@
 (function () {
-    var app = angular.module('fleet').controller('main.controller', Controller);
+    var app = angular.module('cc').controller('main.controller', Controller);
 
     Controller.$inject = ['$scope', '$rootScope', '$timeout', '$mdSidenav', '$state', '$mdToast', '$mdMedia', '$mdDialog', 'UtilityService', 'UserService',
-        'PreferencesService', 'TweenMax', 'DaasDemoService', 'AuthService', 'ThemerService', 'ROLES'
+        'PreferencesService', 'TweenMax', 'AuthService', 'ThemerService', 'ROLES'
     ];
 
     /* @ngInject*/
     function Controller($scope, $rootScope, $timeout, $mdSidenav, $state, $mdToast, $mdMedia, $mdDialog, UtilityService, UserService,
-        PreferencesService, TweenMax, DaasDemoService, AuthService, ThemerService, ROLES) {
+        PreferencesService, TweenMax, AuthService, ThemerService, ROLES) {
 
         //console.log('main.controller init');
 
@@ -17,31 +17,11 @@
 
         vm.isAppBootstrapping = true;
         vm.brandLogoUrl = "";
-        //vm.hideMain = isAuthed();
-        //vm.hideLogin = false;
-        //vm.hideMain = true;
         vm.bNav = true;
         vm.navbarSwitch = vm.bNav;
-        //vm.sNav = false;
         vm.smallScreen = true;
         vm.defaultViewLoaded = false;
         vm.user = {};
-
-        $rootScope.uom = {
-            id: 1,
-            name: 'SI'
-        }
-        $rootScope.mu = {
-            1: {
-                Speed: "km/hr",
-                Distance: "km"
-            },
-            2: {
-                Speed: "miles/hr",
-                Distance: "miles"
-            }
-
-        };
 
         //functions
         vm.getProfileAvatar = getProfileAvatar;

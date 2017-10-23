@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('fleet').run(runFn);
+    angular.module('cc').run(runFn);
 
     runFn.$inject = ['grant', 'UtilityService', 'ROLES'];
 

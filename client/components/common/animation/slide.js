@@ -1,5 +1,5 @@
 (function () {
-    var app = angular.module('fleet');
+    var app = angular.module('cc');
     var animation = function ($window, TweenLite) {
 
         //console.log("inside slide animation");

@@ -1,5 +1,5 @@
 (function () {
-    var app = angular.module("fleet");
+    var app = angular.module("cc");
     app.animation(".ui-view-animation", function () {
         return {
             enter: function (element, done) {

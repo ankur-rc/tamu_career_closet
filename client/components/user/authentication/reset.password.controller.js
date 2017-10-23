@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('fleet')
+        .module('cc')
         .controller('ResetPasswordController', Controller);
 
     Controller.$inject = ['$state', '$timeout', '$mdToast', '$stateParams', 'UserService'];

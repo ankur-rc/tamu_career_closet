@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('fleet').constant("ProfileAvatars", [
+    angular.module('cc').constant("ProfileAvatars", [
         "profile:avatar1",
         "profile:avatar2",
         "profile:avatar3",
