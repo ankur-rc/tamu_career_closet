@@ -18,13 +18,10 @@
         };
         vm.reg = {
             user: {
-                firstName: undefined,
-                lastName: undefined,
-                username: undefined,
+                name: undefined,
                 password: undefined,
                 confirmPassword: undefined,
-                primaryEmail: undefined,
-                role: undefined
+                primaryEmail: undefined
             }
         };
         vm.forgot = {
@@ -50,6 +47,7 @@
             UserService.login(vm.user).then(function (response) {
 
                     if (response.data.success === true) {
+                        AuthService.saveToken(response.data.token);
                         //console.log("login successful");
                         PreferencesService.setBrandLogo(response.data.brandLogoUrl);
                         //for demo purposes

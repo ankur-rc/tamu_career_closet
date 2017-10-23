@@ -32,7 +32,6 @@
         vm.isAuthed = isAuthed;
         vm.isAdmin = isAdmin;
         vm.getUsername = getUsername;
-        vm.getOemName = getOemName;
         vm.toggleFullscreen = toggleFullscreen;
         vm.refreshPage = refreshPage;
         vm.getUserProfile = getUserProfile;
@@ -180,10 +179,6 @@
 
         function getUserRole() {
             return UtilityService.getUserRole();
-        }
-
-        function getOemName() {
-            return UtilityService.getOemName();
         }
 
         function getUserProfile() {

@@ -29,11 +29,11 @@
         };
 
         function saveToken(token) {
-            $window.localStorage['fleet.token'] = token;
+            $window.localStorage['cc.token'] = token;
         };
 
         function getToken() {
-            return $window.localStorage['fleet.token'];
+            return $window.localStorage['cc.token'];
         };
 
         function isAuthed() {
@@ -45,7 +45,7 @@
         };
 
         function logout() {
-            $window.localStorage.removeItem('fleet.token');
+            $window.localStorage.removeItem('cc.token');
         };
     }
 })();

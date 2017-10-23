@@ -5,10 +5,10 @@
         .module('cc')
         .service('UserService', Service);
 
-    Service.$inject = ['API', '$http', '$httpParamSerializerJQLike'];
+    Service.$inject = ['API', '$http', '$httpParamSerializerJQLike', '$timeout'];
 
     /* @ngInject */
-    function Service(API, $http, $httpParamSerializerJQLike) {
+    function Service(API, $http, $httpParamSerializerJQLike, $timeout) {
         this.login = login;
         this.register = register;
         this.forgotPassword = forgotPassword;
@@ -20,17 +20,25 @@
         ///////////////////////////////////////////////////////////
 
         function login(credentials) {
-            return $http({
-                url: API + "auth/login",
-                method: 'POST',
-                data: $httpParamSerializerJQLike({
-                    email: credentials.name,
-                    password: credentials.password
-                }),
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+            return $timeout(function(){
+                return {
+                    data:{
+                        success: true,
+                        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IkpvaG4gRG9lIiwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE1MTM5OTc3NzczMTF9.ECdTAHbmkz96ht3D8e5883MyMDTG67uMADiK9gizcM0"
+                    }
                 }
-            });
+            }, 2000);
+            // return $http({
+            //     url: API + "auth/login",
+            //     method: 'POST',
+            //     data: $httpParamSerializerJQLike({
+            //         email: credentials.name,
+            //         password: credentials.password
+            //     }),
+            //     headers: {
+            //         'Content-Type': 'application/x-www-form-urlencoded'
+            //     }
+            // });
         }
 
         function register(credentials) {
