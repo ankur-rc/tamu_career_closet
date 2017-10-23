@@ -1,7 +1,7 @@
 class RentalsController < ApplicationController
   skip_before_action :authorize_request
   before_action :set_rental, only: [:show, :edit, :update, :destroy]
-
+  skip_before_action :verify_authenticity_token
 
   # before_action :set_rental, only: [:show, :edit, :update, :destroy]
 
@@ -119,7 +119,7 @@ class RentalsController < ApplicationController
      @student=Student.findStudentByUIN(studentUIN)
      @apparel=Apparel.findApparelByApparelId(apparelId)
      @noOfCheckoutDays=Constant.where(:key=>"noOfCheckoutDays").first.value.to_i
-     @rental=Rental.new(:uin=>@student.uin, :apparel_id=>@apparel.apparel_id, :checkout_date=>Date.today(), :expected_return_date=>Date.today()+@noOfCheckoutDays,:student_id=>@student.id )
+     @rental=Rental.new( :apparel_id=>@apparel.apparel_id, :checkout_date=>Date.today(), :expected_return_date=>Date.today()+@noOfCheckoutDays,:student_id=>@student.id )
      if @rental.save
       render json:createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
      end
