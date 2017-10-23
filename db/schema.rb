@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20171023032449) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "role"
+    t.string "role", default: "admin"
   end
 
   add_foreign_key "rentals", "apparels", on_update: :cascade, on_delete: :cascade
