@@ -1,3 +1,4 @@
+=begin
 require 'rails_helper'
 
 RSpec.describe 'Rentals API', type: :request do
@@ -46,7 +47,7 @@ RSpec.describe 'Rentals API', type: :request do
       end
     end
   end
-
+=end
 #   # Test suite for POST /rentals
 #   describe 'POST /rentals' do
 #     # valid payload
@@ -103,4 +104,4 @@ RSpec.describe 'Rentals API', type: :request do
 #       expect(response).to have_http_status(204)
 #     end
 #   end
-end
+#end
