@@ -34,5 +34,44 @@ RSpec.describe StudentsController, type: :controller do
     end
   end  
   
+  describe "POST #create" do
+    it "Creates the student record" do
+	  student_attr = FactoryGirl.attributes_for :student
+	  jsonrequest={ 'student': student_attr, format: :json }
+	  post :create, params: jsonrequest
+	  json = JSON.parse(response.body)
+      expect(json["status"]).to eq("created")
+	  expect(json["message"]).to eq("Student was successfully created.")	  
+    end
+	it "Returns saying UIN already exists" do
+	  student = FactoryGirl.create(:student)
+	  student_attr = FactoryGirl.attributes_for :student
+	  jsonrequest={ 'student': student_attr, format: :json }
+	  post :create, params: jsonrequest
+	  json = JSON.parse(response.body)
+      expect(json["status"]).to eq("unprocessable_entity")
+	  expect(json["message"]["uin"][0]).to eq("has already been taken")	  
+    end
+  end
   
+  describe "POST #update" do
+    it "Updates the student record" do
+	  student = FactoryGirl.create(:student)
+	  student_attr = FactoryGirl.attributes_for :update_student
+	  jsonrequest={ 'student': student_attr, 'uin': 1, format: :json }
+	  post :update, params: jsonrequest
+	  json = JSON.parse(response.body)
+      expect(json["status"]).to eq("updated")
+	  expect(json["message"]).to eq("Student was successfully updated.")	  
+    end
+	it "Return saying that UIN doesn't exist the student record" do
+	  student = FactoryGirl.create(:student, :uin => 17)
+	  student_attr = FactoryGirl.attributes_for :update_student
+	  jsonrequest={ 'student': student_attr, 'uin': 1, format: :json }
+	  post :update, params: jsonrequest
+	  json = JSON.parse(response.body)
+      expect(json["status"]).to eq("unprocessable_entity")
+	  expect(json["message"]).to eq("Record doesn't exist")	  
+    end
+  end  
 end

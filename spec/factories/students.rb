@@ -7,14 +7,11 @@ FactoryGirl.define do
     phone "MyString"
   end
   
-  factory :nonexisting_student, parent: :student do
-    uin 3
-  end
-  
-  factory :invalid_student, parent: :student do
-    uin nil
-	first_name nil
-	email nil
-	phone nil
+  factory :update_student, parent: :student do
+    uin 1
+    first_name "MyNewString"
+    last_name "MyNewString"
+    email "MyNewString"
+    phone "MyNewString"
   end
 end
