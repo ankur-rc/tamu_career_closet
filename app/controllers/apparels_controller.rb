@@ -1,10 +1,16 @@
 class ApparelsController < ApplicationController
+  skip_before_action :authorize_request
   before_action :set_apparel, only: [:show, :edit, :update, :destroy]
 
   # GET /apparels
   # GET /apparels.json
   def index
-    @apparels = Apparel.all
+    if params[:size] != nil
+      apparels = Apparel.where("size in (?)", params[:size])
+    else
+      apparels = Apparel.all
+    end
+	render json:apparels
   end
 
   # GET /apparels/1
@@ -61,6 +67,13 @@ class ApparelsController < ApplicationController
     end
   end
 
+  def get_sizes  
+    all_sizes = Apparel.distinct.pluck('size')
+	json_obj=Hash.new()
+	json_obj['sizes']=all_sizes
+	render json:json_obj
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_apparel

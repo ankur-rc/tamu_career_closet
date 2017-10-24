@@ -1,4 +1,5 @@
 class RentalsController < ApplicationController
+  skip_before_action :authorize_request
   before_action :set_rental, only: [:show, :edit, :update, :destroy]
 
   # GET /rentals
@@ -64,6 +65,29 @@ class RentalsController < ApplicationController
     end
   end
 
+  def view_active_user
+    @active_users = Rental.joins(:student).select("
+	    students.uin as uin, students.first_name as name, rentals.checkout_date").where("
+		    actual_return_date is NULL").group("rentals.student_id")
+    render json:@active_users
+  end    
+
+  def view_checkedOut
+    @checkedOut = Rental.joins(:apparel).select("
+	    apparels.apparel_id as apparelId, apparels.article as article, apparels.sex as sex, apparels.size as size").where("
+		    actual_return_date is NULL")
+    render json:@checkedOut
+  end
+
+  def num_active_users_and_checked_out   
+    @num_active = Rental.where("actual_return_date is NULL").distinct.pluck("student_id").count
+	@num_checkedout = Rental.where("actual_return_date is NULL").count
+	json_obj=Hash.new()
+    json_obj["num_active"]=@num_active
+    json_obj["num_checkedout"]=@num_checkedout
+	render json:json_obj
+  end
+	
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_rental
