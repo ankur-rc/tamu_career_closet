@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
 
-<<<<<<< HEAD
+
   match '/rentals/viewActive' => 'rentals#view_active_user', via: :get
   match '/rentals/viewCheckedOut' => 'rentals#view_checkedOut', via: :get
   match '/rentals/activeUsersAndCheckedOutApparels' => 'rentals#num_active_users_and_checked_out', via: :get
