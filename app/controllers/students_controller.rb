@@ -12,17 +12,13 @@ class StudentsController < ApplicationController
   # GET /students/1.json
   def show
     if @student.empty?()
-	  respond_to do |format|
 	  msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
-	  format.json  { render :json => msg } 
-	  end
+	  render :json => msg
 	else
-		respond_to do |format|
-        msg = { :status => :shown, :message => "Success", :studentrecord => @student}
-	    format.json  { render :json => msg }
-		end
+      msg = { :status => :shown, :message => "Success", :studentrecord => @student}
+	  render :json => msg
 	end
-	end
+  end
   
 
   # GET /students/new
@@ -42,14 +38,12 @@ class StudentsController < ApplicationController
   # POST /students.json
   def create  
     @student = Student.new(student_params)
-    respond_to do |format|
-      if @student.save
-        msg = { :status => :created, :message => "Student was successfully created."}
-	    format.json  { render :json => msg }
-      else
-        msg = { :status => :unprocessable_entity, :message => @student.errors}
-		format.json  { render :json => msg }
-      end
+    if @student.save
+      msg = { :status => :created, :message => "Student was successfully created."}
+	  render :json => msg
+    else
+      msg = { :status => :unprocessable_entity, :message => @student.errors}
+ 	  render :json => msg
     end
   end
 
@@ -57,20 +51,16 @@ class StudentsController < ApplicationController
   # PATCH/PUT /students/1.json
   def update
     if @student.empty?()
-	  respond_to do |format|
 	  msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
-	  format.json  { render :json => msg } 
-	end
+	  render :json => msg
 	else
-    respond_to do |format|
       if @student.update(student_params)
         msg = { :status => :updated, :message => "Student was successfully updated."}
-	    format.json  { render :json => msg }
+	    render :json => msg
       else
         msg = { :status => :unprocessable_entity, :message => @student.errors}
-		format.json  { render :json => msg }
-	end
-	end
+		render :json => msg
+	  end
 	end
   end
 
@@ -78,22 +68,18 @@ class StudentsController < ApplicationController
   # DELETE /students/1.json
   def destroy
     if @student.empty?()
-	  respond_to do |format|
 	  msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
-	  format.json  { render :json => msg } 
-	end
+	  render :json => msg
 	else
-	  respond_to do |format|
 	  if @student.destroy_all
           msg = { :status => :deleted, :message => "Student was successfully deleted."}
-	      format.json  { render :json => msg }
+	      render :json => msg
 	  else
         msg = { :status => :unprocessable_entity, :message => @student.errors}
-		format.json  { render :json => msg }
+		ender :json => msg
+	  end
 	end
-	end
-	end
-	end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
