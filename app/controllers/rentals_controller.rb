@@ -86,7 +86,7 @@ class RentalsController < ApplicationController
 
   def pending_returnsAndDefaulters
     countOfPendingReturns=Rental.where(actual_return_date: nil).count
-    countOfDefaulters=Rental.where('expected_return_date<?',DateTime.now).count()
+    countOfDefaulters=Rental.where('expected_return_date<? and actual_return_date IS NULL',DateTime.now).count()
     dictio=Hash.new()
     dictio["countOfPendingReturns"]=countOfPendingReturns
     dictio["countOfDefaulters"]=countOfDefaulters
