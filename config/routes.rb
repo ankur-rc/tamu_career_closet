@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   match '/students/update' => 'students#update', via: :post
 
 
-  get "rentals/pendingreturns", to: "rentals#pending_returns", as: "pendingreturns",:defaults => { :format => 'json' }
+
 
 
 
