@@ -29,3 +29,4 @@ Rental.create(rental_id: 3, apparel_id: 2, checkout_date: '2017-10-10', expected
 Rental.create(rental_id: 4, apparel_id: 6, checkout_date: '2017-10-10', expected_return_date: '2017-10-17', actual_return_date: '2017-10-19', student_id:7)
 Rental.create(rental_id: 5, apparel_id: 3, checkout_date: '2017-10-10', expected_return_date: '2017-10-17', student_id:4)
 Rental.create(rental_id: 6, apparel_id: 5, checkout_date: '2017-10-10', expected_return_date: '2017-10-17', student_id:6)
+Constant.create(key:"noOfCheckoutDays", value:"7")
