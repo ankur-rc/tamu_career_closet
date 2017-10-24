@@ -128,7 +128,7 @@ class RentalsController < ApplicationController
        render json:createResponseMessage(500,@rental.errors)
      end
      rescue =>e
-     render json:createResponseMessage(500,e.message)
+     render json:createResponseMessage(500,e)
      end
   end
 

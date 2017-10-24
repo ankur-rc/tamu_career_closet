@@ -11,8 +11,9 @@ class Student < ApplicationRecord
   def self.findStudentByUIN(studentUIN)
     begin
       @student=Student.where(:uin =>studentUIN).first
-    rescue ActiveRecord::RecordNotFound
-      raise RecordNotFoundError(Response_Message.STUDENT_ENTRY_NOT_FOUND)
+      if @student==nil
+      raise RecordNotFoundError.new(Response_Message::STUDENT_ENTRY_NOT_FOUND)
+      end
     end
     return @student
   end
