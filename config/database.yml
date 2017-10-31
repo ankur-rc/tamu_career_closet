@@ -14,13 +14,8 @@ default: &default
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
-<<<<<<< HEAD
   password: "root2"
   socket: /var/run/mysqld/mysqld.sock
-=======
-  password: root
-  socket: /tmp/mysql.sock
->>>>>>> b39b02dd... Initial Commits for Assign Suits
 
 development:
   <<: *default
