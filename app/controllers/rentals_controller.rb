@@ -139,6 +139,21 @@ class RentalsController < ApplicationController
     return response
   end
 
+  def sendPendingEmails
+    response=Hash.new()
+    begin
+      studentUIN=params[:studentUIN]
+      rentalId=params[:rentalId]
+      @student=Student.findStudentByUIN(studentUIN)
+      @rental=Rental.where(:rental_id =>rentalId).first
+      PendingMailer.sendPendingMail(@student,@rental).deliver_now
+      responseMessage=createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
+      render json:responseMessage
+    end
+    rescue =>e
+    render json:createResponseMessage(500,e)
+    end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
