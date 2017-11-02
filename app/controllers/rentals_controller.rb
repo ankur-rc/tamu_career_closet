@@ -142,11 +142,16 @@ class RentalsController < ApplicationController
   def sendPendingEmails
     response=Hash.new()
     begin
-      studentUIN=params[:studentUIN]
-      rentalId=params[:rentalId]
-      @student=Student.findStudentByUIN(studentUIN)
-      @rental=Rental.where(:rental_id =>rentalId).first
-      PendingMailer.sendPendingMail(@student,@rental).deliver_now
+      pending_returns_view=Rental.joins(:student).where("actual_return_date IS NULL and ?<expected_return_date and DATEDIFF(expected_return_date,?) < 2",DateTime.now,DateTime.now ).select("students.uin as uin, students.first_name as name,students.email as email, rentals.checkout_date as checkoutDate,
+ rentals.expected_return_date as expectedReturnDate,rentals.id as rentalid, students.id as studentid").collect
+      pending_returns_view.each do |return_pending|
+      student_uin=return_pending["uin"]
+      student_name=return_pending["name"]
+      student_email=return_pending["email"]
+      checkout_date=return_pending["checkoutDate"]
+      expected_return_date=return_pending["expectedReturnDate"]
+      PendingMailer.sendPendingMail(student_uin,student_name,student_email,checkout_date,expected_return_date).deliver_now
+      end
       responseMessage=createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
       render json:responseMessage
     end
