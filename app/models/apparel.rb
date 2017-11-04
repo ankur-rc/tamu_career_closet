@@ -8,7 +8,7 @@ class Apparel < ApplicationRecord
   def self.findApparelByApparelId(apparelId)
     begin
     @apparel=Apparel.where(:apparel_id =>apparelId ).first
-    if @apparel==nil
+     if @apparel==nil
       raise RecordNotFoundError.new(Response_Message::APPAREL_ENTRY_NOT_FOUND)
      end
     end
