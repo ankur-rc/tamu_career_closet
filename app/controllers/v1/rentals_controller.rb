@@ -146,6 +146,36 @@ module V1
       end
     end
 
+    def self.create_report
+      report_data = Rental.to_csv
+      report_file = "reports/rental-report-#{Date.today}.csv"
+      File.open(report_file, "w") { |file| file << report_data }
+    end
+  
+    def list_reports
+      @report_files = Dir.glob(
+          'reports/*.csv').select{ |file| File.file? file }.map{
+              |file| File.basename file }
+
+      puts @report_files
+      json_response({success: true, data: @report_files},:ok)
+    end
+  
+    def download_report
+      puts params
+      report_name = File.basename(params[:filename])
+      send_file "reports/#{report_name}", type: 'text/csv', disposition: 'attachment'
+    end
+  
+    def new_report
+      respond_to do |format|
+        format.html
+        format.csv { send_data Rental.to_csv,
+            filename: "rental-report-#{Date.today}.csv",
+            type: 'text/csv', disposition: 'attachment' }
+      end
+    end
+
     # def createResponseMessage(statusCode,statusMessage)
     #   response=Hash.new()
     #   response["statusCode"]=statusCode
