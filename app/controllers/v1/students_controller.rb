@@ -20,7 +20,7 @@ module V1
       else
         # msg = { :status => :shown, :message => "Success", :studentrecord => @student}
         # render :json => msg
-        json_response({success: true, data: @student},:unprocessable_entity)
+        json_response({success: true, data: @student},:ok)
       end
     end
     

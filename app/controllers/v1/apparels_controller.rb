@@ -18,12 +18,13 @@ module V1
     # GET /apparels/1
     # GET /apparels/1.json
     def show
+      @apparel = Apparel.find(params[:id])
+      json_response({success: true, data: @apparel},:ok)
     end
 
     # GET /apparels/new
     def new
       @apparel = Apparel.new
-      json_response({success: true, data: @apparel},:ok)
     end
 
     # GET /apparels/1/edit

@@ -18,12 +18,13 @@ module V1
   #   # GET /rentals/1
   #   # GET /rentals/1.json
     def show
+      @rental = Rental.find(params[:id])      
+      json_response({success: true, data: @rental},:ok)
     end
 
   #   # GET /rentals/new
     def new
       @rental = Rental.new
-      json_response({success: true, data: @rental},:ok)
     end
 
   #   # GET /rentals/1/edit
