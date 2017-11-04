@@ -1,17 +1,18 @@
-class ApplicationController < ActionController::Base
 
-  include Response
-  include ExceptionHandler
-  # called before every action on controllers
-  before_action :authorize_request
-  attr_reader :current_user
+  class ApplicationController < ActionController::Base
 
-  private
+    include Response
+    include ExceptionHandler
+    # called before every action on controllers
+    before_action :authorize_request
+    attr_reader :current_user
 
-  # Check for valid request token and return user
-  def authorize_request
-    @current_user = (AuthorizeApiRequest.new(request.headers).call)[:user]
+    private
+
+    # Check for valid request token and return user
+    def authorize_request
+      @current_user = (AuthorizeApiRequest.new(request.headers).call)[:user]
+    end
+    # protect_from_forgery with: :exception
+
   end
-  # protect_from_forgery with: :exception
-
-end

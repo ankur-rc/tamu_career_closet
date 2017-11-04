@@ -1,5 +1,5 @@
 class Message
-    def self.not_found(record = 'record')
+    def self.not_found(record = 'Record')
       "Sorry, #{record} not found."
     end
   
@@ -30,4 +30,22 @@ class Message
     def self.expired_token
       'Sorry, your token has expired. Please login to continue.'
     end
+
+    def self.assigned_success
+      'Assigned succcessfuly'
+    end
+
+    def self.created_successfuly(record = 'Record')
+      "#{record} created successfuly."
+    end
+
+    def self.updated_successfuly(record = 'Record')
+      "#{record} updated successfuly."
+    end
+
+    def self.destroyed_successfuly(record = 'Record')
+      "#{record} destroyed successfuly."
+    end
+
+    
 end
