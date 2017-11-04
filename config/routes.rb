@@ -28,29 +28,38 @@ Rails.application.routes.draw do
     resources :students 
   end
   
-  #Login and Registration
-
+  #Login and Registration API
   post 'auth/login', to: 'authentication#authenticate'
   post 'signup', to: 'users#create'
   
-  #Rentals  
+  #Rentals API  
   get 'rentals', to: 'rentals#index'
-  # get 'rentals/(:id)', to: 'rentals#new'
+  get 'rentals/(:id)', to: 'rentals#show'
   get 'rentals/activeusers', to: 'rentals#view_active_user'
   get 'rentals/checkedout', to: 'rentals#view_checkedOut'
   get 'rentals/checkedactive', to: 'rentals#num_active_users_and_checked_out'
-  # post 'rentals/(:id)'
+  get 'rentals/returns', to: 'rentals#pending_returns'
+  get 'rentals/defaulters', to: 'rentals#pending_returnsAndDefaulters'
+  get 'rentals/assign/(:studentUIN)/(:apparelId)', to: 'rentals#assignSuits'
+  post 'rentals', to: 'rentals#create'
+  put  'rentals/(:id)', to: 'rentals#update'
+  delete  'rentals/(:id)', to: 'rentals#destroy'
 
-  #Students
+  #Students API
   get 'students', to: 'students#index'
-
+  get 'students/(:id)', to: 'students#show'
+  post 'students', to: 'students#create'
+  put  'students/(:id)', to: 'students#update'
+  delete  'students/(:id)', to: 'students#destroy'
   
-  #Apparels
-  get 'apparels', to: 'apparels#index'
+  #Apparels API
+  get 'apparels/(:size)', to: 'apparels#index'
+  get 'apparels/(:id)', to: 'apparels#show'
+  get 'apparels/getsizes', to: 'rentals#get_sizes'
+  post 'apparels', to: 'apparels#create'
+  put  'apparels/(:id)', to: 'apparels#update'
+  delete  'apparels/(:id)', to: 'apparels#destroy'
   
-
-
-
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
 
