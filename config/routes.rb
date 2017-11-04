@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   get "rentals/receiveSuits/:studentUIN/:apparelId", to: "rentals#receiveSuits",as: "receiveSuits",:default=>{:format=>'json'}
   get "sendPendingEmails", to: "rentals#sendPendingEmails",:default=>{:format=>'json'}
   get "sendOverDueEmails",  to: "rentals#sendOverDueEmails",:default=>{:format=>'json'}
+  get "getConstants", to: "constants#showConstants",:default=>{:format=>'json'}
+  get "updateConstants/:key/:value", to:"constants#updateConstant",:default=>{:format=>'json'}
   resources :constants
 
   resources :rentals
