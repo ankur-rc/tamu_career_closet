@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   get "rentals/pending_returnsAndDefaulters", to: "rentals#pending_returnsAndDefaulters", as: "pendingreturns",:defaults => { :format => 'json' }
   get "rentals/assignsuits/:studentUIN/:apparelId", to: "rentals#assignSuits",as: "assignsuits",:default=>{:format=>'json'}
+  get "rentals/receiveSuits/:studentUIN/:apparelId", to: "rentals#receiveSuits",as: "receiveSuits",:default=>{:format=>'json'}
   get "sendPendingEmails", to: "rentals#sendPendingEmails",:default=>{:format=>'json'}
   get "sendOverDueEmails",  to: "rentals#sendOverDueEmails",:default=>{:format=>'json'}
   resources :constants

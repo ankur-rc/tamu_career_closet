@@ -139,6 +139,25 @@ class RentalsController < ApplicationController
     return response
   end
 
+  def receiveSuits
+    response=Hash.new()
+    begin
+      studentUIN=params[:studentUIN]
+      apparelId=params[:apparelId]
+      @student=Student.findStudentByUIN(studentUIN)
+      @apparel=Apparel.findApparelByApparelId(apparelId)
+      @rental=Rental.where("student_id=? and apparel_id=? and actual_return_date IS NULL",@student.uin,@apparel.apparel_id).order("id DESC").first
+      if @rental.update(actual_return_date:DateTime.now())
+        responseMessage=createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
+        render json:responseMessage
+      else
+        render json:createResponseMessage(500,@rental.errors)
+      end
+    end
+  rescue =>e
+    render json:createResponseMessage(500,e)
+  end
+
   def sendPendingEmails
     response=Hash.new()
     begin
