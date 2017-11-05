@@ -52,7 +52,7 @@ module V1
   #   # PATCH/PUT /rentals/1
   #   # PATCH/PUT /rentals/1.json
     def update
-      Rental.update!(rental_params)
+      Rental.update(rental_params)
       json_response({success: true, message: Message.updated_successfuly('Rental record')},:ok)
       # respond_to do |format|
       #   if @rental.update(rental_params)
@@ -68,7 +68,7 @@ module V1
   #   # DELETE /rentals/1
   #   # DELETE /rentals/1.json
     def destroy
-      @rental.destroy
+      Rental.destroy(@rental.first.id)
       json_response({success: true, message: Message.destroyed_successfuly('Rental record')},:ok)
       # respond_to do |format|
       #   format.html { redirect_to rentals_url, notice: 'Rental was successfully destroyed.' }

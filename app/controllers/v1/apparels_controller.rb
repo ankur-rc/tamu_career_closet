@@ -66,7 +66,7 @@ module V1
     # PATCH/PUT /apparels/1
     # PATCH/PUT /apparels/1.json
     def update
-      Apparel.update!(apparel_params)
+      Apparel.update(apparel_params)
       json_response({success: true, message: Message.updated_successfuly('Apparel record')},:ok)
       # respond_to do |format|
       #   if @apparel.update(apparel_params)
@@ -82,7 +82,7 @@ module V1
     # DELETE /apparels/1
     # DELETE /apparels/1.json
     def destroy
-      @apparel.destroy
+      Apparel.destroy(@apparel.first.id)
       json_response({success: true, message: Message.destroyed_successfuly('Apparel record')},:ok)
       # respond_to do |format|
       #   format.html { redirect_to apparels_url, notice: 'Apparel was successfully destroyed.' }

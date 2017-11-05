@@ -7,7 +7,7 @@ module V1
     # GET /students.json
     def index
       @students = Student.all
-      json_response({success: true, data: students},:ok)
+      json_response({success: true, data: @students},:ok)
     end
 
     # GET /students/1
@@ -68,7 +68,7 @@ module V1
         #   msg = { :status => :unprocessable_entity, :message => @student.errors}
         #   render :json => msg
         # end
-        Student.update!(student_params)
+        Student.update(student_params)
         json_response({success: true, message: Message.updated_successfuly('Student record')},:ok)
       end
     end
@@ -81,7 +81,7 @@ module V1
         # render :json => msg
         json_response({success: false, message: Message.not_found('Student record')},:unprocessable_entity)
       else
-        if @student.destroy
+        if Student.destroy(@student.first.id)
             # msg = { :status => :deleted, :message => "Student was successfully deleted."}
             # render :json => msg
             json_response({success: true, message: Message.destroyed_successfuly('Student record')},:ok) 
