@@ -18,8 +18,8 @@ module V1
   #   # GET /rentals/1
   #   # GET /rentals/1.json
     def show
-      @rental = Rental.find(params[:id])      
-      json_response({success: true, data: @rental},:ok)
+      # @rental = Rental.where({rental_id: params[:id]})      
+      json_response({success: true, data: @rental[0]},:ok)
     end
 
   #   # GET /rentals/new
@@ -157,7 +157,7 @@ module V1
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_rental
-        @rental = Rental.find(params[:id])
+        @rental = Rental.where(:rental_id => params[:id])
       end
 
       # Never trust parameters from the scary internet, only allow the white list through.

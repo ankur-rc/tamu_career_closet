@@ -6,20 +6,33 @@ module V1
     # GET /apparels
     # GET /apparels.json
     def index
-      if params[:size] != nil
-        apparels = Apparel.where("size in (?)", params[:size])
-      else
-        apparels = Apparel.all
-      end
+      # if params[:size] != nil
+      #   apparels = Apparel.where("size in (?)", params[:size])
+      # else
+      #   apparels = Apparel.all
+      # end
+      apparels = Apparel.all
     # render json:apparels
       json_response({success: true, data: apparels},:ok)
+    end
+
+    def bysize
+      if params[:size] != nil
+        apparels = Apparel.where("size in (?)", params[:size])
+      end
+      # render json:apparels
+      if  !(@apparels.empty?())
+        json_response({success: true, data: apparels},:ok)
+      else
+        json_response({success: true, message: Message.not_found()},:unprocessable_entity)   
+      end  
     end
 
     # GET /apparels/1
     # GET /apparels/1.json
     def show
-      @apparel = Apparel.find(params[:id])
-      json_response({success: true, data: @apparel},:ok)
+      # @apparel = Apparel.where(apparel_id: params[:id])
+      json_response({success: true, data: @apparel[0]},:ok)
     end
 
     # GET /apparels/new
@@ -88,7 +101,7 @@ module V1
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_apparel
-        @apparel = Apparel.find(params[:id])
+        @apparel = Apparel.where(:apparel_id => params[:id])
       end
 
       # Never trust parameters from the scary internet, only allow the white list through.

@@ -20,7 +20,7 @@ module V1
       else
         # msg = { :status => :shown, :message => "Success", :studentrecord => @student}
         # render :json => msg
-        json_response({success: true, data: @student},:ok)
+        json_response({success: true, data: @student[0]},:ok)
       end
     end
     
@@ -96,7 +96,7 @@ module V1
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_student
-        @student = Student.where(uin:params[:uin])
+        @student = Student.where(:uin => params[:id])
       end
 
       # Never trust parameters from the scary internet, only allow the white list through.
