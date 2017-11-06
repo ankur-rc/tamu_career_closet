@@ -1,5 +1,6 @@
 module V1
   class ConstantsController < ApplicationController
+    skip_before_action :authorize_request
     before_action :set_constant, only: [:show, :edit, :update, :destroy]
 
     # GET /constants
@@ -64,7 +65,7 @@ module V1
 
     def showConstants
       @listOfConstants=Constant.all
-      render json:@listOfConstants
+      json_response({success: true, data: @listOfConstants},:ok)
     end
 
     def updateConstant
@@ -73,14 +74,13 @@ module V1
       begin
         @constant=Constant.where(key: key).first
         if @constant.update(value:valueOfKey)
-          responseMessage=createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
-          render json:responseMessage
+          json_response({success: true, message:Message.success_response},:ok)
         else
-          render json:createResponseMessage(500,@rental.errors)
+          json_response({success:false, message: @constant.errors},:internal_server_error)
         end
       end
     rescue =>e
-      render json:createResponseMessage(500,e)
+      json_response({success:false, message: e},:internal_server_error)
     end
 
     def createResponseMessage(statusCode,statusMessage)

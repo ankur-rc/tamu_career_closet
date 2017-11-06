@@ -155,14 +155,13 @@ module V1
         @apparel=Apparel.findApparelByApparelId(apparelId)
         @rental=Rental.where("student_id=? and apparel_id=? and actual_return_date IS NULL",@student.uin,@apparel.apparel_id).order("id DESC").first
         if @rental.update(actual_return_date:DateTime.now())
-          responseMessage=createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
-          render json:responseMessage
+          json_response({success:true, message: Message.success_response},:ok)
         else
-          render json:createResponseMessage(500,@rental.errors)
+          json_response({success:false, message: @rental.errors},:internal_server_error)
         end
       end
     rescue =>e
-      render json:createResponseMessage(500,e)
+      json_response({success:false, message: @rental.errors},:internal_server_error)
     end
 
     def sendPendingEmails
@@ -178,11 +177,10 @@ module V1
           expected_return_date=return_pending["expectedReturnDate"]
           PendingMailer.sendPendingMail(student_uin,student_name,student_email,checkout_date,expected_return_date).deliver_now
         end
-        responseMessage=createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
-        render json:responseMessage
+        json_response({success:true, message: Message.success_response},:ok)
       end
     rescue =>e
-      render json:createResponseMessage(500,e)
+      json_response({success:false, message: @rental.errors},:internal_server_error)
     end
 
     def sendOverDueEmails
@@ -199,11 +197,10 @@ module V1
           expected_return_date=overdue_email["expectedReturnDate"]
           PendingMailer.sendOverDueEmails(student_uin,student_name,student_email,checkout_date,expected_return_date).deliver_now
         end
-        responseMessage=createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
-        render json:responseMessage
+        json_response({success:true, message: Message.success_response},:ok)
       end
     rescue =>e
-      render json:createResponseMessage(500,e)
+      json_response({success:false, message: @rental.errors},:internal_server_error)
     end
 
 

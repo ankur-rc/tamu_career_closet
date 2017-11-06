@@ -35,6 +35,10 @@ class Message
       'Assigned succcessfuly'
     end
 
+    def self.success_response
+      'Success'
+    end
+
     def self.created_successfuly(record = 'Record')
       "#{record} created successfuly."
     end
