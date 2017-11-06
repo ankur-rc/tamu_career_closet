@@ -19,13 +19,14 @@ Rails.application.routes.draw do
   # resources :students
 
   root 'students#home'
+  #Login and Registration API
+  post 'auth/login', to: 'authentication#authenticate'
+  post 'signup', to: 'users#create'
   # root 'rentals#index'
   # namespace the controllers without affecting the URI
   scope module: :v1, constraints: ApiVersion.new('v1', true) do
   
-  #Login and Registration API
-  post 'auth/login', to: 'authentication#authenticate'
-  post 'signup', to: 'users#create'
+  
   
   #Rentals API  
   get 'rentals', to: 'rentals#index'
