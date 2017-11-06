@@ -146,6 +146,67 @@ module V1
       end
     end
 
+    def receiveSuits
+      response=Hash.new()
+      begin
+        studentUIN=params[:studentUIN]
+        apparelId=params[:apparelId]
+        @student=Student.findStudentByUIN(studentUIN)
+        @apparel=Apparel.findApparelByApparelId(apparelId)
+        @rental=Rental.where("student_id=? and apparel_id=? and actual_return_date IS NULL",@student.uin,@apparel.apparel_id).order("id DESC").first
+        if @rental.update(actual_return_date:DateTime.now())
+          responseMessage=createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
+          render json:responseMessage
+        else
+          render json:createResponseMessage(500,@rental.errors)
+        end
+      end
+    rescue =>e
+      render json:createResponseMessage(500,e)
+    end
+
+    def sendPendingEmails
+      response=Hash.new()
+      begin
+        pending_returns_view=Rental.joins(:student).where("actual_return_date IS NULL and ?<expected_return_date and DATEDIFF(expected_return_date,?) < 2",DateTime.now,DateTime.now ).select("students.uin as uin, students.first_name as name,students.email as email, rentals.checkout_date as checkoutDate,
+ rentals.expected_return_date as expectedReturnDate,rentals.id as rentalid, students.id as studentid").collect
+        pending_returns_view.each do |return_pending|
+          student_uin=return_pending["uin"]
+          student_name=return_pending["name"]
+          student_email=return_pending["email"]
+          checkout_date=return_pending["checkoutDate"]
+          expected_return_date=return_pending["expectedReturnDate"]
+          PendingMailer.sendPendingMail(student_uin,student_name,student_email,checkout_date,expected_return_date).deliver_now
+        end
+        responseMessage=createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
+        render json:responseMessage
+      end
+    rescue =>e
+      render json:createResponseMessage(500,e)
+    end
+
+    def sendOverDueEmails
+      response=Hash.new()
+      begin
+        overdue_emails_view=Rental.joins(:student).where('expected_return_date<? and actual_return_date IS NULL',DateTime.now)
+                                .select("students.uin as uin, students.first_name as name,students.email as email, rentals.checkout_date as checkoutDate,
+  rentals.expected_return_date as expectedReturnDate,rentals.id as rentalid, students.id as studentid").collect
+        overdue_emails_view.each do |overdue_email|
+          student_uin=overdue_email["uin"]
+          student_name=overdue_email["name"]
+          student_email=overdue_email["email"]
+          checkout_date=overdue_email["checkoutDate"]
+          expected_return_date=overdue_email["expectedReturnDate"]
+          PendingMailer.sendOverDueEmails(student_uin,student_name,student_email,checkout_date,expected_return_date).deliver_now
+        end
+        responseMessage=createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
+        render json:responseMessage
+      end
+    rescue =>e
+      render json:createResponseMessage(500,e)
+    end
+
+
     def self.create_report
       report_data = Rental.to_csv
       report_file = "reports/rental-report-#{Date.today}.csv"

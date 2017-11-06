@@ -62,6 +62,34 @@ module V1
       end
     end
 
+    def showConstants
+      @listOfConstants=Constant.all
+      render json:@listOfConstants
+    end
+
+    def updateConstant
+      key=params[:key]
+      valueOfKey=params[:value]
+      begin
+        @constant=Constant.where(key: key).first
+        if @constant.update(value:valueOfKey)
+          responseMessage=createResponseMessage(200,Response_Message::SUCESS_MESSAGE)
+          render json:responseMessage
+        else
+          render json:createResponseMessage(500,@rental.errors)
+        end
+      end
+    rescue =>e
+      render json:createResponseMessage(500,e)
+    end
+
+    def createResponseMessage(statusCode,statusMessage)
+      response=Hash.new()
+      response["statusCode"]=statusCode
+      response["statusMessage"]=statusMessage
+      return response
+    end
+
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_constant

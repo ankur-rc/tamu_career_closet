@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # match '/rentals/viewActive' => 'rentals#view_active_user', via: :get
   # match '/rentals/viewCheckedOut' => 'rentals#view_checkedOut', via: :get
   # match '/rentals/activeUsersAndCheckedOutApparels' => 'rentals#num_active_users_and_checked_out', via: :get
@@ -15,6 +16,9 @@ Rails.application.routes.draw do
   # resources :apparels
   # resources :students
 
+
+
+
   root 'students#home'
   #Login and Registration API
   post 'auth/login', to: 'authentication#authenticate'
@@ -29,7 +33,12 @@ Rails.application.routes.draw do
     get 'rentals/checkedactive', to: 'rentals#num_active_users_and_checked_out'
     get 'rentals/returns', to: 'rentals#pending_returns'
     get 'rentals/defaulters', to: 'rentals#pending_returnsAndDefaulters'
-    get 'rentals/assign/:studentUIN/:apparelId', to: 'rentals#assignSuits'
+    post 'rentals/assign', to: 'rentals#assignSuits'
+    post "rentals/receiveSuits", to: "rentals#receiveSuits",as: "receiveSuits",:default=>{:format=>'json'}
+    get "sendPendingEmails", to: "rentals#sendPendingEmails",:default=>{:format=>'json'}
+    get "sendOverDueEmails",  to: "rentals#sendOverDueEmails",:default=>{:format=>'json'}
+    get "getConstants", to: "constants#showConstants",:default=>{:format=>'json'}
+    post "updateConstants", to:"constants#updateConstant",:default=>{:format=>'json'}
     get 'rentals/list_reports', to: 'rentals#list_reports'
     get 'rentals/download_report', to: 'rentals#download_report'
     get 'rentals/new_report', to: 'rentals#new_report', defaults: { format: :csv }
