@@ -22,11 +22,6 @@ Rails.application.routes.draw do
   # root 'rentals#index'
   # namespace the controllers without affecting the URI
   scope module: :v1, constraints: ApiVersion.new('v1', true) do
-    resources :constants
-    resources :rentals
-    resources :apparels
-    resources :students 
-  end
   
   #Login and Registration API
   post 'auth/login', to: 'authentication#authenticate'
@@ -60,7 +55,13 @@ Rails.application.routes.draw do
   post 'apparels', to: 'apparels#create'
   put  'apparels/:id', to: 'apparels#update'
   delete  'apparels/:id', to: 'apparels#destroy'
+
+  resources :constants
+  resources :rentals
+  resources :apparels
+  resources :students 
   
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
 
