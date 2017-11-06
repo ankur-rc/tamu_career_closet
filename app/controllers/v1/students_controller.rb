@@ -2,7 +2,7 @@ module V1
   class StudentsController < ApplicationController
     skip_before_action :authorize_request
     before_action :set_student, only: [:show, :edit, :update, :destroy]
-  
+	
     # GET /students
     # GET /students.json
     def index

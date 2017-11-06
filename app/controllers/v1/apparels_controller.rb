@@ -27,12 +27,29 @@ module V1
         json_response({success: true, message: Message.not_found()},:unprocessable_entity)   
       end  
     end
-
+	
+	def bysize_and_stock
+	  if params[:size] != nil and params[:stock] != nil
+	    @apparel = Apparel.view_stock(params[:size],params[:checkedout].to_i)
+	  end
+      if  !(@apparels.empty?())
+        json_response({success: true, data: @apparels},:ok)
+      else
+        json_response({success: true, message: Message.not_found()},:unprocessable_entity)   
+      end  
+	end
+	
     # GET /apparels/1
     # GET /apparels/1.json
     def show
       # @apparel = Apparel.where(apparel_id: params[:id])
-      json_response({success: true, data: @apparel[0]},:ok)
+	  if @apparel.empty?()
+        # msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
+        # render :json => msg
+        json_response({success: false, message: Message.not_found('Apparel record')},:unprocessable_entity)
+	  else
+        json_response({success: true, data: @apparel[0]},:ok)
+	  end
     end
 
     # GET /apparels/new
@@ -42,8 +59,8 @@ module V1
 
     # GET /apparels/1/edit
     def edit
-    end
-
+	end
+	
     # POST /apparels
     # POST /apparels.json
     def create
@@ -66,8 +83,13 @@ module V1
     # PATCH/PUT /apparels/1
     # PATCH/PUT /apparels/1.json
     def update
-      Apparel.update(apparel_params)
-      json_response({success: true, message: Message.updated_successfuly('Apparel record')},:ok)
+	  if @apparel.empty?()
+        # msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
+        # render :json => msg
+        json_response({success: false, message: Message.not_found('Apparel record')},:unprocessable_entity)
+	  else
+        Apparel.update(apparel_params)
+        json_response({success: true, message: Message.updated_successfuly('Apparel record')},:ok)
       # respond_to do |format|
       #   if @apparel.update(apparel_params)
       #     format.html { redirect_to @apparel, notice: 'Apparel was successfully updated.' }
@@ -76,18 +98,27 @@ module V1
       #     format.html { render :edit }
       #     format.json { render json: @apparel.errors, status: :unprocessable_entity }
       #   end
-      # end
+      end
     end
 
     # DELETE /apparels/1
     # DELETE /apparels/1.json
     def destroy
-      Apparel.destroy(@apparel.first.id)
-      json_response({success: true, message: Message.destroyed_successfuly('Apparel record')},:ok)
-      # respond_to do |format|
-      #   format.html { redirect_to apparels_url, notice: 'Apparel was successfully destroyed.' }
-      #   format.json { head :no_content }
-      # end
+	  if @apparel.empty?()
+        # msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
+        # render :json => msg
+        json_response({success: false, message: Message.not_found('Apparel record')},:unprocessable_entity)
+	  else
+        if Apparel.destroy(@apparel.first.id)
+            # msg = { :status => :deleted, :message => "Student was successfully deleted."}
+            # render :json => msg
+            json_response({success: true, message: Message.destroyed_successfuly('Apparel record')},:ok) 
+        else
+            # msg = { :status => :unprocessable_entity, :message => @student.errors}
+            # render :json => msg
+            json_response({success: true, message: @apparel.errors},:ok)
+        end
+      end
     end
 
     def get_sizes  
@@ -98,6 +129,15 @@ module V1
       json_response({success: true, data: json_obj},:ok)
     end
     
+	def get_stock
+      @apparels = Apparel.view_stock(nil,params[:stock])
+	  if  !(@apparels.empty?())
+        json_response({success: true, data: @apparels},:ok)
+      else
+        json_response({success: true, message: Message.not_found()},:unprocessable_entity)   
+      end 
+    end
+  
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_apparel
