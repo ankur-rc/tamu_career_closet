@@ -50,8 +50,8 @@ Rails.application.routes.draw do
   #Apparels API
   get 'apparels', to: 'apparels#index'
   get 'apparels/bysize/:size', to: 'apparels#bysize'
-  get 'apparels(/:id)', to: 'apparels#show'
   get 'apparels/getsizes', to: 'apparels#get_sizes'
+  get 'apparels(/:id)', to: 'apparels#show'
   post 'apparels', to: 'apparels#create'
   put  'apparels/:id', to: 'apparels#update'
   delete  'apparels/:id', to: 'apparels#destroy'

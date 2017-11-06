@@ -11,18 +11,18 @@ module V1
       # else
       #   apparels = Apparel.all
       # end
-      apparels = Apparel.all
+      @apparels = Apparel.all
     # render json:apparels
-      json_response({success: true, data: apparels},:ok)
+      json_response({success: true, data: @apparels},:ok)
     end
 
     def bysize
       if params[:size] != nil
-        apparels = Apparel.where("size in (?)", params[:size])
+        @apparels = Apparel.where("size in (?)", params[:size])
       end
       # render json:apparels
       if  !(@apparels.empty?())
-        json_response({success: true, data: apparels},:ok)
+        json_response({success: true, data: @apparels},:ok)
       else
         json_response({success: true, message: Message.not_found()},:unprocessable_entity)   
       end  
