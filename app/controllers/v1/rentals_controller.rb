@@ -123,7 +123,7 @@ module V1
       @apparel=Apparel.findApparelByApparelId(apparelId)
       @noOfCheckoutDays=Constant.where(:key=>"noOfCheckoutDays").first.value.to_i
       @lastCreatedRentalId=Rental.getLastRentalId
-      @rental=Rental.new( :rental_id=>@lastCreatedRentalId+1,:apparel_id=>@apparel.apparel_id, :checkout_date=>Date.today(), :expected_return_date=>Date.today()+@noOfCheckoutDays,:student_id=>@student.id )
+      @rental=Rental.new( :rental_id=>@lastCreatedRentalId+1,:apparel_id=>@apparel.id, :checkout_date=>Date.today(), :expected_return_date=>Date.today()+@noOfCheckoutDays,:student_id=>@student.id )
       if @rental.save
         json_response({success:true, message: Message.assigned_success},:ok)
         # render json:responseMessage
@@ -144,7 +144,7 @@ module V1
         apparelId=params[:apparelId]
         @student=Student.findStudentByUIN(studentUIN)
         @apparel=Apparel.findApparelByApparelId(apparelId)
-        @rental=Rental.where("student_id=? and apparel_id=? and actual_return_date IS NULL",@student.uin,@apparel.apparel_id).order("id DESC").first
+        @rental=Rental.where("student_id=? and apparel_id=? and actual_return_date IS NULL",@student.uin,@apparel.id).order("id DESC").first
         if @rental.update(actual_return_date:DateTime.now())
           json_response({success:true, message: Message.success_response},:ok)
         else
