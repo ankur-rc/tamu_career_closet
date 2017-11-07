@@ -1,36 +1,35 @@
 require 'rails_helper'
 
-RSpec.describe StudentsController, type: :controller do
+RSpec.describe V1::StudentsController, type: :controller do
   describe "GET #show" do
     it "Returns the correct student details" do
 	  student = FactoryGirl.create(:student, :uin => 100)
-	  get :show, params: { uin: 100 }
+	  get :show, params: { id: 100 }
 	  json = JSON.parse(response.body)
-      expect(json["status"]).to eq("shown")
-	  expect(json["message"]).to eq("Success")
-	  expect(json["studentrecord"][0]["uin"]).to eq(100)	  
+      expect(json["success"]).to eq(true)
+	  expect(json["data"]["uin"]).to eq(100)	  
     end
 	it "Returns the error if UIN not present" do
-	  get :show, params: { uin: 120 }
+	  get :show, params: { id: 120 }
 	  json = JSON.parse(response.body)
-      expect(json["status"]).to eq("unprocessable_entity")
-	  expect(json["message"]).to eq("Record doesn't exist")
+      expect(json["success"]).to eq(false)
+	  expect(json["message"]).to eq("Sorry, Student record not found.")
     end
   end
 
-  describe "GET #destroy" do
+  describe "DELETE #destroy" do
     it "Deletes the correct student details" do
 	  student = FactoryGirl.create(:student, :uin => 100)
-	  get :destroy, params: { uin: 100 }
+	  delete :destroy, params: { id: 100 }
 	  json = JSON.parse(response.body)
-      expect(json["status"]).to eq("deleted")
-	  expect(json["message"]).to eq("Student was successfully deleted.")	  
+      expect(json["success"]).to eq(true)
+	  expect(json["message"]).to eq("Student record destroyed successfuly.")	  
     end
 	it "Returns the error if UIN not present" do
-	  get :destroy, params: { uin: 120 }
+	  delete :destroy, params: { id: 120 }
 	  json = JSON.parse(response.body)
-      expect(json["status"]).to eq("unprocessable_entity")
-	  expect(json["message"]).to eq("Record doesn't exist")
+      expect(json["success"]).to eq(false)
+	  expect(json["message"]).to eq("Sorry, Student record not found.")
     end
   end  
   
@@ -40,8 +39,8 @@ RSpec.describe StudentsController, type: :controller do
 	  jsonrequest={ 'student': student_attr, format: :json }
 	  post :create, params: jsonrequest
 	  json = JSON.parse(response.body)
-      expect(json["status"]).to eq("created")
-	  expect(json["message"]).to eq("Student was successfully created.")	  
+      expect(json["success"]).to eq(true)
+	  expect(json["message"]).to eq("Student record created successfuly.")	  
     end
 	it "Returns saying UIN already exists" do
 	  student = FactoryGirl.create(:student)
@@ -49,29 +48,29 @@ RSpec.describe StudentsController, type: :controller do
 	  jsonrequest={ 'student': student_attr, format: :json }
 	  post :create, params: jsonrequest
 	  json = JSON.parse(response.body)
-      expect(json["status"]).to eq("unprocessable_entity")
-	  expect(json["message"]["uin"][0]).to eq("has already been taken")	  
+      expect(json["success"]).to eq(false)
+	  expect(json["message"]).to eq("Validation failed: Uin has already been taken")	  
     end
   end
   
-  describe "POST #update" do
+  describe "PUT #update" do
     it "Updates the student record" do
-	  student = FactoryGirl.create(:student)
+	  student = FactoryGirl.create(:student, :uin => 17)
 	  student_attr = FactoryGirl.attributes_for :update_student
-	  jsonrequest={ 'student': student_attr, 'uin': 1, format: :json }
-	  post :update, params: jsonrequest
+	  jsonrequest={id: 17, 'student': student_attr, format: :json }
+	  put :update, params: jsonrequest
 	  json = JSON.parse(response.body)
-      expect(json["status"]).to eq("updated")
-	  expect(json["message"]).to eq("Student was successfully updated.")	  
+      expect(json["success"]).to eq(true)
+	  expect(json["message"]).to eq("Student record updated successfuly.")	  
     end
 	it "Return saying that UIN doesn't exist the student record" do
 	  student = FactoryGirl.create(:student, :uin => 17)
 	  student_attr = FactoryGirl.attributes_for :update_student
-	  jsonrequest={ 'student': student_attr, 'uin': 1, format: :json }
-	  post :update, params: jsonrequest
+	  jsonrequest={id: 100, 'student': student_attr, format: :json }
+	  put :update, params: jsonrequest
 	  json = JSON.parse(response.body)
-      expect(json["status"]).to eq("unprocessable_entity")
-	  expect(json["message"]).to eq("Record doesn't exist")	  
+      expect(json["success"]).to eq(false)
+	  expect(json["message"]).to eq("Sorry, Student record not found.")	  
     end
   end  
 end
