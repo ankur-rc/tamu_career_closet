@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module V1
   class RentalsController < ApplicationController
     skip_before_action :authorize_request
@@ -197,23 +199,28 @@ module V1
 
     def self.create_report
       report_data = Rental.to_csv
-      report_file = "reports/rental-report-#{Date.today}.csv"
-      File.open(report_file, "w") { |file| file << report_data }
+
+      tempfile = Tempfile.new("rental-report-#{DateTime.now}.csv")
+      tempfile << report_data
+      tempfile.close
+
+      obj = S3_BUCKET.object("reports/rental-report-#{Date.today}.csv")
+      obj.upload_file(tempfile.path, options = {content_type: 'text/csv'})
+
+      tempfile.unlink
     end
   
     def list_reports
-      @report_files = Dir.glob(
-          'reports/*.csv').select{ |file| File.file? file }.map{
-              |file| File.basename file }
+      report_files = Array.new
+      S3_BUCKET.objects.each do |objectsummary|
+        object = Hash.new
+        object[:filename] = objectsummary.key
+        object[:url] = objectsummary.public_url
 
-      puts @report_files
-      json_response({success: true, data: @report_files},:ok)
-    end
-  
-    def download_report
-      puts params
-      report_name = File.basename(params[:filename])
-      send_file "reports/#{report_name}", type: 'text/csv', disposition: 'attachment'
+        report_files.push(object)
+      end
+
+      json_response({success: true, data: report_files}, :ok)
     end
   
     def new_report

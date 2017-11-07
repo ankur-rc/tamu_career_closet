@@ -37,8 +37,8 @@ Rails.application.routes.draw do
     get "getConstants", to: "constants#showConstants",:default=>{:format=>'json'}
     post "updateConstants", to:"constants#updateConstant",:default=>{:format=>'json'}
     get 'rentals/list_reports', to: 'rentals#list_reports'
-    get 'rentals/download_report', to: 'rentals#download_report'
     get 'rentals/new_report', to: 'rentals#new_report', defaults: { format: :csv }
+    get 'rentals/create_report', to: 'rentals#create_report', defaults: { format: :csv }
     get 'rentals(/:id)', to: 'rentals#show'
     post 'rentals', to: 'rentals#create'
     put 'rentals/:id', to: 'rentals#update'
