@@ -30,7 +30,7 @@ module V1
 	
 	def bysize_and_stock
 	  if params[:size] != nil and params[:stock] != nil
-	    @apparel = Apparel.view_stock(params[:size],params[:checkedout].to_i)
+	    @apparels = Apparel.view_stock(params[:size],params[:stock].to_i)
 	  end
       if  !(@apparels.empty?())
         json_response({success: true, data: @apparels},:ok)
@@ -130,7 +130,7 @@ module V1
     end
     
 	def get_stock
-      @apparels = Apparel.view_stock(nil,params[:stock])
+      @apparels = Apparel.view_stock(nil,params[:stock].to_i)
 	  if  !(@apparels.empty?())
         json_response({success: true, data: @apparels},:ok)
       else

@@ -17,6 +17,16 @@ RSpec.describe V1::StudentsController, type: :controller do
     end
   end
 
+  describe "GET #index" do
+    it "Returns all the student details" do
+	  student = FactoryGirl.create(:student, :uin => 100)
+	  get :index
+	  json = JSON.parse(response.body)
+      expect(json["success"]).to eq(true)
+	  expect(json["data"][0]["uin"]).to eq(100)	  
+    end
+  end
+
   describe "DELETE #destroy" do
     it "Deletes the correct student details" do
 	  student = FactoryGirl.create(:student, :uin => 100)
