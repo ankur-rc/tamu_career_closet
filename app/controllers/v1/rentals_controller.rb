@@ -55,6 +55,12 @@ module V1
       if @rental.empty?()
         json_response({success: false, message: Message.not_found('Rental record')}, :unprocessable_entity)
       else
+        return_date = @rental[0].actual_return_date
+        if return_date.blank?()
+          json_response({success: false, message: Message.existing_association('ID')}, :unprocessable_entity)
+          return
+        end
+
         if Rental.destroy(@rental.first.id)
           json_response({success: true, message: Message.destroyed_successfuly('Rental record')}, :ok)
         else
@@ -199,7 +205,7 @@ module V1
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_rental
-        @rental = Rental.find(params[:id])
+        @rental = Rental.where(id: params[:id])
       end
 
       # Never trust parameters from the scary internet, only allow the white list through.

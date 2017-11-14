@@ -40,7 +40,7 @@ class Message
     end
 
     def self.existing_association(record = 'Record')
-      "#{record} has rental associated with it."
+      "#{record} has unreturned rental associated with it."
     end
 
     def self.created_successfuly(record = 'Record')
