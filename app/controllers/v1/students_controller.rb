@@ -7,23 +7,18 @@ module V1
     # GET /students.json
     def index
       @students = Student.all
-      json_response({success: true, data: @students},:ok)
+      json_response({success: true, data: @students}, :ok)
     end
 
     # GET /students/1
     # GET /students/1.json
     def show
       if @student.empty?()
-        # msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
-        # render :json => msg
-        json_response({success: false, message: Message.not_found('Student record')},:unprocessable_entity)
+        json_response({success: false, message: Message.not_found('Student record')}, :unprocessable_entity)
       else
-        # msg = { :status => :shown, :message => "Success", :studentrecord => @student}
-        # render :json => msg
-        json_response({success: true, data: @student[0]},:ok)
+        json_response({success: true, data: @student[0]}, :ok)
       end
     end
-    
 
     # GET /students/new
     def new
@@ -34,42 +29,21 @@ module V1
     def edit
     end
 
-    def home
-    end
-
-    
     # POST /students
     # POST /students.json
     def create
       Student.create!(student_params)
-      json_response({success: true, message: Message.created_successfuly('Student record')},:created)  
-      # @student = Student.new(student_params)
-      # if @student.save
-      #   # msg = { :status => :created, :message => "Student was successfully created."}
-      #   # render :json => msg
-      # else
-      #   # msg = { :status => :unprocessable_entity, :message => @student.errors}
-      #   # render :json => msg
-      # end
+      json_response({success: true, message: Message.created_successfuly('Student record')}, :created)
     end
 
     # PATCH/PUT /students/1
     # PATCH/PUT /students/1.json
     def update
       if @student.empty?()
-        # msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
-        # render :json => msg
-        json_response({success: false, message: Message.not_found('Student record')},:unprocessable_entity)
+        json_response({success: false, message: Message.not_found('Student record')}, :unprocessable_entity)
       else
-        # if @student.update(student_params)
-        #   msg = { :status => :updated, :message => "Student was successfully updated."}
-        #   render :json => msg
-        # else
-        #   msg = { :status => :unprocessable_entity, :message => @student.errors}
-        #   render :json => msg
-        # end
-        Student.update(student_params)
-        json_response({success: true, message: Message.updated_successfuly('Student record')},:ok)
+        @student.update(student_params)
+        json_response({success: true, message: Message.updated_successfuly('Student record')}, :ok)
       end
     end
 
@@ -77,18 +51,12 @@ module V1
     # DELETE /students/1.json
     def destroy
       if @student.empty?()
-        # msg = { :status => :unprocessable_entity, :message => "Record doesn't exist"}
-        # render :json => msg
-        json_response({success: false, message: Message.not_found('Student record')},:unprocessable_entity)
+        json_response({success: false, message: Message.not_found('Student record')}, :unprocessable_entity)
       else
         if Student.destroy(@student.first.id)
-            # msg = { :status => :deleted, :message => "Student was successfully deleted."}
-            # render :json => msg
-            json_response({success: true, message: Message.destroyed_successfuly('Student record')},:ok) 
+          json_response({success: true, message: Message.destroyed_successfuly('Student record')}, :ok)
         else
-            # msg = { :status => :unprocessable_entity, :message => @student.errors}
-            # render :json => msg
-            json_response({success: true, message: @student.errors},:ok)
+          json_response({success: true, message: @student.errors}, :ok)
         end
       end
     end

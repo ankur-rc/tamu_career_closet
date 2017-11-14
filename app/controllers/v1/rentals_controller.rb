@@ -15,8 +15,11 @@ module V1
     # GET /rentals/1
     # GET /rentals/1.json
     def show
-      @rental = Rental.find(params[:id])
-      json_response({success: true, data: @rental}, :ok)
+      if @rental.empty?()
+        json_response({success: false, message: Message.not_found('Rental record')}, :unprocessable_entity)
+      else
+        json_response({success: true, data: @rental[0]}, :ok)
+      end
     end
 
     # GET /rentals/new
@@ -38,15 +41,26 @@ module V1
     # PATCH/PUT /rentals/1
     # PATCH/PUT /rentals/1.json
     def update
-      Rental.update(rental_params)
-      json_response({success: true, message: Message.updated_successfuly('Rental record')}, :ok)
+      if @rental.empty?()
+        json_response({success: false, message: Message.not_found('Rental record')}, :unprocessable_entity)
+      else
+        @rental.update(rental_params)
+        json_response({success: true, message: Message.updated_successfuly('Rental record')}, :ok)
+      end
     end
 
     # DELETE /rentals/1
     # DELETE /rentals/1.json
     def destroy
-      Rental.destroy(@rental.first.id)
-      json_response({success: true, message: Message.destroyed_successfuly('Rental record')}, :ok)
+      if @rental.empty?()
+        json_response({success: false, message: Message.not_found('Rental record')}, :unprocessable_entity)
+      else
+        if Rental.destroy(@rental.first.id)
+          json_response({success: true, message: Message.destroyed_successfuly('Rental record')}, :ok)
+        else
+          json_response({success: true, message: @rental.errors}, :ok)
+        end
+      end
     end
 
     def view_active_user

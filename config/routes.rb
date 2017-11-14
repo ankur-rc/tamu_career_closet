@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # namespace the controllers without affecting the URI
   scope module: :v1, constraints: ApiVersion.new('v1', true) do
-    root 'students#home'
+    root 'rentals#index'
 
     # Login and Registration API
     post 'auth/login', to: 'authentication#authenticate'
