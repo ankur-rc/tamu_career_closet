@@ -83,7 +83,7 @@ module V1
       response = Hash.new()
       response["pendingreturns"] = Rental.where(actual_return_date: nil).count
       response["defaulters"] = Rental.where(
-          'expected_return_date < ? and actual_return_date IS NULL', DateTime.now).count()
+          'expected_return_date < ? and actual_return_date IS NULL', Date.today).count()
 
       json_response({success: true, data: response} , :ok)
     end
@@ -106,8 +106,8 @@ module V1
       student = Student.by_uin(params[:uin])
       apparel = Apparel.by_apparel_id(params[:apparel_id])
       checkout_days = Constant.where(key: :noOfCheckoutDays).first.value.to_i
-      @rental = Rental.new(apparel_id: apparel.id, checkout_date: Date.today(),
-          expected_return_date: Date.today() + checkout_days, student_id: student.id)
+      @rental = Rental.new(apparel_id: apparel.id, checkout_date: DateTime.now,
+          expected_return_date: Date.today + checkout_days, student_id: student.id)
 
       if @rental.save
         json_response({success:true, message: Message.assigned_success}, :ok)
@@ -117,13 +117,12 @@ module V1
     end
 
     def return_suit
-      response = Hash.new()
       student = Student.by_uin(params[:uin])
       apparel = Apparel.by_apparel_id(params[:apparel_id])
       @rental = Rental.where("student_id=? and apparel_id=? and actual_return_date IS NULL",
             student.uin, apparel.id).order("id DESC").first
 
-      if @rental.update(actual_return_date: DateTime.now())
+      if @rental.update(actual_return_date: DateTime.now
         json_response({success:true, message: Message.success_response}, :ok)
       else
         json_response({success:false, message: @rental.errors}, :internal_server_error)
@@ -131,37 +130,32 @@ module V1
     end
 
     def send_pending_emails
-      response = Hash.new()
-      pending_returns_view = Rental.joins(:student).where("actual_return_date IS NULL and ?
-          < expected_return_date and DATEDIFF(expected_return_date,?) < 2",
-          DateTime.now, DateTime.now).select(
-              "students.uin as uin, students.first_name as name,students.email as email,
-              rentals.checkout_date as checkoutDate,
-              rentals.expected_return_date as expectedReturnDate,
-              rentals.id as rentalid, students.id as studentid").collect
+      pending_returns = Rental.joins(:student).where("actual_return_date IS NULL and
+          ? < expected_return_date and DATEDIFF(expected_return_date, ?) < 2",
+          Date.today, Date.today).select("students.uin as uin, students.first_name as name,
+              students.email as email, rentals.checkout_date as checkout_date,
+              rentals.expected_return_date as expected_return_date").collect
 
-      pending_returns_view.each do |return_pending|
-        PendingMailer.send_pending(return_pending["uin"], return_pending["name"],
-            return_pending["email"], return_pending["checkoutDate"],
-            return_pending["expectedReturnDate"]).deliver_now
+      pending_returns.each do |pending_return|
+        PendingMailer.send_pending(pending_return["uin"], pending_return["name"],
+            pending_return["email"], pending_return["checkout_date"],
+            pending_return["expected_return_date"]).deliver_now
       end
 
       json_response({success:true, message: Message.success_response}, :ok)
     end
 
     def send_overdue_emails
-      response = Hash.new()
-      overdue_emails_view=Rental.joins(:student).where('expected_return_date<? and
-          actual_return_date IS NULL',DateTime.now).select(
-              "students.uin as uin, students.first_name as name,students.email as email,
-              rentals.checkout_date as checkoutDate,
-              rentals.expected_return_date as expectedReturnDate,
+      overdue_returns = Rental.joins(:student).where('expected_return_date < ? and
+          actual_return_date IS NULL', Date.today).select("students.uin as uin,
+              students.first_name as name, students.email as email, rentals.checkout_date as checkout_date,
+              rentals.expected_return_date as expected_return_date,
               rentals.id as rentalid, students.id as studentid").collect
 
-      overdue_emails_view.each do |overdue_email|
-        PendingMailer.send_overdue(overdue_email["uin"], overdue_email["name"],
-            overdue_email["email"], overdue_email["checkoutDate"],
-            overdue_email["expectedReturnDate"]).deliver_now
+      overdue_returns.each do |overdue_return|
+        PendingMailer.send_overdue(overdue_return["uin"], overdue_return["name"],
+            overdue_return["email"], overdue_return["checkout_date"],
+            overdue_return["expected_return_date"]).deliver_now
       end
 
       json_response({success:true, message: Message.success_response}, :ok)
