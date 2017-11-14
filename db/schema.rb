@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023032449) do
+ActiveRecord::Schema.define(version: 20171114004623) do
 
   create_table "apparels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "apparel_id"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(version: 20171023032449) do
   end
 
   create_table "rentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "rental_id"
     t.bigint "apparel_id"
     t.datetime "checkout_date"
     t.datetime "expected_return_date"
@@ -58,9 +57,9 @@ ActiveRecord::Schema.define(version: 20171023032449) do
     t.string "name"
     t.string "email"
     t.string "password_digest"
-    t.string "role", default: "admin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role", default: "admin"
   end
 
   add_foreign_key "rentals", "apparels", on_update: :cascade, on_delete: :cascade

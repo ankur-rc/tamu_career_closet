@@ -63,24 +63,18 @@ module V1
       end
     end
 
-    def showConstants
-      @listOfConstants=Constant.all
-      json_response({success: true, data: @listOfConstants},:ok)
+    def show_constants
+      constants = Constant.all
+      json_response({success: true, data: constants}, :ok)
     end
 
-    def updateConstant
-      key=params[:key]
-      valueOfKey=params[:value]
-      begin
-        @constant=Constant.where(key: key).first
-        if @constant.update(value:valueOfKey)
-          json_response({success: true, message:Message.success_response},:ok)
-        else
-          json_response({success:false, message: @constant.errors},:internal_server_error)
-        end
+    def update_constant
+      @constant = Constant.where(key: params[:key]).first
+      if @constant.update(value: params[:value])
+        json_response({success: true, message: Message.success_response}, :ok)
+      else
+        json_response({success:false, message: @constant.errors}, :internal_server_error)
       end
-    rescue =>e
-      json_response({success:false, message: e},:internal_server_error)
     end
 
     def createResponseMessage(statusCode,statusMessage)

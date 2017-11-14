@@ -1,6 +1,6 @@
 class Constant < ApplicationRecord
 
- def self.findValue(keyValue)
-    return Constant.where(:key=>keyValue).first.value
+  def self.find_value(key)
+    Constant.where(key: key).first.value
   end
 end
