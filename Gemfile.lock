@@ -44,10 +44,6 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    angular-rails-templates (1.0.2)
-      railties (>= 4.2, < 6)
-      sprockets (>= 3.0, < 5)
-      tilt
     arel (8.0.0)
     aws-partitions (1.34.0)
     aws-sdk (3.0.1)
@@ -486,7 +482,6 @@ GEM
     aws-sigv4 (1.0.2)
     bcrypt (3.1.11)
     bindex (0.5.0)
-    bower-rails (0.11.0)
     builder (3.2.3)
     byebug (9.1.0)
     capybara (2.16.0)
@@ -676,10 +671,8 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
-  angular-rails-templates
   aws-sdk
   bcrypt (~> 3.1.7)
-  bower-rails
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
