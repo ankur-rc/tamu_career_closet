@@ -53,6 +53,12 @@ module V1
       if @student.empty?()
         json_response({success: false, message: Message.not_found('Student record')}, :unprocessable_entity)
       else
+        student_rental = Student.active_users.where(uin: params[:id])
+        if !(student_rental.empty?())
+          json_response({success: false, message: Message.existing_association('Student')}, :unprocessable_entity)
+          return
+        end
+
         if Student.destroy(@student.first.id)
           json_response({success: true, message: Message.destroyed_successfuly('Student record')}, :ok)
         else

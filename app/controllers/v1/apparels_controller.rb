@@ -76,6 +76,12 @@ module V1
       if @apparel.empty?()
         json_response({success: false, message: Message.not_found('Apparel record')}, :unprocessable_entity)
       else
+        apparel_rental = Apparel.view_stock.where(apparel_id: params[:id])
+        if !(apparel_rental.empty?())
+          json_response({success: false, message: Message.existing_association('Apparel')}, :unprocessable_entity)
+          return
+        end
+
         if Apparel.destroy(@apparel.first.id)
           json_response({success: true, message: Message.destroyed_successfuly('Apparel record')}, :ok)
         else

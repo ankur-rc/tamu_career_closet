@@ -39,6 +39,10 @@ class Message
       'Success'
     end
 
+    def self.existing_association(record = 'Record')
+      "#{record} has rental associated with it."
+    end
+
     def self.created_successfuly(record = 'Record')
       "#{record} created successfuly."
     end
@@ -50,6 +54,4 @@ class Message
     def self.destroyed_successfuly(record = 'Record')
       "#{record} destroyed successfuly."
     end
-
-    
 end
