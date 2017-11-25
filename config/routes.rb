@@ -34,8 +34,8 @@ Rails.application.routes.draw do
     
     # Apparels API
     get 'apparels', to: 'apparels#index'
-    get 'apparels/bysize/:size', to: 'apparels#bysize'
-    get 'apparels/bysizeandstock/:size/:stock', to: 'apparels#bysize_and_stock'
+    get 'apparels/bysize', to: 'apparels#bysize'
+    get 'apparels/bysizeandstock', to: 'apparels#bysize_and_stock'
     get 'apparels/getcheckedoutstock', to: 'apparels#get_stock', :defaults => { :stock => 1 }
     get 'apparels/getavailablestock', to: 'apparels#get_stock', :defaults => { :stock => 0 }
     get 'apparels/getsizes', to: 'apparels#get_sizes'

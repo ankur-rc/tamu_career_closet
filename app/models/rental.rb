@@ -41,4 +41,13 @@ class Rental < ApplicationRecord
       end
     end
   end
+
+  def self.determine_ApparelCheckedOut(apparelId)
+	countOfCheckedOut=Apparel.joins(:rentals).where("rentals.actual_return_date is NULL and apparels.apparel_id=?",apparelId).count
+	if countOfCheckedOut>0
+           return true
+        else
+	   return false
+	end
+  end
 end
