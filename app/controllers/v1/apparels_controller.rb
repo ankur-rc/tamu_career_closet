@@ -100,7 +100,7 @@ module V1
     
     def get_stock
       @apparels = Apparel.view_stock(nil, params[:stock].to_i)
-      if !(@apparels.empty?())
+        if !(@apparels.empty?())
           json_response({success: true, data: @apparels}, :ok)
         else
           json_response({success: true, message: Message.not_found()}, :unprocessable_entity)

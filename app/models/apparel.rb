@@ -14,7 +14,7 @@ class Apparel < ApplicationRecord
 
   def self.view_stock(size = nil, stock = 1)
     apparel_join_rental = Apparel.left_outer_joins(:rentals).select("
-        apparels.apparel_id as apparelId, apparels.article as article,
+        apparels.apparel_id as apparel_id, apparels.article as article,
         apparels.sex as sex, apparels.size as size")
     if size == nil
       if stock == 1
