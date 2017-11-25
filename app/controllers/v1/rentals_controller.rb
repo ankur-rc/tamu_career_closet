@@ -104,26 +104,25 @@ module V1
 
     def assign_suit
       begin
-      student = Student.by_uin(params[:uin])
-      apparel = Apparel.by_apparel_id(params[:apparel_id])
-      checkout_days = Constant.where(key: :noOfCheckoutDays).first.value.to_i
-      checkedOut=Rental.determine_ApparelCheckedOut(apparel.apparel_id)
-      if checkedOut==true
-      	json_response({success:true, message:"Apparel already checked out"}, :ok)
-      else
-      	@rental = Rental.new(apparel_id: apparel.id, checkout_date: DateTime.now,
-          expected_return_date: Date.today + checkout_days, student_id: student.id)
+        student = Student.by_uin(params[:uin])
+        apparel = Apparel.by_apparel_id(params[:apparel_id])
+        checkout_days = Constant.where(key: :noOfCheckoutDays).first.value.to_i
+        checkedOut=Rental.determine_ApparelCheckedOut(apparel.apparel_id)
+       if checkedOut==true
+      	  json_response({success:true, message:"Apparel already checked out"}, :ok)
+        else
+      	  @rental = Rental.new(apparel_id: apparel.id, checkout_date: DateTime.now,
+            expected_return_date: Date.today + checkout_days, student_id: student.id)
 
-      	if @rental.save
-        json_response({success:true, message: Message.assigned_success}, :ok)
-      	else
-        json_response({success:false, message: @rental.errors}, :internal_server_error)
-      	end
-      end
-      end
+      	  if @rental.save
+          json_response({success:true, message: Message.assigned_success}, :ok)
+      	  else
+          json_response({success:false, message: @rental.errors}, :internal_server_error)
+      	  end
+        end
+       end
       rescue =>e
-	json_response({success:false, message: e},:internal_server_error)
-      end
+	      json_response({success:false, message: e},:internal_server_error)
     end
 
     def return_suit
@@ -140,10 +139,9 @@ module V1
       else
         json_response({success:false, message: @rental.errors}, :internal_server_error)
       end
-      end
+      end  
       rescue =>e
-	json_response({success:false, message: e},:internal_server_error)
-      end
+	    json_response({success:false, message: e},:internal_server_error)
     end
 
 
