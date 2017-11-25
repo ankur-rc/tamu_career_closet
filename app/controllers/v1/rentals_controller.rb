@@ -130,14 +130,15 @@ module V1
       student = Student.by_uin(params[:uin])
       apparel = Apparel.by_apparel_id(params[:apparel_id])
       @rental = Rental.where("student_id=? and apparel_id=? and actual_return_date IS NULL",
-            student.uin, apparel.id).order("id DESC").first
-      if @rental==nill
+            student.id, apparel.id).order("id DESC").first
+      if @rental==nil
          json_response({success:false, message:"Suit was never assigned"},:internal_server_error)
-      end
+      else
       if @rental.update(actual_return_date: DateTime.now)
         	json_response({success:true, message: Message.success_response}, :ok)
       else
         json_response({success:false, message: @rental.errors}, :internal_server_error)
+      end
       end
       end  
       rescue =>e
