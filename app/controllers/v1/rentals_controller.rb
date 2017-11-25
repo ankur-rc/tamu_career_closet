@@ -102,33 +102,47 @@ module V1
       json_response({success: true, data: pending_returns_count}, :ok)
     end
 
-    def assign_suit
-      student = Student.by_uin(params[:student_id])
-      apparel = Apparel.by_apparel_id(params[:apparel_id])
-      checkout_days = Constant.where(key: :noOfCheckoutDays).first.value.to_i
-      @rental = Rental.new(apparel_id: apparel.id, checkout_date: DateTime.now,
-          expected_return_date: Date.today + checkout_days, student_id: student.id)
-
-      if @rental.save
-        json_response({success:true, message: Message.assigned_success}, :ok)
-      else
-        json_response({success:false, message: @rental.errors}, :internal_server_error)
+  def assign_suit
+      begin
+        student = Student.by_uin(params[:uin])
+        apparel = Apparel.by_apparel_id(params[:apparel_id])
+        checkout_days = Constant.where(key: :noOfCheckoutDays).first.value.to_i
+        checkedOut=Rental.determine_ApparelCheckedOut(apparel.apparel_id)
+       if checkedOut==true
+      	  json_response({success:true, message:"Apparel already checked out"}, :ok)
+       else
+      	  @rental = Rental.new(apparel_id: apparel.id, checkout_date: DateTime.now,
+            expected_return_date: Date.today + checkout_days, student_id: student.id)
+      	  if @rental.save
+            json_response({success:true, message: Message.assigned_success}, :ok)
+      	  else
+            json_response({success:false, message: @rental.errors}, :internal_server_error)
+      	  end
+       end
       end
-    end
+      rescue =>e
+	      json_response({success:false, message: e},:internal_server_error)
+  end
 
-    def return_suit
-      student = Student.by_uin(params[:student_id])
+  def return_suit
+    begin
+      student = Student.by_uin(params[:uin])
       apparel = Apparel.by_apparel_id(params[:apparel_id])
       @rental = Rental.where("student_id=? and apparel_id=? and actual_return_date IS NULL",
             student.id, apparel.id).order("id DESC").first
-      if @rental != nil
+      if @rental==nil
+         json_response({success:false, message:"Suit was never assigned"},:internal_server_error)
+      else
         if @rental.update(actual_return_date: DateTime.now)
           json_response({success:true, message: Message.success_response}, :ok)
-        else
+        else 
           json_response({success:false, message: @rental.errors}, :internal_server_error)
         end
-      end  
+      end    
+      rescue =>e
+	    json_response({success:false, message: e},:internal_server_error)
     end
+  end  
 
     def getstudent
       apparel = Apparel.by_apparel_id(params[:apparel_id])
@@ -139,7 +153,7 @@ module V1
         student = Student.where(:id => @rental["student_id"])
         json_response({success: true, data: student}, :ok)
       end
-    end
+    end  
 
     def send_pending_emails
       pending_returns = Rental.joins(:student).where("actual_return_date IS NULL and
