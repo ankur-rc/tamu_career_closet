@@ -14,10 +14,7 @@ Rails.application.routes.draw do
     get 'rentals/checkedactive', to: 'rentals#num_active_users_and_checked_out'
     get 'rentals/returns', to: 'rentals#pending_returns'
     get 'rentals/defaulters', to: 'rentals#pending_returns_and_defaulters'
-<<<<<<< HEAD
     ####################
-=======
->>>>>>> 29191f86aac00393e01183407d20b52fa65008d1
     get 'rentals/sendpendingemails', to: 'rentals#send_pending_emails'
     get 'rentals/sendoverdueemails',  to: 'rentals#send_overdue_emails'
     get 'rentals/listreports', to: 'rentals#list_reports'
@@ -42,14 +39,9 @@ Rails.application.routes.draw do
     
     # Apparels API
     get 'apparels', to: 'apparels#index'
-<<<<<<< HEAD
     ###################
     get 'apparels/bysize/:size', to: 'apparels#bysize'
     get 'apparels/bysizeandstock/:size/:stock', to: 'apparels#bysize_and_stock'
-=======
-    get 'apparels/bysize', to: 'apparels#bysize'
-    get 'apparels/bysizeandstock', to: 'apparels#bysize_and_stock'
->>>>>>> 29191f86aac00393e01183407d20b52fa65008d1
     get 'apparels/getcheckedoutstock', to: 'apparels#get_stock', :defaults => { :stock => 1 }
     get 'apparels/getavailablestock', to: 'apparels#get_stock', :defaults => { :stock => 0 }
     get 'apparels/getsizes', to: 'apparels#get_sizes'
