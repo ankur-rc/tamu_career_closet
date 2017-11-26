@@ -13,24 +13,18 @@ class Apparel < ApplicationRecord
   end
 
   def self.view_stock(size = nil, stock = 1)
-    apparel_join_rental = Apparel.left_outer_joins(:rentals).select("
-        apparels.apparel_id as apparel_id, apparels.article as article,
-        apparels.sex as sex, apparels.size as size")
+    checkedoutApparel = Rental.select("apparel_id").where("actual_return_date is NULL")
     if size == nil
       if stock == 1
-        checked_out = apparel_join_rental.where("rentals.actual_return_date is NULL AND
-            rentals.checkout_date is NOT NULL")
+        checked_out = Apparel.select("apparel_id,sex,article,size").where("id in (?)",checkedoutApparel)
       else
-        checked_out = apparel_join_rental.where("rentals.actual_return_date is NOT NULL OR
-            rentals.checkout_date is NULL")
+        checked_out = Apparel.select("apparel_id,sex,article,size").where("id not in (?)",checkedoutApparel)
       end
     else
       if stock == 1
-        checked_out = apparel_join_rental.where("apparels.size in (?) AND
-            rentals.actual_return_date is NULL AND rentals.checkout_date is NOT NULL", size)
+        checked_out = Apparel.select("apparel_id,sex,article,size").where("id in (?) and apparels.size in (?)",checkedoutApparel,size)
       else
-        checked_out = apparel_join_rental.where("apparels.size in (?) AND
-            (rentals.actual_return_date is NOT NULL OR rentals.checkout_date is NULL)", size)
+        checked_out = Apparel.select("apparel_id,sex,article,size").where("id not in (?) and apparels.size in (?)",checkedoutApparel,size)
       end
     end
 

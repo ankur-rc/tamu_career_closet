@@ -16,10 +16,10 @@ class Student < ApplicationRecord
   end
 
   def self.active_users
-    active_users = Student.joins(:rentals).select("
-        students.uin as uin, students.first_name as name, students.email as email,
-        students.phone as phone").where("rentals.actual_return_date is NULL AND
-            rentals.checkout_date is NOT NULL").group("uin")
+    active_id = Rental.select("student_id").where("actual_return_date is NULL")
+    active_users = Student.select("
+        uin, first_name as name, email,
+        phone").where("id in (?)",active_id)
   end
 
 end
