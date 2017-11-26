@@ -29,8 +29,6 @@ Rental.create(apparel_id: 2, checkout_date: '2017-10-10', expected_return_date: 
 Rental.create(apparel_id: 6, checkout_date: '2017-10-10', expected_return_date: '2017-10-17', actual_return_date: '2017-10-19', student_id:7)
 Rental.create(apparel_id: 3, checkout_date: '2017-10-10', expected_return_date: '2017-10-17', student_id:4)
 Rental.create(apparel_id: 5, checkout_date: '2017-10-10', expected_return_date: '2017-10-17', student_id:6)
-Rental.create(apparel_id: 5, checkout_date: '2017-11-02', expected_return_date: '2017-11-09', student_id:6)
-Rental.create(apparel_id: 5, checkout_date: '2017-10-28', expected_return_date: '2017-11-03', student_id:6)
 Constant.create(key:"noOfCheckoutDays", value:"7")
 Constant.create(key:"pendingMailText", value:" This is a reminder to send your suits back to career closet after drycleaning it")
 Constant.create(key:"overDueMailText", value:"This is a reminder to send back your suits to career closet else an registration hold will be put on the record")
