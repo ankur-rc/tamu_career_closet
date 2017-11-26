@@ -107,8 +107,8 @@ module V1
         student = Student.by_uin(params[:uin])
         apparel = Apparel.by_apparel_id(params[:apparel_id])
         checkout_days = Constant.where(key: :noOfCheckoutDays).first.value.to_i
-        checkedOut=Rental.determine_ApparelCheckedOut(apparel.apparel_id)
-       if checkedOut==true
+        checkedOut = Rental.determine_ApparelCheckedOut(apparel.apparel_id)
+       if checkedOut == true
       	  json_response({success:true, message:"Apparel already checked out"}, :ok)
        else
       	  @rental = Rental.new(apparel_id: apparel.id, checkout_date: DateTime.now,
@@ -144,7 +144,7 @@ module V1
     end
   end  
 
-    def getstudent
+   def getstudent
       apparel = Apparel.by_apparel_id(params[:apparel_id])
       @rental = Rental.where("apparel_id=? and actual_return_date IS NULL",apparel.id).order("id DESC").first
       if @rental == nil
@@ -153,7 +153,7 @@ module V1
         student = Student.where(:id => @rental["student_id"])
         json_response({success: true, data: student}, :ok)
       end
-    end  
+   end  
 
     def send_pending_emails
       pending_returns = Rental.joins(:student).where("actual_return_date IS NULL and
