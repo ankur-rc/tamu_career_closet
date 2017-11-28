@@ -35,6 +35,15 @@ RSpec.describe V1::StudentsController, type: :controller do
       expect(json["success"]).to eq(true)
 	  expect(json["message"]).to eq("Student record destroyed successfuly.")	  
     end
+    it "Returns error saying that the student has an apparel checked out" do
+    apparel = FactoryGirl.create(:apparel, id: 1)
+    student = FactoryGirl.create(:student, uin: 100, id: 100)
+    rental = FactoryGirl.create(:rental, id: 1, apparel_id: 1, student_id: 100)
+    delete :destroy, params: { id: student.uin }
+    json = JSON.parse(response.body)
+      expect(json["success"]).to eq(false)
+      expect(json["message"]).to eq("Student has unreturned rental associated with it.")    
+    end
 	it "Returns the error if UIN not present" do
 	  delete :destroy, params: { id: 120 }
 	  json = JSON.parse(response.body)

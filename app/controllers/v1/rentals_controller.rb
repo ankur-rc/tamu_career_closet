@@ -109,7 +109,7 @@ module V1
         checkout_days = Constant.where(key: :noOfCheckoutDays).first.value.to_i
         checkedOut = Rental.determine_ApparelCheckedOut(apparel.apparel_id)
        if checkedOut == true
-      	  json_response({success:true, message:"Apparel already checked out"}, :ok)
+      	  json_response({success:false, message:"Apparel already checked out"}, :internal_server_error)
        else
       	  @rental = Rental.new(apparel_id: apparel.id, checkout_date: DateTime.now,
             expected_return_date: Date.today + checkout_days, student_id: student.id)

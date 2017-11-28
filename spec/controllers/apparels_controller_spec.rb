@@ -69,7 +69,7 @@ describe "GET #bysize_and_stock" do
           get :bysize_and_stock, params: { stock: 0, size: ["M"]}
 	  json = JSON.parse(response.body)
       	  expect(json["success"]).to eq(true)
-	  expect(json["data"][0]["apparelId"]).to eq("2A")  
+	  expect(json["data"][0]["apparel_id"]).to eq("2A")  
     end
     it "Returns the correct apparel details filtered by size and checked out stock" do
           apparel = FactoryGirl.create(:apparel, :apparel_id => "1A")
@@ -78,7 +78,7 @@ describe "GET #bysize_and_stock" do
 	  get :bysize_and_stock, params: { stock: 1, size: ["L"] }
 	  json = JSON.parse(response.body)
       	  expect(json["success"]).to eq(true)
-	  expect(json["data"][0]["apparelId"]).to eq("1A")	  
+	  expect(json["data"][0]["apparel_id"]).to eq("1A")	  
     end
     it "Returns the error if size not present" do
           apparel = FactoryGirl.create(:apparel, :apparel_id => "1A")
@@ -102,14 +102,14 @@ describe "GET #bysize_and_stock" do
           get :get_stock, params: { stock: 0 }
 	  json = JSON.parse(response.body)
       	  expect(json["success"]).to eq(true)
-	  expect(json["data"][0]["apparelId"]).to eq("2A")	  
+	  expect(json["data"][0]["apparel_id"]).to eq("2A")	  
     end
     it "Returns error saying that no available stock" do
 	  apparel = FactoryGirl.create(:apparel, :apparel_id => "1A")
           apparel2 = FactoryGirl.create(:apparel2, :apparel_id => "2A")
           student = FactoryGirl.create(:student, :uin => 100)
-          rental = FactoryGirl.create(:rental, :rental_id => 2, :student_id => student.id, :apparel_id => apparel.id)
-          rental = FactoryGirl.create(:rental, :rental_id => 3, :student_id => student.id, :apparel_id => apparel2.id)
+          rental = FactoryGirl.create(:rental, :student_id => student.id, :apparel_id => apparel.id)
+          rental = FactoryGirl.create(:rental, :student_id => student.id, :apparel_id => apparel2.id)
           get :get_stock, params: { stock: 0 }
 	  json = JSON.parse(response.body)
       	  expect(json["success"]).to eq(true)
@@ -122,7 +122,7 @@ describe "GET #bysize_and_stock" do
           get :get_stock, params: { stock: 1 }
 	  json = JSON.parse(response.body)
       	  expect(json["success"]).to eq(true)
-	  expect(json["data"][0]["apparelId"]).to eq("1A")
+	  expect(json["data"][0]["apparel_id"]).to eq("1A")
     end
     it "Returns error saying that no checked out stock" do
 	  apparel = FactoryGirl.create(:apparel, :apparel_id => "1A")
@@ -143,6 +143,15 @@ describe "GET #bysize_and_stock" do
 	  json = JSON.parse(response.body)
       expect(json["success"]).to eq(true)
 	  expect(json["message"]).to eq("Apparel record destroyed successfuly.")	  
+    end
+    it "Returns error saying that the apparel is checked out" do
+    apparel = FactoryGirl.create(:apparel, id: 1)
+    student = FactoryGirl.create(:student, uin: 100, id: 100)
+    rental = FactoryGirl.create(:rental, id: 1, apparel_id: 1, student_id: 100)
+    delete :destroy, params: { id: apparel.apparel_id }
+    json = JSON.parse(response.body)
+      expect(json["success"]).to eq(false)
+      expect(json["message"]).to eq("Apparel has unreturned rental associated with it.")    
     end
 	it "Returns the error if apparel ID not present" do
 	  delete :destroy, params: { id: "2A" }
