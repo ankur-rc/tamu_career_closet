@@ -18,6 +18,24 @@ RSpec.describe V1::RentalsController, type: :controller do
     end
   end
 
+  describe "GET #index" do
+    it "Returns all the rental details" do
+    apparel = FactoryGirl.create(:apparel, id: 1)
+    student = FactoryGirl.create(:student, uin: 100, id: 100)
+    rental = FactoryGirl.create(:rental, id: 1, apparel_id: 1, student_id: 100)
+    get :index
+    json = JSON.parse(response.body)
+      expect(json["success"]).to eq(true)
+    expect(json["data"][0]["id"]).to eq(1)    
+    end
+  end
+
+  describe "GET #new" do
+    it "Create new rental object" do
+    post :new, params: {format: :json }
+    end
+  end
+
   describe "DELETE #destroy" do
     it "Returns error saying that the rental is not yet closed" do
     apparel = FactoryGirl.create(:apparel, id: 1)
@@ -39,10 +57,11 @@ RSpec.describe V1::RentalsController, type: :controller do
       expect(json["success"]).to eq(true)
       expect(json["message"]).to eq("Rental record destroyed successfuly.")    
     end
-  it "Returns the empty data if rental is not present" do
-    get :show, params: { id: 100 }
+  it "Returns the error if rental is not present" do
+    delete :destroy, params: { id: 100 }
     json = JSON.parse(response.body)
-      expect(json["data"]).to eq(nil)
+    expect(json["success"]).to eq(false)
+      expect(json["message"]).to eq("Sorry, Rental record not found.")
     end
   end
 
