@@ -3,22 +3,23 @@ require 'tempfile'
 module V1
   class RentalsController < ApplicationController
     skip_before_action :authorize_request
-    before_action :set_rental, only: [:show, :edit, :update, :destroy]
+    before_action :set_rental, only: [:edit, :update, :destroy, :extend_rental] 
+    before_action :join_students, only: [:show]
 
     # GET /rentals
     # GET /rentals.json
     def index
-      @rentals = Rental.all
+      @rentals = Rental.joins(:student).select("rentals.id as id, rentals.apparel_id as apparel_id, students.first_name as name, students.uin as uin, rentals.checkout_date as checkout_date, rentals.expected_return_date as expected_return_date, rentals.actual_return_date as actual_return_date, rentals.student_id as student_id, rentals.extension_count as extension_count")
       json_response({success: true, data: @rentals}, :ok)
     end
 
     # GET /rentals/1
     # GET /rentals/1.json
     def show
-      if @rental.empty?()
+      if @rentalrecord.empty?()
         json_response({success: false, message: Message.not_found('Rental record')}, :unprocessable_entity)
       else
-        json_response({success: true, data: @rental[0]}, :ok)
+        json_response({success: true, data: @rentalrecord[0]}, :ok)
       end
     end
 
@@ -144,6 +145,22 @@ module V1
     end
   end  
 
+  def extend_rental
+    rentalId = params[:id]
+    if @rental.empty?()
+      json_response({success: false, message: Message.not_found('Rental record')}, :unprocessable_entity)
+    else
+      if not Rental.is_rental_checked_out(rentalId)
+        json_response({success:false, message:"Suit was never assigned"},:internal_server_error)
+      else
+        checkout_days = Constant.where(key: :noOfCheckoutDays).first.value.to_i
+        Rental.increment_extension_count(rentalId, checkout_days)
+	json_response({success: true, message: Message.extended_successfuly}, :ok)
+      end        
+    end
+  end
+
+
    def getstudent
       apparel = Apparel.by_apparel_id(params[:apparel_id])
       @rental = Rental.where("apparel_id=? and actual_return_date IS NULL",apparel.id).order("id DESC").first
@@ -226,6 +243,10 @@ module V1
       # Use callbacks to share common setup or constraints between actions.
       def set_rental
         @rental = Rental.where(id: params[:id])
+      end
+
+      def join_students
+        @rentalrecord = Rental.joins(:student).select("rentals.id as id, rentals.apparel_id as apparel_id, students.first_name as name, students.uin as uin, rentals.checkout_date as checkout_date,  rentals.expected_return_date as expected_return_date, rentals.actual_return_date as actual_return_date, rentals.student_id as student_id, rentals.extension_count as extension_count").where(id: params[:id])
       end
 
       # Never trust parameters from the scary internet, only allow the white list through.
