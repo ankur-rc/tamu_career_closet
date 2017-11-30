@@ -1,5 +1,6 @@
 module V1
   class ConstantsController < ApplicationController
+    skip_before_action :authorize_request
     before_action :set_constant, only: [:show, :edit, :update, :destroy]
 
     # GET /constants
