@@ -10,14 +10,16 @@ module V1
       json_response(response, :created)
     end
 
-    def forgot_password
-      if @student.empty?()
-        json_response({success: false, message: Message.not_found('User record')}, :unprocessable_entity)
-      else
-        @student.update(student_params)
-        json_response({success: true, message: Message.updated_successfuly('User record')}, :ok)
-      end
-    end
+    # def forgot_password
+    #   @user = User.where(:username => params[:username])
+    #   PendingMailer.mailer_forgot_password(username, @rental["password_digest"]); 
+    #   if @user.empty?()
+    #     json_response({success: false, message: Message.not_found('User record')}, :unprocessable_entity)
+    #   else
+    #     @user.update(student_params)
+    #     json_response({success: true, message: Message.updated_successfuly('User record')}, :ok)
+    #   end
+    # end
     # PATCH/PUT /users/1
     # PATCH/PUT /users/1.json
     # def update
