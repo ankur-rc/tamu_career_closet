@@ -39,6 +39,10 @@ class Message
       'Success'
     end
 
+    def self.invalid_date_combination
+      'Invalid date combination'
+    end
+
     def self.existing_association(record = 'Record')
       "#{record} has unreturned rental associated with it."
     end
