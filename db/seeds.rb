@@ -34,5 +34,5 @@ Constant.create(key:"pendingMailText", value:" This is a reminder to send your s
 Constant.create(key:"overDueMailText", value:"This is a reminder to send back your suits to career closet else an registration hold will be put on the record")
 Constant.create(key:"pendingMailSenderName", value:"Sonali")
 Constant.create(key:"overDueMailSenderName", value:"Sonali")
-Constant.create(key:"pendingMailText", value:" This is a reminder to send your suits back to career closet after drycleaning it."+"\n"+"Regards,\n"+"Sonali")
+
 

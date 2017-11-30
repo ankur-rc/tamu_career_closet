@@ -2,7 +2,6 @@ require 'tempfile'
 
 module V1
   class RentalsController < ApplicationController
-    skip_before_action :authorize_request
     before_action :set_rental, only: [:edit, :update, :destroy, :extend_rental] 
     before_action :join_students, only: [:show]
 
