@@ -9,7 +9,7 @@ module V1
     # GET /rentals
     # GET /rentals.json
     def index
-      @rentals = Rental.joins(:student).select("rentals.id as id, rentals.apparel_id as apparel_id, students.first_name as name, students.uin as uin, rentals.checkout_date as checkout_date, rentals.expected_return_date as expected_return_date, rentals.actual_return_date as actual_return_date, rentals.student_id as student_id, rentals.extension_count as extension_count")
+      @rentals = Rental.joins(:student, :apparel).select("rentals.id as id, apparels.apparel_id as apparel_Id , students.first_name as name, students.uin as uin, rentals.checkout_date as checkout_date, rentals.expected_return_date as expected_return_date, rentals.actual_return_date as actual_return_date, rentals.student_id as student_id, rentals.extension_count as extension_count").where("rentals.actual_return_date is NULL or rentals.checkout_date > ?", Date.today-7)
       json_response({success: true, data: @rentals}, :ok)
     end
 
@@ -156,7 +156,7 @@ module V1
         checkout_days = Constant.where(key: :noOfCheckoutDays).first.value.to_i
         Rental.increment_extension_count(rentalId, checkout_days)
 	json_response({success: true, message: Message.extended_successfuly}, :ok)
-      end        
+      end
     end
   end
 
@@ -246,7 +246,7 @@ module V1
       end
 
       def join_students
-        @rentalrecord = Rental.joins(:student).select("rentals.id as id, rentals.apparel_id as apparel_id, students.first_name as name, students.uin as uin, rentals.checkout_date as checkout_date,  rentals.expected_return_date as expected_return_date, rentals.actual_return_date as actual_return_date, rentals.student_id as student_id, rentals.extension_count as extension_count").where(id: params[:id])
+        @rentalrecord = Rental.joins(:student, :apparel).select("rentals.id as id, apparels.apparel_id as apparel_Id, students.first_name as name, students.uin as uin, rentals.checkout_date as checkout_date,  rentals.expected_return_date as expected_return_date, rentals.actual_return_date as actual_return_date, rentals.student_id as student_id, rentals.extension_count as extension_count").where("rentals.id = ? and (rentals.actual_return_date is NULL or rentals.checkout_date > ?)", params[:id], Date.today-7)
       end
 
       # Never trust parameters from the scary internet, only allow the white list through.
