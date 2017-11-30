@@ -41,6 +41,7 @@ gem 'simplecov', :require => false, :group => :test
 gem 'rack-cors', :require => 'rack/cors'
 gem 'active_model_serializers'
 gem 'aws-sdk'
+gem 'sendgrid-ruby'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
