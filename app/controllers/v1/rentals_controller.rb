@@ -45,6 +45,13 @@ module V1
       if @rental.empty?()
         json_response({success: false, message: Message.not_found('Rental record')}, :unprocessable_entity)
       else
+        new_checkout_date = Date.parse(rental_params[:checkout_date])
+        new_expected_return_date = Date.parse(rental_params[:expected_return_date])
+        if (new_checkout_date > Date.today) || (new_checkout_date > new_expected_return_date)
+          json_response({success: false, message: Message.invalid_date_combination}, :unprocessable_entity)
+          return
+        end
+
         @rental.update(rental_params)
         json_response({success: true, message: Message.updated_successfuly('Rental record')}, :ok)
       end
