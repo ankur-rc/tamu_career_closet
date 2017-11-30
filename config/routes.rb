@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     ####################
     post 'rentals/assign', to: 'rentals#assign_suit'
     post 'rentals/return', to: 'rentals#return_suit'
+    get 'rentals/extend/:id', to: 'rentals#extend_rental'
     ####################
     post 'rentals', to: 'rentals#create'
     put 'rentals/:id', to: 'rentals#update'

@@ -51,6 +51,10 @@ class Message
       "#{record} updated successfuly."
     end
 
+    def self.extended_successfuly
+      "The expected date of return has been extended successfully."
+    end
+
     def self.destroyed_successfuly(record = 'Record')
       "#{record} destroyed successfuly."
     end

@@ -50,4 +50,21 @@ class Rental < ApplicationRecord
 	   return false
 	end
   end
+
+  def self.is_rental_checked_out(rentalId)
+    countOfCheckedOut = Rental.where("id = ? and actual_return_date is NULL", rentalId).count
+    if countOfCheckedOut == 0
+      return false
+    else
+      return true
+    end
+  end
+
+  def self.increment_extension_count(rentalId, checkout_days)
+    @rentalrecord = Rental.where("id = ?", rentalId)
+    current_extension_count = @rentalrecord[0]["extension_count"]
+    current_expected_return_date = @rentalrecord[0]["expected_return_date"]
+    @rentalrecord.update(expected_return_date: current_expected_return_date + checkout_days, extension_count: current_extension_count+1)
+  end
+ 
 end
