@@ -2,11 +2,17 @@ Rails.application.routes.draw do
   # namespace the controllers without affecting the URI
   # Login and Registration API
   post 'auth/login', to: 'authentication#authenticate'
-  post 'signup', to: 'users#create'
+  # post 'signup', to: 'users#create'
   root 'rentals#index'
 
   scope module: :v1, constraints: ApiVersion.new('v1', true) do
     
+    #Users API
+
+    post 'signup', to: 'users#create'
+    # put 'users/:id', to: 'users#update'
+    # get 'users/:id', to: 'users#show'
+
     # Rentals API
     get 'rentals', to: 'rentals#index'
     get 'rentals/activeusers', to: 'rentals#view_active_user'
