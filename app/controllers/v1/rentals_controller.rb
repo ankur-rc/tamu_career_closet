@@ -180,9 +180,9 @@ module V1
               rentals.expected_return_date as expected_return_date").collect
 
       pending_returns.each do |pending_return|
-        PendingMailer.send_pending(pending_return["uin"], pending_return["name"],
+        PendingMailer.mailer_pending_emails(pending_return["uin"], pending_return["name"],
             pending_return["email"], pending_return["checkout_date"],
-            pending_return["expected_return_date"]).deliver_now
+            pending_return["expected_return_date"])
       end
 
       json_response({success:true, message: Message.success_response}, :ok)
@@ -196,9 +196,9 @@ module V1
               rentals.id as rentalid, students.id as studentid").collect
 
       overdue_returns.each do |overdue_return|
-        PendingMailer.send_overdue(overdue_return["uin"], overdue_return["name"],
+        PendingMailer.mailer_overdue_emails(overdue_return["uin"], overdue_return["name"],
             overdue_return["email"], overdue_return["checkout_date"],
-            overdue_return["expected_return_date"]).deliver_now
+            overdue_return["expected_return_date"])
       end
 
       json_response({success:true, message: Message.success_response}, :ok)
