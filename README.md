@@ -1,4 +1,9 @@
-# README
+# TAMU Career Closet
+[Demo](https://tamu-career-closet-client.herokuapp.com/)  
+**Id:** ankurrc@gmail.com  
+**Paswword:** ankur@123
+
+
 
 ### Introduction ###
 * The project is developed as a part of the course work for CSCE 606 Software Engineering class. The main goal of the project is to teach the students to follow industry standard software engineering practices by using test driven development, agile practices and real life customer interactions. 
