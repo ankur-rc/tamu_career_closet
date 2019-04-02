@@ -3,7 +3,8 @@
 **Id:** ankurrc@gmail.com  
 **Paswword:** ankur@123
 
-
+![screenshot](https://github.com/ankur-rc/tamu_career_closet/raw/master/career%20closet.png)
+![screenshot](https://github.com/ankur-rc/tamu_career_closet/raw/master/career_closet_main.png)
 
 ### Introduction ###
 * The project is developed as a part of the course work for CSCE 606 Software Engineering class. The main goal of the project is to teach the students to follow industry standard software engineering practices by using test driven development, agile practices and real life customer interactions. 
