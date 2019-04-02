@@ -1,0 +1,3 @@
+[submodule "frontend_client"]
+	path = frontend_client
+	url = git@github.tamu.edu:ankurrc/tamu-career-closet-client.git
